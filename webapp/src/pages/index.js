@@ -1,0 +1,12 @@
+export { default as Landing } from './Landing';
+export { default as DashboardLayout } from './DashboardLayout';
+export { default as HomeLayout } from './HomeLayout';
+export { default as AddUser } from './AddUser';
+export { default as Login } from './Login';
+export { default as Error } from './Error';
+export { default as Play } from './Play';
+export { default as Stats } from './Stats';
+export { default as Ranking } from './Ranking';
+export { default as EditJob } from './EditJob';
+export { default as Profile } from './Profile';
+export { default as Admin } from './Admin';

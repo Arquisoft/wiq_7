@@ -3,23 +3,23 @@ services:
   mongodb:
     container_name: mongodb-${teamname:-defaultASW}
     image: mongo
-    profiles: ["dev", "prod"]
+    profiles: ['dev', 'prod']
     volumes:
       - mongodb_data:/data/db
     ports:
-      - "27017:27017"
+      - '27017:27017'
     networks:
       - mynetwork
 
   authservice:
     container_name: authservice-${teamname:-defaultASW}
-    image: ghcr.io/arquisoft/wiq_0/authservice:latest
-    profiles: ["dev", "prod"]
+    image: ghcr.io/arquisoft/wiq_7/authservice:latest
+    profiles: ['dev', 'prod']
     build: ./users/authservice
     depends_on:
       - mongodb
     ports:
-      - "8002:8002"
+      - '8002:8002'
     networks:
       - mynetwork
     environment:
@@ -27,13 +27,13 @@ services:
 
   userservice:
     container_name: userservice-${teamname:-defaultASW}
-    image: ghcr.io/arquisoft/wiq_0/userservice:latest
-    profiles: ["dev", "prod"]
+    image: ghcr.io/arquisoft/wiq_7/userservice:latest
+    profiles: ['dev', 'prod']
     build: ./users/userservice
     depends_on:
       - mongodb
     ports:
-      - "8001:8001"
+      - '8001:8001'
     networks:
       - mynetwork
     environment:
@@ -41,15 +41,15 @@ services:
 
   gatewayservice:
     container_name: gatewayservice-${teamname:-defaultASW}
-    image: ghcr.io/arquisoft/wiq_0/gatewayservice:latest
-    profiles: ["dev", "prod"]
+    image: ghcr.io/arquisoft/wiq_7/gatewayservice:latest
+    profiles: ['dev', 'prod']
     build: ./gatewayservice
     depends_on:
       - mongodb
       - userservice
       - authservice
     ports:
-      - "8000:8000"
+      - '8000:8000'
     networks:
       - mynetwork
     environment:
@@ -58,32 +58,32 @@ services:
 
   webapp:
     container_name: webapp-${teamname:-defaultASW}
-    image: ghcr.io/arquisoft/wiq_0/webapp:latest
-    profiles: ["dev", "prod"]
+    image: ghcr.io/arquisoft/wiq_7/webapp:latest
+    profiles: ['dev', 'prod']
     build: ./webapp
     depends_on:
       - gatewayservice
     ports:
-      - "3000:3000" 
+      - '3000:3000'
 
   prometheus:
     image: prom/prometheus
     container_name: prometheus-${teamname:-defaultASW}
-    profiles: ["dev"]
+    profiles: ['dev']
     networks:
       - mynetwork
     volumes:
       - ./gatewayservice/monitoring/prometheus:/etc/prometheus
       - prometheus_data:/prometheus
     ports:
-      - "9090:9090"
-    depends_on: 
+      - '9090:9090'
+    depends_on:
       - gatewayservice
-      
+
   grafana:
     image: grafana/grafana
     container_name: grafana-${teamname:-defaultASW}
-    profiles: ["dev"]
+    profiles: ['dev']
     networks:
       - mynetwork
     volumes:
@@ -95,15 +95,14 @@ services:
       - GF_AUTH_ANONYMOUS_ENABLED=true
       - GF_AUTH_ANONYMOUS_ORG_ROLE=Admin
     ports:
-      - "9091:9091"
-    depends_on: 
+      - '9091:9091'
+    depends_on:
       - prometheus
-
 
 volumes:
   mongodb_data:
-  prometheus_data: 
-  grafana_data: 
+  prometheus_data:
+  grafana_data:
 
 networks:
   mynetwork:
