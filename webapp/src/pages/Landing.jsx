@@ -11,8 +11,8 @@ const Landing = () => {
       </nav>
       <div className="container page">
         <div className="info">
-          <h1>
-            wiq quiz game
+          <h1 data-testid="text-rendered">
+            wiq <span>quiz</span> game
           </h1>
           <p>
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Tenetur
