@@ -12,7 +12,7 @@ const Landing = () => {
       <div className="container page">
         <div className="info">
           <h1>
-            wiq <span>quiz</span> game
+            wiq quiz game
           </h1>
           <p>
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Tenetur
