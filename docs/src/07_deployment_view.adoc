@@ -1,94 +1,70 @@
-ifndef::imagesdir[:imagesdir: ../images]
-
 [[section-deployment-view]]
-
 
 == Deployment View
 
-[role="arc42help"]
-****
-.Content
-The deployment view describes:
+[plantuml, "deployment_view", svg]
+----
+actor User
+left to right direction
 
- 1. technical infrastructure used to execute your system, with infrastructure elements like geographical locations, environments, computers, processors, channels and net topologies as well as other infrastructure elements and
+node "Ubuntu Azure VM" {
+    node "Docker" {
+    rectangle "WebApp" {
+      rectangle "Frontend"
+      rectangle "Gateway"
+      rectangle "User Service"
+      rectangle "Authentication Service"
+      rectangle "Statistic Service"
+      rectangle "Question Service"
+    }
+    database "MongoDB"
+  }
+}
 
-2. mapping of (software) building blocks to that infrastructure elements.
+rectangle "Wikidata"
 
-Often systems are executed in different environments, e.g. development environment, test environment, production environment. In such cases you should document all relevant environments.
+User <--> Frontend : interact
+Frontend <--> Gateway
 
-Especially document a deployment view if your software is executed as distributed system with more than one computer, processor, server or container or when you design and construct your own hardware processors and chips.
+Gateway <--> "User Service" 
+Gateway <--> "Authentication Service" 
+Gateway <--> "Statistic Service" 
+Gateway <--> "Question Service" 
 
-From a software perspective it is sufficient to capture only those elements of an infrastructure that are needed to show a deployment of your building blocks. Hardware architects can go beyond that and describe an infrastructure to any level of detail they need to capture.
+"User Service" <--> MongoDB 
+"Authentication Service" <--> MongoDB 
+"Statistic Service" <--> MongoDB 
+"Question Service" <--> MongoDB 
+"Question Service" <-l-> Wikidata : query
+----
 
-.Motivation
-Software does not run without hardware.
-This underlying infrastructure can and will influence a system and/or some
-cross-cutting concepts. Therefore, there is a need to know the infrastructure.
-
-.Form
-
-Maybe a highest level deployment diagram is already contained in section 3.2. as
-technical context with your own infrastructure as ONE black box. In this section one can
-zoom into this black box using additional deployment diagrams:
-
-* UML offers deployment diagrams to express that view. Use it, probably with nested diagrams,
-when your infrastructure is more complex.
-* When your (hardware) stakeholders prefer other kinds of diagrams rather than a deployment diagram, let them use any kind that is able to show nodes and channels of the infrastructure.
-
-
-.Further Information
-
-See https://docs.arc42.org/section-7/[Deployment View] in the arc42 documentation.
-
-****
-
-=== Infrastructure Level 1
-
-[role="arc42help"]
-****
-Describe (usually in a combination of diagrams, tables, and text):
-
-* distribution of a system to multiple locations, environments, computers, processors, .., as well as physical connections between them
-* important justifications or motivations for this deployment structure
-* quality and/or performance features of this infrastructure
-* mapping of software artifacts to elements of this infrastructure
-
-For multiple environments or alternative deployments please copy and adapt this section of arc42 for all relevant environments.
-****
-
-_**<Overview Diagram>**_
-
-Motivation::
-
-_<explanation in text form>_
-
-Quality and/or Performance Features::
-
-_<explanation in text form>_
-
-Mapping of Building Blocks to Infrastructure::
-_<description of the mapping>_
-
-
-=== Infrastructure Level 2
-
-[role="arc42help"]
-****
-Here you can include the internal structure of (some) infrastructure elements from level 1.
-
-Please copy the structure from level 1 for each selected element.
-****
-
-==== _<Infrastructure Element 1>_
-
-_<diagram + explanation>_
-
-==== _<Infrastructure Element 2>_
-
-_<diagram + explanation>_
-
-...
-
-==== _<Infrastructure Element n>_
-
-_<diagram + explanation>_
+[cols="1,2" options="header"]
+|===
+| Element | Description
+| User
+| The actor who interacts with the application, representing the players.
+| Azure
+| The cloud platform where the application is deployed.
+| Ubuntu
+| The virtual machine on Azure running the Ubuntu operating system.
+| Docker
+| Technology used to containerize and deploy the microservices and the database.
+| WebApp
+| The main component of the web application, including the frontend and backend services.
+| Frontend
+| The user interface of the application, which the users directly interact with.
+| Gateway
+| The service that acts as an intermediary between the frontend and other backend services.
+| User Service
+| The service that handles user registration and management.
+| Authentication Service
+| The service responsible for user authentication.
+| Statistic Service
+| The service responsible for generating and managing user statistics.
+| Question Service
+| The service responsible for generating and managing the game questions.
+| MongoDB
+| The database where the application data is stored.
+| Wikidata
+| An external component that is queried to obtain additional data for the game questions.
+|===

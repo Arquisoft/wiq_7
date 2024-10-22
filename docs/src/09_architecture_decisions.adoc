@@ -1,35 +1,26 @@
-ifndef::imagesdir[:imagesdir: ../images]
-
 [[section-design-decisions]]
+
 == Architecture Decisions
 
+This section describes the architecture decisions that were made during the development of the project.
 
-[role="arc42help"]
-****
-.Contents
-Important, expensive, large scale or risky architecture decisions including rationales.
-With "decisions" we mean selecting one alternative based on given criteria.
+=== Technology Decisions:
 
-Please use your judgement to decide whether an architectural decision should be documented
-here in this central section or whether you better document it locally
-(e.g. within the white box template of one building block).
+**- Decision 1 - Use of Microservices**: 
+The system is designed as a set of microservices, each responsible for a specific domain or functionality. This architecture allows for better scalability, maintainability, and flexibility.
 
-Avoid redundancy. 
-Refer to section 4, where you already captured the most important decisions of your architecture.
+**- Decision 2 - Use of node.js for Backend Services**: 
+The backend services of the system are built using node.js, a JavaScript runtime. Node.js was chosen for its performance, scalability, and ease of use.
 
-.Motivation
-Stakeholders of your system should be able to comprehend and retrace your decisions.
+**- Decision 3 - Use of a NoSQL Database**: 
+A NoSQL database was chosen for the system due to its flexibility and scalability. The system uses MongoDB as its primary database.
 
-.Form
-Various options:
+**- Decision 4 - Use of a React Frontend**: 
+The frontend of the system is built using React, a JavaScript library for building user interfaces. React was chosen for its performance, flexibility, and ease of use.
 
-* ADR (https://cognitect.com/blog/2011/11/15/documenting-architecture-decisions[Documenting Architecture Decisions]) for every important decision
-* List or table, ordered by importance and consequences or:
-* more detailed in form of separate sections per decision
+**- Decision 5 - Use of Docker Containers**: 
+The system is deployed using Docker containers. This architecture allows for better portability, scalability, and isolation of services.
 
-.Further Information
+**- Decision 6 - Use of a RESTful API**: 
+The system exposes a RESTful API for communication between the frontend and the microservices. This architecture allows for better decoupling between the frontend and backend components.
 
-See https://docs.arc42.org/section-9/[Architecture Decisions] in the arc42 documentation.
-There you will find links and examples about ADR.
-
-****
