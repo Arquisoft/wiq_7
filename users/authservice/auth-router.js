@@ -1,6 +1,6 @@
 // authRouter.js
 const express = require('express');
-const { loginController } = require('./auth-controller.js'); // Asegúrate de que esta ruta sea correcta
+const { loginController } = require('./auth-controller.js');
 
 const authRouter = express.Router();
 

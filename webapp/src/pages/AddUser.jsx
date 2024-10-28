@@ -19,8 +19,6 @@ const AddUser = () => {
   const navigate = useNavigate();
 
   const addUser = async () => {
-    console.log({ username });
-    console.log({ password });
     try {
       await axios.post(`${apiEndpoint}/adduser`, {
         name,

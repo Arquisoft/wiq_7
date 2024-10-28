@@ -3,10 +3,9 @@ const axios = require('axios');
 const cors = require('cors');
 const promBundle = require('express-prom-bundle');
 //libraries required for OpenAPI-Swagger
-const swaggerUi = require('swagger-ui-express'); 
-const fs = require("fs")
-const YAML = require('yaml')
-
+const swaggerUi = require('swagger-ui-express');
+const fs = require('fs');
+const YAML = require('yaml');
 
 const app = express();
 const port = 8000;
@@ -18,7 +17,7 @@ app.use(cors());
 app.use(express.json());
 
 //Prometheus configuration
-const metricsMiddleware = promBundle({includeMethod: true});
+const metricsMiddleware = promBundle({ includeMethod: true });
 app.use(metricsMiddleware);
 
 // Health check endpoint
@@ -29,25 +28,44 @@ app.get('/health', (_req, res) => {
 app.post('/login', async (req, res) => {
   try {
     // Forward the login request to the authentication service
-    const authResponse = await axios.post(authServiceUrl+'/login', req.body);
+    const authResponse = await axios.post(authServiceUrl + '/login', req.body);
     res.json(authResponse.data);
   } catch (error) {
-    res.status(error.response.status).json({ error: error.response.data.error });
+    res
+      .status(error.response.status)
+      .json({ error: error.response.data.error });
   }
 });
 
 app.post('/adduser', async (req, res) => {
   try {
     // Forward the add user request to the user service
-    const userResponse = await axios.post(userServiceUrl+'/adduser', req.body);
+    const userResponse = await axios.post(
+      userServiceUrl + '/adduser',
+      req.body
+    );
     res.json(userResponse.data);
   } catch (error) {
-    res.status(error.response.status).json({ error: error.response.data.error });
+    res
+      .status(error.response.status)
+      .json({ error: error.response.data.error });
+  }
+});
+
+app.get('/users', async (req, res) => {
+  try {
+    // Forward the get users request to the user service
+    const userResponse = await axios.get(userServiceUrl + '/users', req.body);
+    res.json(userResponse.data);
+  } catch (error) {
+    res
+      .status(error.response.status)
+      .json({ error: error.response.data.error });
   }
 });
 
 // Read the OpenAPI YAML file synchronously
-openapiPath='./openapi.yaml'
+openapiPath = './openapi.yaml';
 if (fs.existsSync(openapiPath)) {
   const file = fs.readFileSync(openapiPath, 'utf8');
 
@@ -59,7 +77,7 @@ if (fs.existsSync(openapiPath)) {
   // It takes the parsed Swagger document as input
   app.use('/api-doc', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 } else {
-  console.log("Not configuring OpenAPI. Configuration file not present.")
+  console.log('Not configuring OpenAPI. Configuration file not present.');
 }
 
 // Start the gateway service
@@ -67,4 +85,4 @@ const server = app.listen(port, () => {
   console.log(`Gateway Service listening at http://localhost:${port}`);
 });
 
-module.exports = server
+module.exports = server;
