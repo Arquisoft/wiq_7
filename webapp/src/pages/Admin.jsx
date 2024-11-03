@@ -1,4 +1,7 @@
+import { AddQuestionContainer } from '../components';
+
 const Admin = () => {
-  return <h1>Admin Page</h1>;
+  return <AddQuestionContainer />;
 };
+
 export default Admin;
