@@ -15,9 +15,25 @@ const AddQuestionContainer = () => {
   const [openSnackbar, setOpenSnackbar] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const addQuestion = async ({ type, path, right }) => {
+  const addQuestion = async ({
+    type,
+    name,
+    path,
+    right,
+    wrong1,
+    wrong2,
+    wrong3,
+  }) => {
     try {
-      await axios.post(`${apiEndpoint}/addquestion`, { type, path, right });
+      await axios.post(`${apiEndpoint}/addquestion`, {
+        type,
+        name,
+        path,
+        right,
+        wrong1,
+        wrong2,
+        wrong3,
+      });
       setOpenSnackbar(true);
     } catch (error) {
       console.log(error);
@@ -31,19 +47,46 @@ const AddQuestionContainer = () => {
       const query = await queryDispatcher.query(artworksQuery);
       // handle results
       const bindings = query.results.bindings;
+      // Crear un array para almacenar todas las posibles opciones de creadores
+      const allCreators = bindings.map((result) => result.creatorLabel.value);
       for (const result of bindings) {
         // Accedemos a cada propiedad
-        const workLabel = result.workLabel.value; // Título de la obra
-        const creator = result.creatorLabel.value; // Nombre del creador
-        const imageUrl = result.image.value; // URL de la imagen
-        const sitelinks = result.sitelinks.value; // Número de sitelinks
+        const name = result.workLabel.value; // Título de la obra
+        const path = result.image.value; // URL de la imagen
+        const right = result.creatorLabel.value; // Nombre del creador
+
+        // Filtrar creadores para obtener solo los que sean diferentes a la respuesta correcta
+        const incorrectCreators = allCreators.filter(
+          (creator) => creator !== right
+        );
+
+        // Seleccionar tres opciones incorrectas de manera aleatoria
+        const wrongCreators = [];
+        while (wrongCreators.length < 3) {
+          const randomCreator =
+            incorrectCreators[
+              Math.floor(Math.random() * incorrectCreators.length)
+            ];
+
+          // Agregar solo si no está ya en la lista de opciones incorrectas
+          if (
+            !wrongCreators.includes(randomCreator) &&
+            !randomCreator.startsWith('http')
+          ) {
+            wrongCreators.push(randomCreator);
+          }
+        }
 
         // Muestra los resultados en la consola
-        if (!workLabel.startsWith('http') && !creator.startsWith('http')) {
+        if (!name.startsWith('http') && !right.startsWith('http')) {
           await addQuestion({
             type: 'artwork',
-            path: workLabel,
-            right: creator,
+            name: name,
+            path: path,
+            right: right,
+            wrong1: wrongCreators[0],
+            wrong2: wrongCreators[1],
+            wrong3: wrongCreators[2],
           });
         }
       }

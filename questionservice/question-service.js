@@ -19,11 +19,12 @@ app.post('/addquestion', async (req, res) => {
   try {
     const newQuestion = new Question({
       type: req.body.type,
+      name: req.body.name,
       path: req.body.path,
       right: req.body.right,
-      //      wrong1: req.body.wrong1,
-      //      wrong2: req.body.wrong2,
-      //      wrong3: req.body.wrong3,
+      wrong1: req.body.wrong1,
+      wrong2: req.body.wrong2,
+      wrong3: req.body.wrong3,
     });
     await newQuestion.save();
     res.json(newQuestion);
@@ -34,7 +35,7 @@ app.post('/addquestion', async (req, res) => {
 
 app.get('/questions', async (req, res) => {
   try {
-    const questions = await Question.find(); // Fetch all questions
+    const questions = await Question.aggregate([{ $sample: { size: 5 } }]);
     res.json(questions);
   } catch (error) {
     res.status(500).json({ error: error.message });
