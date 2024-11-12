@@ -1,6 +1,6 @@
 const express = require('express');
 const mongoose = require('mongoose');
-const authRouter = require('./auth-router.js');
+const authRouter = require('./auth-router');
 
 const app = express();
 const port = 8002;

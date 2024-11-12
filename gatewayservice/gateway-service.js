@@ -96,6 +96,21 @@ app.get('/questions', async (req, res) => {
   }
 });
 
+app.get('/game-questions', async (req, res) => {
+  try {
+    // Forward the get question request to the question asking service
+    const getQuestionResponse = await axios.get(
+      questionServiceUrl + '/game-questions',
+      req.body
+    );
+    res.json(getQuestionResponse.data);
+  } catch (error) {
+    res
+      .status(error.response.status)
+      .json({ error: error.response.data.error });
+  }
+});
+
 // Read the OpenAPI YAML file synchronously
 openapiPath = './openapi.yaml';
 if (fs.existsSync(openapiPath)) {

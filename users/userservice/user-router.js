@@ -1,9 +1,6 @@
 // userRouter.js
 const express = require('express');
-const {
-  addUserController,
-  getUsersController,
-} = require('./user-controller.js');
+const { addUserController, getUsersController } = require('./user-controller');
 
 const userRouter = express.Router();
 

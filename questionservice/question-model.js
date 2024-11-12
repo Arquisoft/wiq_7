@@ -19,15 +19,15 @@ const questionSchema = new mongoose.Schema({
   },
   wrong1: {
     type: String,
-    //  required: true,
+    required: true,
   },
   wrong2: {
     type: String,
-    //  required: true,
+    required: true,
   },
   wrong3: {
     type: String,
-    //  required: true,
+    required: true,
   },
 });
 

@@ -16,7 +16,7 @@ const Play = () => {
     // Función asíncrona para obtener los documentos
     const fetchQuestions = async () => {
       try {
-        const response = await axios.get(`${apiEndpoint}/questions`);
+        const response = await axios.get(`${apiEndpoint}/game-questions`);
         setQuestions(response.data); // Actualizamos el estado con los datos
       } catch (error) {
         console.error('Error al obtener las preguntas:', error);
@@ -27,8 +27,6 @@ const Play = () => {
 
     fetchQuestions(); // Llamada a la función de carga
   }, []);
-
-  console.log(questions);
 
   return (
     <div>

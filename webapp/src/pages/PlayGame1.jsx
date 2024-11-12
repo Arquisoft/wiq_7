@@ -17,8 +17,6 @@ const PlayGame1 = ({ questions }) => {
   const [isActive, setIsActive] = useState(true);
   const [gameOver, setGameOver] = useState(false);
 
-  console.log(questions);
-
   // Desestructuramos la pregunta
   const { name, path, right, wrong1, wrong2, wrong3 } =
     questions[questionIndex];
