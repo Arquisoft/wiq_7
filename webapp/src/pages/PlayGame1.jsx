@@ -8,13 +8,12 @@ import useScore from '../hooks/useScore';
 
 const PlayGame1 = ({ questions }) => {
   // Estados
-  //const [questions, setQuestions] = useState([]);
-  const [loading, setLoading] = useState(false);
   const [questionIndex, setQuestionIndex] = useState(0);
   const [shuffledAnswers, setShuffledAnswers] = useState([]); // Estado para almacenar las respuestas mezcladas
   const [score, updateScore] = useScore();
   const [seconds, setSeconds] = useState(20); // Estados para controlar el temporizador
   const [isActive, setIsActive] = useState(true);
+  const [isTimeOut, setIsTimeOut] = useState(false);
   const [gameOver, setGameOver] = useState(false);
 
   // Desestructuramos la pregunta
@@ -30,7 +29,8 @@ const PlayGame1 = ({ questions }) => {
   // Efecto para controlar el temporizador
   useEffect(() => {
     if (seconds === 0) {
-      endTimer();
+      setTimer(false);
+      setIsTimeOut(true);
     }
     if (!isActive) {
       return;
@@ -41,9 +41,13 @@ const PlayGame1 = ({ questions }) => {
     return () => clearInterval(interval);
   }, [seconds, isActive]);
 
-  // Función para detener el temporizador
-  const endTimer = () => {
-    setIsActive(false); // Detener el temporizador
+  // Funciones para controlar el temporizador
+  const setTimer = (state) => {
+    setIsActive(state);
+  };
+  const restartTimer = () => {
+    setSeconds(20);
+    setIsTimeOut(false);
   };
 
   // Función para cargar la siguiente pregunta
@@ -51,8 +55,6 @@ const PlayGame1 = ({ questions }) => {
     if (questionIndex < questions.length - 1) {
       // Si no estamos en la última pregunta, avanzamos a la siguiente
       setQuestionIndex((prevIndex) => prevIndex + 1);
-      setSeconds(20); // Reiniciar el temporizador
-      setIsActive(true); // Activar el temporizador
     } else {
       // Si estamos en la última pregunta, terminamos el juego
       setGameOver(true); // Cambiar estado de juego
@@ -63,32 +65,34 @@ const PlayGame1 = ({ questions }) => {
   return (
     <Wrapper>
       {!gameOver ? (
-        /* Mostrar pregunta */
-        <QuestionContainer
-          shuffledAnswers={shuffledAnswers}
-          name={name}
-          path={path}
-          right={right}
-          updateScore={updateScore}
-          isActive={isActive}
-          onCorrectAnswer={endTimer}
-          loadNextQuestion={loadNextQuestion} // Cargar la siguiente pregunta
-        />
+        <>
+          {/* Mostrar pregunta */}
+          <QuestionContainer
+            shuffledAnswers={shuffledAnswers}
+            name={name}
+            path={path}
+            right={right}
+            updateScore={updateScore}
+            isActive={isActive}
+            isTimeOut={isTimeOut}
+            setTimer={setTimer}
+            restartTimer={restartTimer}
+            loadNextQuestion={loadNextQuestion} // Cargar la siguiente pregunta
+          />
+          {/* Mostrar info */}
+          <div>
+            <ScoreContainer score={score} />
+            <TimerContainer seconds={seconds} />
+          </div>
+        </>
       ) : (
         // Si el juego terminó, mostrar mensaje de fin
-        <GameOverContainer score={score} />
-      )}
-      {/* Mostrar info */}
-      {!gameOver && (
-        <div>
-          <ScoreContainer score={score} />
-          <TimerContainer seconds={seconds} />
-        </div>
-      )}
-      {gameOver && (
-        <div>
-          <ScoreContainer score={score} />
-        </div>
+        <>
+          <GameOverContainer score={score} />
+          <div>
+            <ScoreContainer score={score} />
+          </div>
+        </>
       )}
     </Wrapper>
   );

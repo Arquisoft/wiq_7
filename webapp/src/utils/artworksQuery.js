@@ -21,7 +21,7 @@ const artworksQuery = `SELECT ?work ?workLabel ?creatorLabel ?image ?sitelinks W
   FILTER(?sitelinks >= 20)  # Cambia el número según el umbral que desees
 
   # Etiquetas para mostrar los nombres de la obra y el autor
-  SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en". }
+  SERVICE wikibase:label { bd:serviceParam wikibase:language "es,[AUTO_LANGUAGE],en". }
 }
 # Limitar el número de resultados para acelerar la consulta
 LIMIT 100

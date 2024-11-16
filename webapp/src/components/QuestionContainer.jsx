@@ -8,7 +8,9 @@ const QuestionContainer = ({
   right,
   updateScore,
   isActive,
-  onCorrectAnswer,
+  isTimeOut,
+  setTimer,
+  restartTimer,
   loadNextQuestion,
 }) => {
   // Estado para manejar las respuestas seleccionadas
@@ -27,18 +29,29 @@ const QuestionContainer = ({
 
   // Efecto para seleccionar la respuesta correcta automáticamente cuando el tiempo se agota
   useEffect(() => {
-    if (!isActive && selectedAnswer === null) {
+    if (isTimeOut && selectedAnswer === null) {
       setSelectedAnswer(right); // Seleccionamos la respuesta correcta
       setShowResult(true);
     }
   }, [isActive, selectedAnswer, right]);
+
+  useEffect(() => {
+    if (showResult) {
+      const timer = setTimeout(() => {
+        setIsImageLoaded(false);
+        loadNextQuestion(); // Cargar la siguiente pregunta después del retraso
+      }, 2000); // Esperar 2 segundos antes de cargar la siguiente pregunta
+
+      return () => clearTimeout(timer); // Limpiar el temporizador cuando se desmonte o cambie el resultado
+    }
+  }, [showResult]); //, loadNextQuestion]);
 
   // Función para manejar el clic en las respuestas
   const handleAnswerClick = (answer) => {
     if (answer === right) {
       // Si la respuesta es correcta, la seleccionamos y deshabilitamos todos los botones
       setSelectedAnswer(answer);
-      onCorrectAnswer(); // Detenemos el temporizador
+      setTimer(false); // Detenemos el temporizador
       setShowResult(true);
     } else {
       // Sumar 100 puntos por cada respuesta incorrecta seleccionada
@@ -48,7 +61,7 @@ const QuestionContainer = ({
         // Si ya se han seleccionado 3 respuestas incorrectas, selecciona la correcta por descarte
         if (newIncorrectAnswers.length === 3) {
           setSelectedAnswer(right);
-          onCorrectAnswer(); // Detenemos el temporizador
+          setTimer(false); // Detenemos el temporizador
           setShowResult(true);
         }
         return newIncorrectAnswers;
@@ -56,19 +69,12 @@ const QuestionContainer = ({
     }
   };
 
-  useEffect(() => {
-    if (showResult) {
-      const timer = setTimeout(() => {
-        loadNextQuestion(); // Cargar la siguiente pregunta después del retraso
-      }, 2000); // Esperar 2 segundos antes de cargar la siguiente pregunta
-
-      return () => clearTimeout(timer); // Limpiar el temporizador cuando se desmonte o cambie el resultado
-    }
-  }, [showResult]); //, loadNextQuestion]);
-
   // Función para manejar la carga de la imagen
   const handleImageLoad = () => {
     setIsImageLoaded(true);
+    // Activamos el temporizador
+    setTimer(true);
+    restartTimer();
   };
 
   return (
@@ -78,41 +84,46 @@ const QuestionContainer = ({
         /* Título de la obra */
         <h3>{`¿Quién creó la obra "${name}"?`}</h3>
       )}
+
       {/* Imagen de la obra */}
-      <div className="image">
+      <div
+        className="image"
+        style={{ display: isImageLoaded ? 'flex' : 'none' }}
+      >
         <img src={path} alt={name} onLoad={handleImageLoad} />
       </div>
+
       {isImageLoaded && (
-        <div>
-          <h5>Descarta las respuestas incorrectas</h5>
-        </div>
-      )}
-      {isImageLoaded && (
-        /* Renderizar botones con las respuestas */
-        <div className="buttons-container">
-          {shuffledAnswers.map((answer, index) => (
-            <button
-              className={`btn ${
-                selectedAnswer === right
-                  ? answer === right && incorrectAnswers.length === 3 // Marca la respuesta correcta cuando se selecciona
-                    ? 'correct'
-                    : 'disabled' // Deshabilita las demás cuando la correcta es seleccionada
-                  : incorrectAnswers.includes(answer) // Marca las respuestas incorrectas una a una
-                  ? 'incorrect'
-                  : ''
-              }`}
-              key={index}
-              onClick={() => handleAnswerClick(answer)}
-              disabled={
-                selectedAnswer !== null ||
-                incorrectAnswers.includes(answer) ||
-                !isActive // Deshabilita
-              }
-            >
-              {answer}
-            </button>
-          ))}
-        </div>
+        <>
+          <div>
+            <h5>Descarta las respuestas incorrectas</h5>
+          </div>
+          {/* Renderizar botones con las respuestas */}
+          <div className="buttons-container">
+            {shuffledAnswers.map((answer, index) => (
+              <button
+                className={`btn ${
+                  selectedAnswer === right
+                    ? answer === right && incorrectAnswers.length === 3 // Marca la respuesta correcta cuando se selecciona
+                      ? 'correct'
+                      : 'disabled' // Deshabilita las demás cuando la correcta es seleccionada
+                    : incorrectAnswers.includes(answer) // Marca las respuestas incorrectas una a una
+                    ? 'incorrect'
+                    : ''
+                }`}
+                key={index}
+                onClick={() => handleAnswerClick(answer)}
+                disabled={
+                  selectedAnswer !== null ||
+                  incorrectAnswers.includes(answer) ||
+                  isTimeOut // Deshabilita
+                }
+              >
+                {answer}
+              </button>
+            ))}
+          </div>
+        </>
       )}
       {/* Mostrar el resultado después de seleccionar */}
       {selectedAnswer && (
