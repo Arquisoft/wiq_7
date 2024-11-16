@@ -14,6 +14,7 @@ const authServiceUrl = process.env.AUTH_SERVICE_URL || 'http://localhost:8002';
 const userServiceUrl = process.env.USER_SERVICE_URL || 'http://localhost:8001';
 const questionServiceUrl =
   process.env.QUESTION_SERVICE_URL || 'http://localhost:8003';
+const statServiceUrl = process.env.STAT_SERVICE_URL || 'http://localhost:8004';
 
 app.use(cors());
 app.use(express.json());
@@ -68,7 +69,7 @@ app.get('/users', async (req, res) => {
 
 app.post('/addquestion', async (req, res) => {
   try {
-    // Forward the add question request to the question generation service
+    // Forward the add question request to the question service
     const addQuestionResponse = await axios.post(
       questionServiceUrl + '/addquestion',
       req.body
@@ -98,12 +99,42 @@ app.get('/questions', async (req, res) => {
 
 app.get('/game-questions', async (req, res) => {
   try {
-    // Forward the get question request to the question asking service
+    // Forward the get question request to the question service
     const getQuestionResponse = await axios.get(
       questionServiceUrl + '/game-questions',
       req.body
     );
     res.json(getQuestionResponse.data);
+  } catch (error) {
+    res
+      .status(error.response.status)
+      .json({ error: error.response.data.error });
+  }
+});
+
+app.post('/addstat', async (req, res) => {
+  try {
+    // Forward the add stat request to the stat service
+    const addStatResponse = await axios.post(
+      statServiceUrl + '/addstat',
+      req.body
+    );
+    res.json(addStatResponse.data);
+  } catch (error) {
+    res
+      .status(error.response.status)
+      .json({ error: error.response.data.error });
+  }
+});
+
+app.get('/stats', async (req, res) => {
+  try {
+    // Forward the get stats request to the stat service
+    const getStatsResponse = await axios.get(
+      statServiceUrl + '/stats',
+      req.body
+    );
+    res.json(getStatsResponse.data);
   } catch (error) {
     res
       .status(error.response.status)

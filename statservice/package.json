@@ -1,10 +1,10 @@
 {
-  "name": "questionservice",
+  "name": "statservice",
   "version": "1.0.0",
-  "description": "Question service, in charge of generating questions in the application",
+  "description": "Statistics service, in charge of generating statistics in the application",
   "main": "service.js",
   "scripts": {
-    "start": "node question-service.js",
+    "start": "node stat-service.js",
     "test": "jest"
   },
   "repository": {
