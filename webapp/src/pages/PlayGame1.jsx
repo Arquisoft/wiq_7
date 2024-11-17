@@ -1,23 +1,32 @@
 import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import Wrapper from '../assets/wrappers/Play';
 import QuestionContainer from '../components/QuestionContainer';
 import ScoreContainer from '../components/ScoreContainer';
 import TimerContainer from '../components/TimerContainer';
 import GameOverContainer from '../components/GameOverContainer';
 import useScore from '../hooks/useScore';
+import { v4 as uuidv4 } from 'uuid';
+
+const apiEndpoint =
+  process.env.REACT_APP_API_ENDPOINT || 'http://localhost:8000';
+const answerTime = 20;
 
 const PlayGame1 = ({ questions }) => {
   // Estados
   const [questionIndex, setQuestionIndex] = useState(0);
   const [shuffledAnswers, setShuffledAnswers] = useState([]); // Estado para almacenar las respuestas mezcladas
   const [score, updateScore] = useScore();
-  const [seconds, setSeconds] = useState(20); // Estados para controlar el temporizador
-  const [isActive, setIsActive] = useState(true);
+  const [previousScore, setPreviousScore] = useState(0);
+  const [seconds, setSeconds] = useState(answerTime); // Estados para controlar el temporizador
+  const [isActive, setIsActive] = useState(false);
   const [isTimeOut, setIsTimeOut] = useState(false);
   const [gameOver, setGameOver] = useState(false);
+  const [error, setError] = useState('');
+  const [gameId] = useState(() => uuidv4());
 
   // Desestructuramos la pregunta
-  const { name, path, right, wrong1, wrong2, wrong3 } =
+  const { _id, name, path, right, wrong1, wrong2, wrong3 } =
     questions[questionIndex];
 
   // Efecto para mezclar las respuestas al montar el componente
@@ -46,12 +55,32 @@ const PlayGame1 = ({ questions }) => {
     setIsActive(state);
   };
   const restartTimer = () => {
-    setSeconds(20);
+    setSeconds(answerTime);
     setIsTimeOut(false);
   };
 
+  const addQuestionStat = async () => {
+    try {
+      const usedTime = answerTime - seconds;
+      const points = score - previousScore;
+      const right = points === 300;
+      setPreviousScore(score);
+      await axios.post(`${apiEndpoint}/addstat`, {
+        userId: 'user',
+        gameId: gameId,
+        questionId: _id,
+        right: right,
+        time: usedTime,
+        points: points,
+      });
+    } catch (error) {
+      setError(error.response.data.error);
+    }
+  };
+
   // Función para cargar la siguiente pregunta
-  const loadNextQuestion = () => {
+  const loadNextQuestion = async () => {
+    await addQuestionStat();
     if (questionIndex < questions.length - 1) {
       // Si no estamos en la última pregunta, avanzamos a la siguiente
       setQuestionIndex((prevIndex) => prevIndex + 1);
