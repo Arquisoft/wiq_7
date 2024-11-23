@@ -1,9 +1,9 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
 const statSchema = new mongoose.Schema({
   userId: {
-    type: String,
-    required: true,
+    type: mongoose.Types.ObjectId,
+    ref: 'User',
   },
   gameId: {
     type: String,
@@ -33,4 +33,4 @@ const statSchema = new mongoose.Schema({
 
 const Stat = mongoose.model('Stat', statSchema);
 
-module.exports = Stat;
+export default Stat;

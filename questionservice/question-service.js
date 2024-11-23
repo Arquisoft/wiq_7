@@ -1,7 +1,7 @@
 // question-service.js
-const express = require('express');
-const mongoose = require('mongoose');
-const questionRouter = require('./question-router');
+import express from 'express';
+import mongoose from 'mongoose';
+import questionRouter from './question-router.js';
 
 const app = express();
 const port = 8003;
@@ -26,4 +26,4 @@ server.on('close', () => {
   mongoose.connection.close();
 });
 
-module.exports = server;
+export default server;

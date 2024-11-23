@@ -1,5 +1,5 @@
-const express = require('express');
-const { addStatController, getStatsController } = require('./stat-controller');
+import express from 'express';
+import { addStatController, getStatsController } from './stat-controller.js';
 
 const statRouter = express.Router();
 
@@ -7,4 +7,4 @@ const statRouter = express.Router();
 statRouter.post('/addstat', addStatController);
 statRouter.get('/stats', getStatsController);
 
-module.exports = statRouter;
+export default statRouter;

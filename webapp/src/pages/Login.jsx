@@ -16,7 +16,11 @@ const Login = () => {
 
   const login = async () => {
     try {
-      await axios.post(`${apiEndpoint}/login`, { username, password });
+      await axios.post(`${apiEndpoint}/login`, {
+        username,
+        password,
+        withCredentials: true,
+      });
       setOpenSnackbar(true);
       navigate('/dashboard');
     } catch (error) {

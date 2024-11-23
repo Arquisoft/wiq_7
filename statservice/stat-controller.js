@@ -1,4 +1,4 @@
-const Stat = require('./stat-model');
+import Stat from './stat-model.js';
 
 // Function to validate required fields in the request body
 function validateRequiredFields(req, requiredFields) {
@@ -9,11 +9,10 @@ function validateRequiredFields(req, requiredFields) {
   }
 }
 
-exports.addStatController = async (req, res) => {
+export const addStatController = async (req, res) => {
   try {
     // Check if required fields are present in the request body
     validateRequiredFields(req, [
-      'userId',
       'gameId',
       'questionId',
       'right',
@@ -21,8 +20,10 @@ exports.addStatController = async (req, res) => {
       'points',
     ]);
 
+    console.log(req);
+
     const newStat = new Stat({
-      userId: req.body.userId,
+      userId: '507f1f77bcf86cd799439011',
       gameId: req.body.gameId,
       questionId: req.body.questionId,
       right: req.body.right,
@@ -37,7 +38,7 @@ exports.addStatController = async (req, res) => {
   }
 };
 
-exports.getStatsController = async (req, res) => {
+export const getStatsController = async (req, res) => {
   try {
     const stats = await Stat.find(); // Fetch all questions
     res.json(stats);

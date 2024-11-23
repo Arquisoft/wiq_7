@@ -1,5 +1,5 @@
-const bcrypt = require('bcrypt');
-const User = require('./user-model');
+import bcrypt from 'bcrypt';
+import User from './user-model.js';
 
 // Function to validate required fields in the request body
 function validateRequiredFields(req, requiredFields) {
@@ -10,7 +10,7 @@ function validateRequiredFields(req, requiredFields) {
   }
 }
 
-exports.addUserController = async (req, res) => {
+export const addUserController = async (req, res) => {
   try {
     // Check if required fields are present in the request body
     validateRequiredFields(req, ['username', 'password']);
@@ -34,7 +34,7 @@ exports.addUserController = async (req, res) => {
   }
 };
 
-exports.getUsersController = async (req, res) => {
+export const getUsersController = async (req, res) => {
   try {
     const users = await User.find(); // Fetch all users, only return username field for security
     res.json(users);

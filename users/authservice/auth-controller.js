@@ -1,6 +1,7 @@
-const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
-const User = require('./auth-model.js');
+import User from './auth-model.js';
+import { StatusCodes } from 'http-status-codes';
+import { createJWT } from './utils/tokenUtils.js';
+import { hashPassword, comparePassword } from './utils/passwordUtils.js';
 
 // Function to validate required fields in the request body
 function validateRequiredFields(req, requiredFields) {
@@ -11,7 +12,7 @@ function validateRequiredFields(req, requiredFields) {
   }
 }
 
-exports.loginController = async (req, res) => {
+export const loginController = async (req, res) => {
   try {
     // Check if required fields are present in the request body
     validateRequiredFields(req, ['username', 'password']);
@@ -22,14 +23,18 @@ exports.loginController = async (req, res) => {
     const user = await User.findOne({ username });
 
     // Verificar que el usuario exista y la contraseña sea correcta
-    if (user && (await bcrypt.compare(password, user.password))) {
+    if (user && (await comparePassword(password, user.password))) {
       // Generar un token JWT
-      const token = jwt.sign({ userId: user._id }, 'your-secret-key', {
-        expiresIn: '1h',
-      });
+      const token = createJWT({ userId: user._id, role: user.role });
 
       // Responder con el token y la información del usuario
-      res.json({ username, createdAt: user.createdAt });
+      res.cookie('token', token, {
+        httpOnly: true,
+        expires: new Date(Date.now() + 24 * 60 * 60 * 1000),
+        secure: false,
+        sameSite: 'None',
+      });
+      res.status(StatusCodes.OK).json({ msg: 'User logged in' });
     } else {
       res.status(401).json({ error: 'Invalid credentials' });
     }

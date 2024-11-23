@@ -1,9 +1,9 @@
-const express = require('express');
-const {
+import express from 'express';
+import {
   addQuestionsController,
   getQuestionsController,
   getGameQuestionsController,
-} = require('./question-controller');
+} from './question-controller.js';
 
 const questionRouter = express.Router();
 
@@ -12,4 +12,4 @@ questionRouter.post('/addquestion', addQuestionsController);
 questionRouter.get('/questions', getQuestionsController);
 questionRouter.get('/game-questions', getGameQuestionsController);
 
-module.exports = questionRouter;
+export default questionRouter;

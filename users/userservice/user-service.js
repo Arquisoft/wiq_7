@@ -1,13 +1,21 @@
 // user-service.js
-const express = require('express');
-const mongoose = require('mongoose');
-const userRouter = require('./user-router');
+import express from 'express';
+import mongoose from 'mongoose';
+import cors from 'cors';
+import cookieParser from 'cookie-parser';
+import userRouter from './user-router.js';
 
 const app = express();
 const port = 8001;
 
-// Middleware to parse JSON in request body
+app.use(
+  cors({
+    origin: 'http://localhost:8000', // Dirección del gateway.
+    credentials: true, // Permite enviar cookies.
+  })
+);
 app.use(express.json());
+app.use(cookieParser());
 
 // Connect to MongoDB
 const mongoUri = process.env.MONGODB_URI || 'mongodb://localhost:27017/userdb';
@@ -26,4 +34,4 @@ server.on('close', () => {
   mongoose.connection.close();
 });
 
-module.exports = server;
+export default server;

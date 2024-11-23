@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "Question service, in charge of generating questions in the application",
   "main": "service.js",
+  "type": "module",
   "scripts": {
     "start": "node question-service.js",
     "test": "jest"

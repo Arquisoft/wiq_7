@@ -1,11 +1,18 @@
-const express = require('express');
-const axios = require('axios');
-const cors = require('cors');
-const promBundle = require('express-prom-bundle');
-//libraries required for OpenAPI-Swagger
-const swaggerUi = require('swagger-ui-express');
-const fs = require('fs');
-const YAML = require('yaml');
+import express from 'express';
+import axios from 'axios';
+import cors from 'cors';
+import promBundle from 'express-prom-bundle';
+// Libraries required for OpenAPI-Swagger
+import swaggerUi from 'swagger-ui-express';
+import fs from 'fs';
+import YAML from 'yaml';
+import morgan from 'morgan';
+import cookieParser from 'cookie-parser';
+import { authenticateUser } from './middleware/auth-middleware.js';
+
+if (process.env.NODE_ENV === 'development') {
+  app.use(morgan('dev'));
+}
 
 const app = express();
 const port = 8000;
@@ -16,8 +23,10 @@ const questionServiceUrl =
   process.env.QUESTION_SERVICE_URL || 'http://localhost:8003';
 const statServiceUrl = process.env.STAT_SERVICE_URL || 'http://localhost:8004';
 
-app.use(cors());
+app.use(cors({ origin: 'http://localhost:3000', credentials: true }));
+//app.use(cookieParser());
 app.use(express.json());
+app.use(cookieParser());
 
 //Prometheus configuration
 const metricsMiddleware = promBundle({ includeMethod: true });
@@ -31,7 +40,11 @@ app.get('/health', (_req, res) => {
 app.post('/login', async (req, res) => {
   try {
     // Forward the login request to the authentication service
-    const authResponse = await axios.post(authServiceUrl + '/login', req.body);
+    const authResponse = await axios.post(authServiceUrl + '/login', req.body, {
+      withCredentials: true, // Indica que esta solicitud incluye cookies
+    });
+    // Reenvía las cookies al cliente
+    res.setHeader('Set-Cookie', authResponse.headers['set-cookie']);
     res.json(authResponse.data);
   } catch (error) {
     res
@@ -55,10 +68,15 @@ app.post('/adduser', async (req, res) => {
   }
 });
 
-app.get('/users', async (req, res) => {
+app.get('/users', authenticateUser, async (req, res) => {
+  console.log(req);
   try {
     // Forward the get users request to the user service
-    const userResponse = await axios.get(userServiceUrl + '/users', req.body);
+    const userResponse = await axios.get(userServiceUrl + '/users', req.body, {
+      headers: {
+        Cookie: req.headers.cookie, // Reenvía las cookies del cliente al servicio
+      },
+    });
     res.json(userResponse.data);
   } catch (error) {
     res
@@ -112,12 +130,19 @@ app.get('/game-questions', async (req, res) => {
   }
 });
 
-app.post('/addstat', async (req, res) => {
+app.post('/addstat', authenticateUser, async (req, res) => {
+  console.log('gw');
+  console.log(req.headers.cookie);
   try {
     // Forward the add stat request to the stat service
     const addStatResponse = await axios.post(
       statServiceUrl + '/addstat',
-      req.body
+      req.body,
+      {
+        headers: {
+          Cookie: req.headers.cookie, // Reenvía las cookies del cliente al servicio
+        },
+      }
     );
     res.json(addStatResponse.data);
   } catch (error) {
@@ -143,7 +168,7 @@ app.get('/stats', async (req, res) => {
 });
 
 // Read the OpenAPI YAML file synchronously
-openapiPath = './openapi.yaml';
+const openapiPath = './openapi.yaml';
 if (fs.existsSync(openapiPath)) {
   const file = fs.readFileSync(openapiPath, 'utf8');
 
@@ -163,4 +188,4 @@ const server = app.listen(port, () => {
   console.log(`Gateway Service listening at http://localhost:${port}`);
 });
 
-module.exports = server;
+export default server;

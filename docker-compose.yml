@@ -16,6 +16,8 @@ services:
     image: ghcr.io/arquisoft/wiq_7/authservice:latest
     profiles: ['dev', 'prod']
     build: ./users/authservice
+    volumes:
+      - ./utils:/usr/src/authservice/utils
     depends_on:
       - mongodb
     ports:
@@ -72,6 +74,10 @@ services:
     image: ghcr.io/arquisoft/wiq_7/gatewayservice:latest
     profiles: ['dev', 'prod']
     build: ./gatewayservice
+    volumes:
+      - ./errors:/usr/src/gatewayservice/errors
+      - ./middleware:/usr/src/gatewayservice/middleware
+      - ./utils:/usr/src/gatewayservice/utils
     depends_on:
       - mongodb
       - userservice

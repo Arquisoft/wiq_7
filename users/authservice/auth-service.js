@@ -1,6 +1,6 @@
-const express = require('express');
-const mongoose = require('mongoose');
-const authRouter = require('./auth-router');
+import express from 'express';
+import mongoose from 'mongoose';
+import authRouter from './auth-router.js';
 
 const app = express();
 const port = 8002;
@@ -25,4 +25,4 @@ server.on('close', () => {
   mongoose.connection.close();
 });
 
-module.exports = server;
+export default server;

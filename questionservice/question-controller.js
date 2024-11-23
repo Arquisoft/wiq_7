@@ -1,4 +1,4 @@
-const Question = require('./question-model');
+import Question from './question-model.js';
 
 // Function to validate required fields in the request body
 function validateRequiredFields(req, requiredFields) {
@@ -9,7 +9,7 @@ function validateRequiredFields(req, requiredFields) {
   }
 }
 
-exports.addQuestionsController = async (req, res) => {
+export const addQuestionsController = async (req, res) => {
   try {
     // Check if required fields are present in the request body
     validateRequiredFields(req, [
@@ -39,7 +39,7 @@ exports.addQuestionsController = async (req, res) => {
   }
 };
 
-exports.getQuestionsController = async (req, res) => {
+export const getQuestionsController = async (req, res) => {
   try {
     const questions = await Question.find(); // Fetch all questions
     res.json(questions);
@@ -48,7 +48,7 @@ exports.getQuestionsController = async (req, res) => {
   }
 };
 
-exports.getGameQuestionsController = async (req, res) => {
+export const getGameQuestionsController = async (req, res) => {
   try {
     const questions = await Question.aggregate([{ $sample: { size: 5 } }]);
     res.json(questions);

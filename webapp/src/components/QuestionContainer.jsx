@@ -8,7 +8,7 @@ const QuestionContainer = ({
   right,
   updateScore,
   isActive,
-  isTimeOut,
+  //isTimeOut,
   setTimer,
   restartTimer,
   loadNextQuestion,
@@ -29,15 +29,17 @@ const QuestionContainer = ({
 
   // Efecto para seleccionar la respuesta correcta automáticamente cuando el tiempo se agota
   useEffect(() => {
-    if (isTimeOut && selectedAnswer === null) {
+    if (!isActive && selectedAnswer === null) {
       setSelectedAnswer(right); // Seleccionamos la respuesta correcta
+      setTimer(false); // Detenemos el temporizador
       setShowResult(true);
     }
-  }, [isActive, selectedAnswer, right]);
+  }, [isActive]);
 
   useEffect(() => {
     if (showResult) {
       const timer = setTimeout(() => {
+        setShowResult(false);
         setIsImageLoaded(false);
         loadNextQuestion(); // Cargar la siguiente pregunta después del retraso
       }, 2000); // Esperar 2 segundos antes de cargar la siguiente pregunta
@@ -116,7 +118,7 @@ const QuestionContainer = ({
                 disabled={
                   selectedAnswer !== null ||
                   incorrectAnswers.includes(answer) ||
-                  isTimeOut // Deshabilita
+                  !isActive // Deshabilita
                 }
               >
                 {answer}

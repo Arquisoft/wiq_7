@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "Statistics service, in charge of generating statistics in the application",
   "main": "service.js",
+  "type": "module",
   "scripts": {
     "start": "node stat-service.js",
     "test": "jest"
@@ -18,6 +19,8 @@
   },
   "homepage": "https://github.com/Arquisoft/wiq_7#readme",
   "dependencies": {
+    "cookie-parser": "^1.4.7",
+    "cors": "^2.8.5",
     "express": "^4.18.2",
     "mongoose": "^8.0.4"
   },

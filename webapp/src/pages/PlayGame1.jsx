@@ -10,6 +10,8 @@ import { v4 as uuidv4 } from 'uuid';
 
 const apiEndpoint =
   process.env.REACT_APP_API_ENDPOINT || 'http://localhost:8000';
+
+axios.defaults.withCredentials = true; // Permitir envío de cookies
 const answerTime = 20;
 
 const PlayGame1 = ({ questions }) => {
@@ -19,8 +21,8 @@ const PlayGame1 = ({ questions }) => {
   const [score, updateScore] = useScore();
   const [previousScore, setPreviousScore] = useState(0);
   const [seconds, setSeconds] = useState(answerTime); // Estados para controlar el temporizador
-  const [isActive, setIsActive] = useState(false);
-  const [isTimeOut, setIsTimeOut] = useState(false);
+  const [isActive, setIsActive] = useState(true);
+  //  const [isTimeOut, setIsTimeOut] = useState(false);
   const [gameOver, setGameOver] = useState(false);
   const [error, setError] = useState('');
   const [gameId] = useState(() => uuidv4());
@@ -39,7 +41,7 @@ const PlayGame1 = ({ questions }) => {
   useEffect(() => {
     if (seconds === 0) {
       setTimer(false);
-      setIsTimeOut(true);
+      setIsActive(false);
     }
     if (!isActive) {
       return;
@@ -54,9 +56,10 @@ const PlayGame1 = ({ questions }) => {
   const setTimer = (state) => {
     setIsActive(state);
   };
+
   const restartTimer = () => {
     setSeconds(answerTime);
-    setIsTimeOut(false);
+    setIsActive(true);
   };
 
   const addQuestionStat = async () => {
@@ -66,7 +69,6 @@ const PlayGame1 = ({ questions }) => {
       const right = points === 300;
       setPreviousScore(score);
       await axios.post(`${apiEndpoint}/addstat`, {
-        userId: 'user',
         gameId: gameId,
         questionId: _id,
         right: right,
@@ -103,7 +105,7 @@ const PlayGame1 = ({ questions }) => {
             right={right}
             updateScore={updateScore}
             isActive={isActive}
-            isTimeOut={isTimeOut}
+            //            isTimeOut={isTimeOut}
             setTimer={setTimer}
             restartTimer={restartTimer}
             loadNextQuestion={loadNextQuestion} // Cargar la siguiente pregunta
