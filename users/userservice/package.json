@@ -4,6 +4,11 @@
   "description": "User service, in charge of handling users in the application",
   "main": "service.js",
   "type": "module",
+  "jest": {
+    "transform": {
+      "^.+\\.js$": "babel-jest"
+    }
+  },
   "scripts": {
     "start": "node user-service.js",
     "test": "jest"
