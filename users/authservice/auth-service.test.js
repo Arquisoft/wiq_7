@@ -1,7 +1,7 @@
-import request from 'supertest';
-import { MongoMemoryServer } from 'mongodb-memory-server';
-import bcrypt from 'bcrypt';
-import User from './auth-model.js';
+const request = require('supertest');
+const { MongoMemoryServer } = require('mongodb-memory-server');
+const bcrypt = require('bcrypt');
+const User = require('./auth-model');
 
 let mongoServer;
 let app;
