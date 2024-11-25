@@ -7,8 +7,6 @@ import swaggerUi from 'swagger-ui-express';
 import fs from 'fs';
 import YAML from 'yaml';
 import morgan from 'morgan';
-import cookieParser from 'cookie-parser';
-import { authenticateUser } from './middleware/auth-middleware.js';
 
 if (process.env.NODE_ENV === 'development') {
   app.use(morgan('dev'));
@@ -23,10 +21,14 @@ const questionServiceUrl =
   process.env.QUESTION_SERVICE_URL || 'http://localhost:8003';
 const statServiceUrl = process.env.STAT_SERVICE_URL || 'http://localhost:8004';
 
-app.use(cors({ origin: 'http://localhost:3000', credentials: true }));
-//app.use(cookieParser());
+app.use(
+  cors({
+    origin: 'http://localhost:3000',
+    credentials: true,
+    allowedHeaders: ['Authorization', 'Content-Type'],
+  })
+);
 app.use(express.json());
-app.use(cookieParser());
 
 //Prometheus configuration
 const metricsMiddleware = promBundle({ includeMethod: true });
@@ -40,11 +42,7 @@ app.get('/health', (_req, res) => {
 app.post('/login', async (req, res) => {
   try {
     // Forward the login request to the authentication service
-    const authResponse = await axios.post(authServiceUrl + '/login', req.body, {
-      withCredentials: true, // Indica que esta solicitud incluye cookies
-    });
-    // Reenvía las cookies al cliente
-    res.setHeader('Set-Cookie', authResponse.headers['set-cookie']);
+    const authResponse = await axios.post(authServiceUrl + '/login', req.body);
     res.json(authResponse.data);
   } catch (error) {
     res
@@ -68,15 +66,11 @@ app.post('/adduser', async (req, res) => {
   }
 });
 
-app.get('/users', authenticateUser, async (req, res) => {
+app.get('/users', async (req, res) => {
   console.log(req);
   try {
     // Forward the get users request to the user service
-    const userResponse = await axios.get(userServiceUrl + '/users', req.body, {
-      headers: {
-        Cookie: req.headers.cookie, // Reenvía las cookies del cliente al servicio
-      },
-    });
+    const userResponse = await axios.get(userServiceUrl + '/users', req.body);
     res.json(userResponse.data);
   } catch (error) {
     res
@@ -116,11 +110,17 @@ app.get('/questions', async (req, res) => {
 });
 
 app.get('/game-questions', async (req, res) => {
+  console.log('gw');
+  console.log(req.headers.authorization);
   try {
     // Forward the get question request to the question service
     const getQuestionResponse = await axios.get(
       questionServiceUrl + '/game-questions',
-      req.body
+      {
+        headers: {
+          Authorization: req.headers.authorization,
+        },
+      }
     );
     res.json(getQuestionResponse.data);
   } catch (error) {
@@ -130,9 +130,9 @@ app.get('/game-questions', async (req, res) => {
   }
 });
 
-app.post('/addstat', authenticateUser, async (req, res) => {
+app.post('/addstat', async (req, res) => {
   console.log('gw');
-  console.log(req.headers.cookie);
+  console.log(req.headers.authorization);
   try {
     // Forward the add stat request to the stat service
     const addStatResponse = await axios.post(
@@ -140,7 +140,7 @@ app.post('/addstat', authenticateUser, async (req, res) => {
       req.body,
       {
         headers: {
-          Cookie: req.headers.cookie, // Reenvía las cookies del cliente al servicio
+          Authorization: req.headers.authorization,
         },
       }
     );

@@ -15,12 +15,24 @@ const Login = () => {
     process.env.REACT_APP_API_ENDPOINT || 'http://localhost:8000';
 
   const login = async () => {
+    console.log('login frontend');
+
     try {
-      await axios.post(`${apiEndpoint}/login`, {
-        username,
-        password,
-        withCredentials: true,
-      });
+      const response = await axios.post(
+        `${apiEndpoint}/login`,
+        {
+          username,
+          password,
+        },
+        {
+          withCredentials: true,
+        }
+      );
+      console.log(response.data);
+      const { token } = response.data;
+      localStorage.setItem('token', token); // Guarda el token
+
+      console.log(token);
       setOpenSnackbar(true);
       navigate('/dashboard');
     } catch (error) {

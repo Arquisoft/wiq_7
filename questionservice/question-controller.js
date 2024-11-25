@@ -39,18 +39,18 @@ export const addQuestionsController = async (req, res) => {
   }
 };
 
-export const getQuestionsController = async (req, res) => {
+export const getGameQuestionsController = async (req, res) => {
   try {
-    const questions = await Question.find(); // Fetch all questions
+    const questions = await Question.aggregate([{ $sample: { size: 5 } }]);
     res.json(questions);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
 };
 
-export const getGameQuestionsController = async (req, res) => {
+export const getQuestionsController = async (req, res) => {
   try {
-    const questions = await Question.aggregate([{ $sample: { size: 5 } }]);
+    const questions = await Question.find(); // Fetch all questions
     res.json(questions);
   } catch (error) {
     res.status(500).json({ error: error.message });

@@ -16,7 +16,13 @@ const Play = () => {
     // Función asíncrona para obtener los documentos
     const fetchQuestions = async () => {
       try {
-        const response = await axios.get(`${apiEndpoint}/game-questions`);
+        const token = localStorage.getItem('token');
+
+        const response = await axios.get(`${apiEndpoint}/game-questions`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
         setQuestions(response.data); // Actualizamos el estado con los datos
       } catch (error) {
         console.error('Error al obtener las preguntas:', error);

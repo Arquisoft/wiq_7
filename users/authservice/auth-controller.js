@@ -1,7 +1,7 @@
 import User from './auth-model.js';
 import { StatusCodes } from 'http-status-codes';
 import { createJWT } from './utils/tokenUtils.js';
-import { hashPassword, comparePassword } from './utils/passwordUtils.js';
+import { comparePassword } from './utils/passwordUtils.js';
 
 // Function to validate required fields in the request body
 function validateRequiredFields(req, requiredFields) {
@@ -13,6 +13,8 @@ function validateRequiredFields(req, requiredFields) {
 }
 
 export const loginController = async (req, res) => {
+  res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000'); // Origen permitido
+  res.setHeader('Access-Control-Allow-Credentials', 'true'); // Permite credenciales
   try {
     // Check if required fields are present in the request body
     validateRequiredFields(req, ['username', 'password']);
@@ -28,13 +30,15 @@ export const loginController = async (req, res) => {
       const token = createJWT({ userId: user._id, role: user.role });
 
       // Responder con el token y la información del usuario
-      res.cookie('token', token, {
-        httpOnly: true,
-        expires: new Date(Date.now() + 24 * 60 * 60 * 1000),
-        secure: false,
-        sameSite: 'None',
-      });
-      res.status(StatusCodes.OK).json({ msg: 'User logged in' });
+      // res.cookie('token', token, {
+      //   httpOnly: true,
+      //   expires: new Date(Date.now() + 24 * 60 * 60 * 1000),
+      //   secure: false,
+      //   sameSite: 'None',
+      // });
+      res
+        .status(StatusCodes.OK)
+        .json({ token: token, username: username, createdAt: user.createdAt });
     } else {
       res.status(401).json({ error: 'Invalid credentials' });
     }

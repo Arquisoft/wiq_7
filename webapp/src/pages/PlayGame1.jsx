@@ -64,17 +64,27 @@ const PlayGame1 = ({ questions }) => {
 
   const addQuestionStat = async () => {
     try {
+      const token = localStorage.getItem('token');
+
       const usedTime = answerTime - seconds;
       const points = score - previousScore;
       const right = points === 300;
       setPreviousScore(score);
-      await axios.post(`${apiEndpoint}/addstat`, {
-        gameId: gameId,
-        questionId: _id,
-        right: right,
-        time: usedTime,
-        points: points,
-      });
+      await axios.post(
+        `${apiEndpoint}/addstat`,
+        {
+          gameId: gameId,
+          questionId: _id,
+          right: right,
+          time: usedTime,
+          points: points,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
     } catch (error) {
       setError(error.response.data.error);
     }

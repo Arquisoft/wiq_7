@@ -46,6 +46,10 @@ services:
     image: ghcr.io/arquisoft/wiq_7/questionservice:latest
     profiles: ['dev', 'prod']
     build: ./questionservice
+    volumes:
+      - ./errors:/usr/src/questionservice/errors
+      - ./middleware:/usr/src/questionservice/middleware
+      - ./utils:/usr/src/questionservice/utils
     depends_on:
       - mongodb
     ports:
@@ -60,6 +64,10 @@ services:
     image: ghcr.io/arquisoft/wiq_7/statservice:latest
     profiles: ['dev', 'prod']
     build: ./statservice
+    volumes:
+      - ./errors:/usr/src/statservice/errors
+      - ./middleware:/usr/src/statservice/middleware
+      - ./utils:/usr/src/statservice/utils
     depends_on:
       - mongodb
     ports:

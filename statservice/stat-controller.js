@@ -20,10 +20,11 @@ export const addStatController = async (req, res) => {
       'points',
     ]);
 
-    console.log(req);
+    console.log('addstat');
+    console.log(req.user.userId);
 
     const newStat = new Stat({
-      userId: '507f1f77bcf86cd799439011',
+      userId: req.user.userId,
       gameId: req.body.gameId,
       questionId: req.body.questionId,
       right: req.body.right,
@@ -41,7 +42,7 @@ export const addStatController = async (req, res) => {
 export const getStatsController = async (req, res) => {
   try {
     const stats = await Stat.find(); // Fetch all questions
-    res.json(stats);
+    res.status(200).json(stats);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
