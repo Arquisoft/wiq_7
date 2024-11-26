@@ -5,13 +5,11 @@
   "main": "service.js",
   "type": "module",
   "jest": {
-    "transform": {
-      "^.+\\.js$": "babel-jest"
-    }
+    "transform": {}
   },
   "scripts": {
     "start": "node user-service.js",
-    "test": "jest"
+    "test": "node --experimental-vm-modules ./node_modules/.bin/jest"
   },
   "repository": {
     "type": "git",

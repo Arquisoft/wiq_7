@@ -4,9 +4,12 @@
   "description": "Statistics service, in charge of generating statistics in the application",
   "main": "service.js",
   "type": "module",
+  "jest": {
+    "transform": {}
+  },
   "scripts": {
     "start": "node stat-service.js",
-    "test": "jest"
+    "test": "node --experimental-vm-modules ./node_modules/.bin/jest"
   },
   "repository": {
     "type": "git",

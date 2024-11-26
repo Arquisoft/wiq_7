@@ -1,7 +1,7 @@
-const request = require('supertest');
-const { MongoMemoryServer } = require('mongodb-memory-server');
-const bcrypt = require('bcrypt');
-const User = require('./auth-model');
+import request from 'supertest';
+import { MongoMemoryServer } from 'mongodb-memory-server';
+import bcrypt from 'bcrypt';
+import User from './auth-model.js';
 
 let mongoServer;
 let app;
@@ -26,8 +26,8 @@ beforeAll(async () => {
   mongoServer = await MongoMemoryServer.create();
   const mongoUri = mongoServer.getUri();
   process.env.MONGODB_URI = mongoUri;
-  app = require('./auth-service');
-  //Load database with initial conditions
+  app = (await import('./auth-service.js')).default; // Import app dynamically to ensure MONGODB_URI is set
+  // Load database with initial conditions
   await addUser(user);
 });
 
