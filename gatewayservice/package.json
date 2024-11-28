@@ -5,13 +5,11 @@
   "main": "service.js",
   "type": "module",
   "jest": {
-    "transform": {
-      "^.+\\.js$": "babel-jest"
-    }
+    "transform": {}
   },
   "scripts": {
     "start": "node gateway-service.js",
-    "test": "jest"
+    "test": "node --experimental-vm-modules ./node_modules/.bin/jest"
   },
   "repository": {
     "type": "git",
@@ -36,6 +34,8 @@
     "http-status-codes": "^2.3.0"
   },
   "devDependencies": {
+    "@babel/preset-env": "^7.26.0",
+    "babel-jest": "^29.7.0",
     "jest": "^29.7.0",
     "supertest": "^6.3.4"
   }

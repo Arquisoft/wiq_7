@@ -1,10 +1,10 @@
-const request = require('supertest');
-const axios = require('axios');
-const app = require('./gateway-service'); 
+import request from 'supertest';
+import axios from 'axios';
+const app = (await import('./gateway-service.js')).default;
 
 afterAll(async () => {
-    app.close();
-  });
+  app.close();
+});
 
 jest.mock('axios');
 
