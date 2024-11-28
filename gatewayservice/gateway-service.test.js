@@ -1,23 +1,24 @@
 import request from 'supertest';
 import axios from 'axios';
-const app = (await import('./gateway-service.js')).default;
+import { jest } from '@jest/globals'; // Importa jest desde @jest/globals
+
+jest.mock('axios');
+// Crea el mock manualmente para asegurarte de que `post` es una función mock
+axios.post = jest.fn((url, data) => {
+  if (url.endsWith('/login')) {
+    return Promise.resolve({ data: { token: 'mockedToken' } });
+  } else if (url.endsWith('/adduser')) {
+    return Promise.resolve({ data: { userId: 'mockedUserId' } });
+  }
+});
+
+let app = (await import('./gateway-service.js')).default;
 
 afterAll(async () => {
   app.close();
 });
 
-jest.mock('axios');
-
 describe('Gateway Service', () => {
-  // Mock responses from external services
-  axios.post.mockImplementation((url, data) => {
-    if (url.endsWith('/login')) {
-      return Promise.resolve({ data: { token: 'mockedToken' } });
-    } else if (url.endsWith('/adduser')) {
-      return Promise.resolve({ data: { userId: 'mockedUserId' } });
-    }
-  });
-
   // Test /login endpoint
   it('should forward login request to auth service', async () => {
     const response = await request(app)
