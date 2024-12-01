@@ -1,5 +1,6 @@
 import request from 'supertest';
 import { MongoMemoryServer } from 'mongodb-memory-server';
+import Question from './question-model.js';
 
 let mongoServer;
 let app;
@@ -27,6 +28,12 @@ describe('Question Service', () => {
       wrong2: 'testWrong2',
       wrong3: 'testWrong3',
     };
+
+    // El usuario se loguea
+    await request(app).post('/login').send({
+      username: 'testuser',
+      password: 'testpassword',
+    });
 
     const response = await request(app).post('/addquestion').send(newQuestion);
     expect(response.status).toBe(200);
