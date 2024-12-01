@@ -27,7 +27,7 @@ describe('Stat Service', () => {
       points: 0,
     };
 
-    const response = await request(app).post('/addstst').send(newStat);
+    const response = await request(app).post('/addstat').send(newStat);
     expect(response.status).toBe(200);
     expect(response.body).toHaveProperty('userId', '507f1f77bcf86cd799439011');
   });

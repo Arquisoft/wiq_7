@@ -28,8 +28,8 @@ describe('Question Service', () => {
       wrong3: 'testWrong3',
     };
 
-    const response = await request(app).post('/addstst').send(newQuestion);
+    const response = await request(app).post('/addquestion').send(newQuestion);
     expect(response.status).toBe(200);
-    expect(response.body).toHaveProperty('userId', '507f1f77bcf86cd799439011');
+    expect(response.body).toHaveProperty('type', 'testType');
   });
 });
