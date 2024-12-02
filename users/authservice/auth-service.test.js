@@ -18,7 +18,6 @@ async function addUser(user) {
     username: user.username,
     password: hashedPassword,
   });
-
   await newUser.save();
 }
 

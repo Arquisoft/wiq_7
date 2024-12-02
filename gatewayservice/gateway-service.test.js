@@ -3,7 +3,7 @@ import axios from 'axios';
 import { jest } from '@jest/globals'; // Importa jest desde @jest/globals
 
 jest.mock('axios');
-// Crea el mock manualmente para asegurarte de que `post` es una función mock
+// Crea el mock manualmente para asegurar que `post` es una función mock
 axios.post = jest.fn((url, data) => {
   if (url.endsWith('/login')) {
     return Promise.resolve({ data: { token: 'mockedToken' } });

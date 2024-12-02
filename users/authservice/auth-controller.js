@@ -28,14 +28,6 @@ export const loginController = async (req, res) => {
     if (user && (await comparePassword(password, user.password))) {
       // Generar un token JWT
       const token = createJWT({ userId: user._id, role: user.role });
-
-      // Responder con el token y la información del usuario
-      // res.cookie('token', token, {
-      //   httpOnly: true,
-      //   expires: new Date(Date.now() + 24 * 60 * 60 * 1000),
-      //   secure: false,
-      //   sameSite: 'None',
-      // });
       res
         .status(StatusCodes.OK)
         .json({ token: token, username: username, createdAt: user.createdAt });

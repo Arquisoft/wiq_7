@@ -1,8 +1,16 @@
 import request from 'supertest';
 import { MongoMemoryServer } from 'mongodb-memory-server';
+import { jest } from '@jest/globals'; // Importa jest desde @jest/globals
 
 let mongoServer;
 let app;
+
+jest.mock('./middleware/auth-middleware', () => ({
+  authenticateUser: (req, res, next) => {
+    req.user = { userId: '507f1f77bcf86cd799439011', role: 'user' }; // Simula un usuario autenticado
+    next();
+  },
+}));
 
 beforeAll(async () => {
   mongoServer = await MongoMemoryServer.create();
