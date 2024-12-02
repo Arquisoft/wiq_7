@@ -2,15 +2,16 @@ import request from 'supertest';
 import { MongoMemoryServer } from 'mongodb-memory-server';
 import { jest } from '@jest/globals'; // Importa jest desde @jest/globals
 
+// Sobrescribe `authenticateUser` antes de importar el servicio
+jest.unstable_mockModule('./middleware/auth-middleware', () => ({
+  authenticateUser: jest.fn((req, res, next) => {
+    req.user = { userId: '507f1f77bcf86cd799439011', role: 'user' };
+    next();
+  }),
+}));
+
 let mongoServer;
 let app;
-
-jest.mock('./middleware/auth-middleware', () => ({
-  authenticateUser: (req, res, next) => {
-    req.user = { userId: '507f1f77bcf86cd799439011', role: 'user' }; // Simula un usuario autenticado
-    next();
-  },
-}));
 
 beforeAll(async () => {
   mongoServer = await MongoMemoryServer.create();
@@ -27,7 +28,6 @@ afterAll(async () => {
 describe('Stat Service', () => {
   it('should add a new stat on POST /addstat', async () => {
     const newStat = {
-      userId: '507f1f77bcf86cd799439011',
       gameId: 'testGameId',
       questionId: 'testQuestionId',
       right: false,

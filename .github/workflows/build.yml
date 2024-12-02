@@ -22,7 +22,7 @@ jobs:
       - run: cp -R utils/ questionservice/
       - run: cp -R errors/ statservice/
       - run: cp -R middleware/ statservice/
-      - run: cp -R utils/ statservice/
+      #- run: cp -R utils/ statservice/
       # Instalar dependencias
       - run: npm --prefix users/authservice ci
       - run: npm --prefix users/userservice ci
