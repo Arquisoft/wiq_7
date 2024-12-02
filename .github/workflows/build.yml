@@ -20,7 +20,7 @@ jobs:
       - run: cp -R errors/ questionservice/
       - run: cp -R middleware/ questionservice/
       - run: cp -R utils/ questionservice/
-      - run: cp -R errors/ statservice/
+      #- run: cp -R errors/ statservice/
       - run: cp -R middleware/ statservice/
       #- run: cp -R utils/ statservice/
       # Instalar dependencias
@@ -33,7 +33,7 @@ jobs:
       # Ejecutar tests
       - run: npm --prefix users/authservice test -- --coverage
       - run: npm --prefix users/userservice test -- --coverage
-      # - run: npm --prefix questionservice test -- --coverage
+      - run: npm --prefix questionservice test -- --coverage
       - run: npm --prefix statservice test -- --coverage
       - run: npm --prefix gatewayservice test -- --coverage
       - run: npm --prefix webapp test -- --coverage

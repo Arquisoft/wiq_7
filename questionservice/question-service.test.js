@@ -1,6 +1,14 @@
 import request from 'supertest';
 import { MongoMemoryServer } from 'mongodb-memory-server';
-import Question from './question-model.js';
+import { jest } from '@jest/globals'; // Importa jest desde @jest/globals
+
+// Sobrescribe `authenticateUser` antes de importar el servicio
+jest.unstable_mockModule('./middleware/auth-middleware', () => ({
+  authenticateUser: jest.fn((req, res, next) => {
+    req.user = { userId: '507f1f77bcf86cd799439011', role: 'user' };
+    next();
+  }),
+}));
 
 let mongoServer;
 let app;
