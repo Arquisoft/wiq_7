@@ -47,6 +47,15 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 20
+      # Copiar errors, middleware y utils a cada servicio si es necesario
+      - run: cp -R utils/ users/authservice/
+      - run: cp -R errors/ questionservice/
+      - run: cp -R middleware/ questionservice/
+      - run: cp -R utils/ questionservice/
+      #- run: cp -R errors/ statservice/
+      - run: cp -R middleware/ statservice/
+      #- run: cp -R utils/ statservice/
+      # Instalar dependencias
       - run: npm --prefix users/authservice install
       - run: npm --prefix users/userservice install
       - run: npm --prefix gatewayservice install
