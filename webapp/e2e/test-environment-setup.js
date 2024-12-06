@@ -11,9 +11,9 @@ async function startServer() {
   const mongoUri = mongoserver.getUri();
   process.env.MONGODB_URI = mongoUri;
 
-  userservice = (await import('../../users/userservice/user-service')).default;
-  authservice = (await import('../../users/authservice/auth-service')).default;
-  gatewayservice = (await import('../../gatewayservice/gateway-service'))
+  userservice = (await import('../../users/userservice/user-service.js')).default;
+  authservice = (await import('../../users/authservice/auth-service.js')).default;
+  gatewayservice = (await import('../../gatewayservice/gateway-service.js'))
     .default;
 }
 

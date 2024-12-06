@@ -1,6 +1,6 @@
-export { default as Logo } from './Logo';
-export { default as FormRow } from './FormRow';
-export { default as BigSidebar } from './BigSidebar';
-export { default as SmallSidebar } from './SmallSidebar';
-export { default as Navbar } from './Navbar';
-export { default as AddQuestionContainer } from './AddQuestionContainer';
+export { default as Logo } from './Logo.jsx';
+export { default as FormRow } from './FormRow.jsx';
+export { default as BigSidebar } from './BigSidebar.jsx';
+export { default as SmallSidebar } from './SmallSidebar.jsx';
+export { default as Navbar } from './Navbar.jsx';
+export { default as AddQuestionContainer } from './AddQuestionContainer.jsx';
