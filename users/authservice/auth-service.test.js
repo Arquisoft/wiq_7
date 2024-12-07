@@ -24,7 +24,7 @@ async function addUser(user) {
 beforeAll(async () => {
   mongoServer = await MongoMemoryServer.create();
   const mongoUri = mongoServer.getUri();
-  process.env.MONGODB_URI = mongoUri;
+  process.env.MONGODB_USER = mongoUri;
   app = (await import('./auth-service.js')).default; // Import app dynamically to ensure MONGODB_URI is set
   // Load database with initial conditions
   await addUser(user);

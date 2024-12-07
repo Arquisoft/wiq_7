@@ -16,7 +16,7 @@ let app;
 beforeAll(async () => {
   mongoServer = await MongoMemoryServer.create();
   const mongoUri = mongoServer.getUri();
-  process.env.MONGODB_URI = mongoUri;
+  process.env.MONGODB_QUESTION = mongoUri;
   app = (await import('./question-service.js')).default; // Import app dynamically to ensure MONGODB_URI is set
 });
 

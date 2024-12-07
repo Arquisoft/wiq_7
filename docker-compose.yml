@@ -25,7 +25,7 @@ services:
     networks:
       - mynetwork
     environment:
-      MONGODB_URI: mongodb://mongodb:27017/userdb
+      MONGODB_USER: mongodb://mongodb:27017/userdb
 
   userservice:
     container_name: userservice-${teamname:-defaultASW}
@@ -39,7 +39,7 @@ services:
     networks:
       - mynetwork
     environment:
-      MONGODB_URI: mongodb://mongodb:27017/userdb
+      MONGODB_USER: mongodb://mongodb:27017/userdb
 
   questionservice:
     container_name: questionservice-${teamname:-defaultASW}
@@ -57,7 +57,7 @@ services:
     networks:
       - mynetwork
     environment:
-      MONGODB_URI: mongodb://mongodb:27017/questiondb
+      MONGODB_QUESTION: mongodb://mongodb:27017/questiondb
 
   statservice:
     container_name: statservice-${teamname:-defaultASW}
@@ -75,7 +75,7 @@ services:
     networks:
       - mynetwork
     environment:
-      MONGODB_URI: mongodb://mongodb:27017/statdb
+      MONGODB_STAT: mongodb://mongodb:27017/statdb
 
   gatewayservice:
     container_name: gatewayservice-${teamname:-defaultASW}
@@ -97,6 +97,7 @@ services:
     networks:
       - mynetwork
     environment:
+      ORIGIN_URL: http://localhost:3000
       AUTH_SERVICE_URL: http://authservice:8002
       USER_SERVICE_URL: http://userservice:8001
       QUESTION_SERVICE_URL: http://questionservice:8003

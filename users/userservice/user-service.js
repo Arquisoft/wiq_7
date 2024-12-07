@@ -1,24 +1,15 @@
 // user-service.js
 import express from 'express';
 import mongoose from 'mongoose';
-import cors from 'cors';
-import cookieParser from 'cookie-parser';
 import userRouter from './user-router.js';
 
 const app = express();
 const port = 8001;
 
-app.use(
-  cors({
-    origin: 'http://localhost:8000', // Dirección del gateway.
-    credentials: true, // Permite enviar cookies.
-  })
-);
 app.use(express.json());
-app.use(cookieParser());
 
 // Connect to MongoDB
-const mongoUri = process.env.MONGODB_URI || 'mongodb://localhost:27017/userdb';
+const mongoUri = process.env.MONGODB_USER || 'mongodb://localhost:27017/userdb';
 mongoose.connect(mongoUri);
 
 // userRouter

@@ -11,7 +11,7 @@ app.use(express.json());
 
 // Connect to MongoDB
 const mongoUri =
-  process.env.MONGODB_URI || 'mongodb://localhost:27017/questiondb';
+  process.env.MONGODB_QUESTION || 'mongodb://localhost:27017/questiondb';
 mongoose.connect(mongoUri);
 
 app.use('/', questionRouter);

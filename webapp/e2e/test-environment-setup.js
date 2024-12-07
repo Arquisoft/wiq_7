@@ -9,10 +9,12 @@ async function startServer() {
   console.log('Starting MongoDB memory server...');
   mongoserver = await MongoMemoryServer.create();
   const mongoUri = mongoserver.getUri();
-  process.env.MONGODB_URI = mongoUri;
+  process.env.MONGODB_USER = mongoUri;
 
-  userservice = (await import('../../users/userservice/user-service.js')).default;
-  authservice = (await import('../../users/authservice/auth-service.js')).default;
+  userservice = (await import('../../users/userservice/user-service.js'))
+    .default;
+  authservice = (await import('../../users/authservice/auth-service.js'))
+    .default;
   gatewayservice = (await import('../../gatewayservice/gateway-service.js'))
     .default;
 }

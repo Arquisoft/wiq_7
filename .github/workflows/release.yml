@@ -189,6 +189,12 @@ jobs:
       ]
     steps:
       - name: Deploy over SSH
+        env:
+          ORIGIN_URL: ${{ env.ORIGIN_URL }}
+          AUTH_SERVICE_URL: ${{ env.AUTH_SERVICE_URL }}
+          USER_SERVICE_URL: ${{ env.USER_SERVICE_URL }}
+          QUESTION_SERVICE_URL: ${{ env.QUESTION_SERVICE_URL }}
+          STAT_SERVICE_URL: ${{ env.STAT_SERVICE_URL }}
         uses: fifsky/ssh-action@master
         with:
           host: ${{ secrets.DEPLOY_HOST }}
@@ -196,6 +202,10 @@ jobs:
           key: ${{ secrets.DEPLOY_KEY }}
           command: |
             wget https://raw.githubusercontent.com/arquisoft/wiq_7/master/docker-compose.yml -O docker-compose.yml
-            wget https://raw.githubusercontent.com/arquisoft/wiq_7/master/.env -O .env
+            echo "ORIGIN_URL=${{ env.ORIGIN_URL }}" >> .env
+            echo "AUTH_SERVICE_URL=${{ env.AUTH_SERVICE_URL }}" >> .env
+            echo "USER_SERVICE_URL=${{ env.USER_SERVICE_URL }}" >> .env
+            echo "QUESTION_SERVICE_URL=${{ env.QUESTION_SERVICE_URL }}" >> .env
+            echo "STAT_SERVICE_URL=${{ env.STAT_SERVICE_URL }}" >> .env
             docker compose --profile prod down
             docker compose --profile prod up -d --pull always

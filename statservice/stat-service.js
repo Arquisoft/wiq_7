@@ -1,24 +1,15 @@
 // question-service.js
 import express from 'express';
 import mongoose from 'mongoose';
-import cors from 'cors';
-import cookieParser from 'cookie-parser';
 import statRouter from './stat-router.js';
 
 const app = express();
 const port = 8004;
 
-app.use(
-  cors({
-    origin: 'http://localhost:8000', // Dirección del gateway.
-    credentials: true, // Permite enviar cookies.
-  })
-);
 app.use(express.json());
-app.use(cookieParser());
 
 // Connect to MongoDB
-const mongoUri = process.env.MONGODB_URI || 'mongodb://localhost:27017/statdb';
+const mongoUri = process.env.MONGODB_STAT || 'mongodb://localhost:27017/statdb';
 mongoose.connect(mongoUri);
 
 app.use('/', statRouter);

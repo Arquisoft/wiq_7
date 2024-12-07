@@ -15,6 +15,7 @@ if (process.env.NODE_ENV === 'development') {
 const app = express();
 const port = 8000;
 
+const originUrl = process.env.ORIGIN_URL || 'http://localhost:3000';
 const authServiceUrl = process.env.AUTH_SERVICE_URL || 'http://localhost:8002';
 const userServiceUrl = process.env.USER_SERVICE_URL || 'http://localhost:8001';
 const questionServiceUrl =
@@ -23,7 +24,7 @@ const statServiceUrl = process.env.STAT_SERVICE_URL || 'http://localhost:8004';
 
 app.use(
   cors({
-    origin: 'http://localhost:3000',
+    origin: originUrl,
     credentials: true,
     allowedHeaders: ['Authorization', 'Content-Type'],
   })
