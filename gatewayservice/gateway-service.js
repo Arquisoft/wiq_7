@@ -95,7 +95,12 @@ app.post('/addquestion', async (req, res) => {
     // Forward the add question request to the question service
     const addQuestionResponse = await axios.post(
       questionServiceUrl + '/addquestion',
-      req.body
+      req.body,
+      {
+        headers: {
+          Authorization: req.headers.authorization,
+        },
+      }
     );
     res.json(addQuestionResponse.data);
   } catch (error) {
@@ -121,8 +126,6 @@ app.get('/questions', async (req, res) => {
 });
 
 app.get('/game-questions', async (req, res) => {
-  console.log('gw');
-  console.log(req.headers.authorization);
   try {
     // Forward the get question request to the question service
     const getQuestionResponse = await axios.get(
@@ -142,8 +145,6 @@ app.get('/game-questions', async (req, res) => {
 });
 
 app.post('/addstat', async (req, res) => {
-  console.log('gw');
-  console.log(req.headers.authorization);
   try {
     // Forward the add stat request to the stat service
     const addStatResponse = await axios.post(

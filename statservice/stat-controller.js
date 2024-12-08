@@ -20,9 +20,6 @@ export const addStatController = async (req, res) => {
       'points',
     ]);
 
-    console.log('addstat');
-    console.log(req.user.userId);
-
     const newStat = new Stat({
       userId: req.user.userId,
       gameId: req.body.gameId,

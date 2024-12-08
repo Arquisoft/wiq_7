@@ -25,15 +25,24 @@ const AddQuestionContainer = () => {
     wrong3,
   }) => {
     try {
-      await axios.post(`${apiEndpoint}/addquestion`, {
-        type,
-        name,
-        path,
-        right,
-        wrong1,
-        wrong2,
-        wrong3,
-      });
+      const token = localStorage.getItem('token');
+      await axios.post(
+        `${apiEndpoint}/addquestion`,
+        {
+          type,
+          name,
+          path,
+          right,
+          wrong1,
+          wrong2,
+          wrong3,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
       setOpenSnackbar(true);
     } catch (error) {
       console.log(error);

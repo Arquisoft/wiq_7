@@ -28,13 +28,14 @@ const Login = () => {
           withCredentials: true,
         }
       );
-      console.log(response.data);
       const { token } = response.data;
       localStorage.setItem('token', token); // Guarda el token
-
       console.log(token);
       setOpenSnackbar(true);
-      navigate('/dashboard');
+      // Añadir un retardo antes de navegar
+      setTimeout(() => {
+        navigate('/dashboard');
+      }, 2000); // 2000 ms = 2 segundos
     } catch (error) {
       setError(error.response.data.error);
     }

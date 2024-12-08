@@ -17,7 +17,8 @@ export const addUserController = async (req, res) => {
 
     // Encrypt the password before saving it
     const hashedPassword = await bcrypt.hash(req.body.password, 10);
-
+    const isFirstAccount = (await User.countDocuments()) === 0;
+    req.body.role = isFirstAccount ? 'admin' : 'user';
     const newUser = new User({
       name: req.body.name,
       lastName: req.body.lastName,
