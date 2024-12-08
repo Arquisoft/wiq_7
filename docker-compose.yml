@@ -97,7 +97,7 @@ services:
     networks:
       - mynetwork
     environment:
-      ORIGIN_URL: http://localhost:3000
+      ORIGIN_URL: http://4.233.148.160:3000
       AUTH_SERVICE_URL: http://authservice:8002
       USER_SERVICE_URL: http://userservice:8001
       QUESTION_SERVICE_URL: http://questionservice:8003

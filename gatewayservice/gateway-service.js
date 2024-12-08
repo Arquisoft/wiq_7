@@ -1,6 +1,7 @@
 import express from 'express';
 import axios from 'axios';
 import cors from 'cors';
+import dotenv from 'dotenv';
 import promBundle from 'express-prom-bundle';
 // Libraries required for OpenAPI-Swagger
 import swaggerUi from 'swagger-ui-express';
@@ -14,8 +15,17 @@ if (process.env.NODE_ENV === 'development') {
 
 const app = express();
 const port = 8000;
+dotenv.config();
 
-const originUrl = process.env.ORIGIN_URL || 'http://localhost:3000';
+let originUrl = process.env.ORIGIN_URL || 'http://localhost:3000';
+if (process.env.NODE_ENV === 'development') {
+  console.log('Using development origin URL');
+  originUrl = 'http://localhost:3000';
+}
+
+console.log('NODE_ENVL');
+console.log(process.env.NODE_ENV);
+
 const authServiceUrl = process.env.AUTH_SERVICE_URL || 'http://localhost:8002';
 const userServiceUrl = process.env.USER_SERVICE_URL || 'http://localhost:8001';
 const questionServiceUrl =
