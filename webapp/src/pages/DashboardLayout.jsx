@@ -1,16 +1,25 @@
-import { Outlet } from 'react-router-dom';
+import { Outlet, useNavigate } from 'react-router-dom';
 import Wrapper from '../assets/wrappers/Dashboard';
 import { SmallSidebar, BigSidebar, Navbar } from '../components';
 import { createContext, useContext, useState } from 'react';
 import { checkDefaultTheme } from '../App';
+import axios from 'axios';
+import { Snackbar } from '@mui/material';
+
+const apiEndpoint =
+  process.env.REACT_APP_API_ENDPOINT || 'http://localhost:8000';
 
 const DashboardContext = createContext();
 
 const DashboardLayout = () => {
   // temp
   const user = { name: 'user' };
+  const [error, setError] = useState('');
+  const [openSnackbar, setOpenSnackbar] = useState(false);
   const [showSidebar, setShowSidebar] = useState(false);
   const [isDarkTheme, setIsDarkTheme] = useState(checkDefaultTheme());
+
+  const navigate = useNavigate();
 
   const toggleDarkTheme = () => {
     const newDarkTheme = !isDarkTheme;
@@ -24,7 +33,28 @@ const DashboardLayout = () => {
   };
 
   const logoutUser = async () => {
-    console.log('logout user');
+    try {
+      const token = localStorage.getItem('token');
+      await axios.get(`${apiEndpoint}/logout`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      console.log('token');
+      localStorage.removeItem('token');
+      console.log('token');
+      setOpenSnackbar(true);
+      // Añadir un retardo antes de navegar
+      setTimeout(() => {
+        navigate('/login');
+      }, 1000); // 1000 ms = 1 segundos
+    } catch (error) {
+      setError(error.response.data.error);
+    }
+  };
+
+  const handleCloseSnackbar = () => {
+    setOpenSnackbar(false);
   };
 
   return (
@@ -49,6 +79,20 @@ const DashboardLayout = () => {
             </div>
           </div>
         </main>
+        <Snackbar
+          open={openSnackbar}
+          autoHideDuration={6000}
+          onClose={handleCloseSnackbar}
+          message="Logout successful"
+        />
+        {error && (
+          <Snackbar
+            open={!!error}
+            autoHideDuration={6000}
+            onClose={() => setError('')}
+            message={`Error: ${error}`}
+          />
+        )}
       </Wrapper>
     </DashboardContext.Provider>
   );

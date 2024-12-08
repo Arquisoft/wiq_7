@@ -43,3 +43,22 @@ export const getUsersController = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
+
+export const getCurrentUserController = async (req, res) => {
+  try {
+    const user = await User.findOne({ _id: req.user.userId }); // Fetch current user
+    const userWithoutPassword = user.toJSON;
+    res.json(userWithoutPassword);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+export const updateUserController = async (req, res) => {
+  try {
+    const users = await User.find(); // Fetch all users, only return username field for security
+    res.json(users);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};

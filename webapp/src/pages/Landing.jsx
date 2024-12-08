@@ -24,7 +24,7 @@ const Landing = () => {
             Register
           </Link>
           <Link to="/login" className="btn">
-            Login / Demo User
+            Login
           </Link>
         </div>
         <img src={main} alt="wiq 7" className="img main-img" />

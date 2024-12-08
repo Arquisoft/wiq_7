@@ -6,15 +6,10 @@ import {
 import { verifyJWT } from '../utils/tokenUtils.js';
 
 export const authenticateUser = (req, res, next) => {
-  // const { token } = req.cookies;
-  console.log('auth middleware');
-  console.log(req.headers);
   try {
     const authHeader = req.headers.authorization;
-
-    console.log(req.headers.authorization);
-
     const token = authHeader.split(' ')[1];
+
     const { userId, role } = verifyJWT(token);
     req.user = { userId, role };
     next();

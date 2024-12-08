@@ -15,8 +15,6 @@ const Login = () => {
     process.env.REACT_APP_API_ENDPOINT || 'http://localhost:8000';
 
   const login = async () => {
-    console.log('login frontend');
-
     try {
       const response = await axios.post(
         `${apiEndpoint}/login`,
@@ -64,9 +62,6 @@ const Login = () => {
         />
         <button type="button" className="btn btn-block" onClick={login}>
           submit
-        </button>
-        <button type="button" className="btn btn-block">
-          explore the app
         </button>
         <p>
           Not a member yet?

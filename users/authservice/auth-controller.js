@@ -13,8 +13,6 @@ function validateRequiredFields(req, requiredFields) {
 }
 
 export const loginController = async (req, res) => {
-  res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000'); // Origen permitido
-  res.setHeader('Access-Control-Allow-Credentials', 'true'); // Permite credenciales
   try {
     // Check if required fields are present in the request body
     validateRequiredFields(req, ['username', 'password']);
@@ -34,6 +32,14 @@ export const loginController = async (req, res) => {
     } else {
       res.status(401).json({ error: 'Invalid credentials' });
     }
+  } catch (error) {
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+};
+
+export const logoutController = async (req, res) => {
+  try {
+    res.status(StatusCodes.OK).json({ msg: 'user logged out' });
   } catch (error) {
     res.status(500).json({ error: 'Internal Server Error' });
   }

@@ -62,6 +62,18 @@ app.post('/login', async (req, res) => {
   }
 });
 
+app.get('/logout', async (req, res) => {
+  try {
+    // Forward the login request to the authentication service
+    const authResponse = await axios.get(authServiceUrl + '/logout', req.body);
+    res.json(authResponse.data);
+  } catch (error) {
+    res
+      .status(error.response.status)
+      .json({ error: error.response.data.error });
+  }
+});
+
 app.post('/adduser', async (req, res) => {
   try {
     // Forward the add user request to the user service
