@@ -1,4 +1,4 @@
-import { Outlet, useNavigate } from 'react-router-dom';
+import { Outlet, redirect, useLoaderData, useNavigate } from 'react-router-dom';
 import Wrapper from '../assets/wrappers/Dashboard';
 import { SmallSidebar, BigSidebar, Navbar } from '../components';
 import { createContext, useContext, useState } from 'react';
@@ -9,17 +9,29 @@ import { Snackbar } from '@mui/material';
 const apiEndpoint =
   process.env.REACT_APP_API_ENDPOINT || 'http://localhost:8000';
 
+export const loader = async () => {
+  try {
+    const token = localStorage.getItem('token');
+    const response = await axios.get(`${apiEndpoint}/current-user`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    return redirect('/');
+  }
+};
+
 const DashboardContext = createContext();
 
 const DashboardLayout = () => {
-  // temp
-  const user = { name: 'user' };
+  const { user } = useLoaderData();
+  const navigate = useNavigate();
   const [error, setError] = useState('');
   const [openSnackbar, setOpenSnackbar] = useState(false);
   const [showSidebar, setShowSidebar] = useState(false);
   const [isDarkTheme, setIsDarkTheme] = useState(checkDefaultTheme());
-
-  const navigate = useNavigate();
 
   const toggleDarkTheme = () => {
     const newDarkTheme = !isDarkTheme;
@@ -40,9 +52,7 @@ const DashboardLayout = () => {
           Authorization: `Bearer ${token}`,
         },
       });
-      console.log('token');
       localStorage.removeItem('token');
-      console.log('token');
       setOpenSnackbar(true);
       // Añadir un retardo antes de navegar
       setTimeout(() => {

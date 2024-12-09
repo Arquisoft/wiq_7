@@ -46,9 +46,9 @@ export const getUsersController = async (req, res) => {
 
 export const getCurrentUserController = async (req, res) => {
   try {
+    console.log(req.user.userId);
     const user = await User.findOne({ _id: req.user.userId }); // Fetch current user
-    const userWithoutPassword = user.toJSON;
-    res.json(userWithoutPassword);
+    res.json({ user: user });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }

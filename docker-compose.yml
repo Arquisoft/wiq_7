@@ -32,6 +32,10 @@ services:
     image: ghcr.io/arquisoft/wiq_7/userservice:latest
     profiles: ['dev', 'prod']
     build: ./users/userservice
+    volumes:
+      - ./errors:/usr/src/userservice/errors
+      - ./middleware:/usr/src/userservice/middleware
+      - ./utils:/usr/src/userservice/utils
     depends_on:
       - mongodb
     ports:

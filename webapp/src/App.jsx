@@ -13,6 +13,9 @@ import {
   Admin,
 } from './pages';
 
+import { loader as dashboardLoader } from './pages/DashboardLayout';
+import { loader as adminLoader } from './pages/Admin';
+
 export const checkDefaultTheme = () => {
   const isDarkTheme = localStorage.getItem('darkTheme') === 'true';
   document.body.classList.toggle('dark-theme', isDarkTheme);
@@ -42,6 +45,7 @@ const router = createBrowserRouter([
       {
         path: 'dashboard',
         element: <DashboardLayout />,
+        loader: dashboardLoader,
         children: [
           {
             index: true,
@@ -62,6 +66,7 @@ const router = createBrowserRouter([
           {
             path: 'admin',
             element: <Admin />,
+            loader: adminLoader,
           },
         ],
       },

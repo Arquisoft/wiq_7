@@ -65,7 +65,7 @@ app.post('/login', async (req, res) => {
 app.get('/logout', async (req, res) => {
   try {
     // Forward the login request to the authentication service
-    const authResponse = await axios.get(authServiceUrl + '/logout', req.body);
+    const authResponse = await axios.get(authServiceUrl + '/logout');
     res.json(authResponse.data);
   } catch (error) {
     res
@@ -90,10 +90,25 @@ app.post('/adduser', async (req, res) => {
 });
 
 app.get('/users', async (req, res) => {
-  console.log(req);
   try {
     // Forward the get users request to the user service
-    const userResponse = await axios.get(userServiceUrl + '/users', req.body);
+    const userResponse = await axios.get(userServiceUrl + '/users');
+    res.json(userResponse.data);
+  } catch (error) {
+    res
+      .status(error.response.status)
+      .json({ error: error.response.data.error });
+  }
+});
+
+app.get('/current-user', async (req, res) => {
+  try {
+    // Forward the get users request to the user service
+    const userResponse = await axios.get(userServiceUrl + '/current-user', {
+      headers: {
+        Authorization: req.headers.authorization,
+      },
+    });
     res.json(userResponse.data);
   } catch (error) {
     res
@@ -126,8 +141,7 @@ app.get('/questions', async (req, res) => {
   try {
     // Forward the get question request to the question asking service
     const getQuestionResponse = await axios.get(
-      questionServiceUrl + '/questions',
-      req.body
+      questionServiceUrl + '/questions'
     );
     res.json(getQuestionResponse.data);
   } catch (error) {
@@ -179,10 +193,7 @@ app.post('/addstat', async (req, res) => {
 app.get('/stats', async (req, res) => {
   try {
     // Forward the get stats request to the stat service
-    const getStatsResponse = await axios.get(
-      statServiceUrl + '/stats',
-      req.body
-    );
+    const getStatsResponse = await axios.get(statServiceUrl + '/stats');
     res.json(getStatsResponse.data);
   } catch (error) {
     res

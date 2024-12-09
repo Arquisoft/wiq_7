@@ -9,8 +9,6 @@ export const createJWT = (payload) => {
 };
 
 export const verifyJWT = (token) => {
-  console.log('verjwt');
-  console.log(token);
   const decoded = jwt.verify(token, 'your-secret-key'); // process.env.JWT_SECRET);
   return decoded;
 };

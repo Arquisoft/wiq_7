@@ -15,10 +15,9 @@ const Landing = () => {
             wiq <span>quiz</span> game
           </h1>
           <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Tenetur
-            quas quidem itaque doloremque accusantium laudantium? Earum maiores
-            consectetur vero eligendi, beatae reprehenderit recusandae placeat
-            accusantium dignissimos deserunt sed quasi quisquam!
+            Sumérgete en la emoción del concurso, ahora en versión digital.
+            Desafía tus conocimientos, compite con amigos y demuestra tu
+            sabiduría en esta experiencia interactiva única.
           </p>
           <Link to="/register" className="btn register-link">
             Register

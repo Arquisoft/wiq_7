@@ -33,7 +33,7 @@ const Login = () => {
       // Añadir un retardo antes de navegar
       setTimeout(() => {
         navigate('/dashboard');
-      }, 2000); // 2000 ms = 2 segundos
+      }, 1000); // 1000 ms = 1 segundos
     } catch (error) {
       setError(error.response.data.error);
     }
