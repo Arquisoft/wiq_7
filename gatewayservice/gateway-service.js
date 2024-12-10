@@ -117,6 +117,26 @@ app.get('/current-user', async (req, res) => {
   }
 });
 
+app.patch('/update-user', async (req, res) => {
+  try {
+    // Forward the add user request to the user service
+    const userResponse = await axios.patch(
+      userServiceUrl + '/update-user',
+      req.body,
+      {
+        headers: {
+          Authorization: req.headers.authorization,
+        },
+      }
+    );
+    res.json(userResponse.data);
+  } catch (error) {
+    res
+      .status(error.response.status)
+      .json({ error: error.response.data.error });
+  }
+});
+
 app.post('/addquestion', async (req, res) => {
   try {
     // Forward the add question request to the question service

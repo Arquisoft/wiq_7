@@ -1,3 +1,4 @@
+import { StatusCodes } from 'http-status-codes';
 import bcrypt from 'bcrypt';
 import User from './user-model.js';
 
@@ -56,8 +57,11 @@ export const getCurrentUserController = async (req, res) => {
 
 export const updateUserController = async (req, res) => {
   try {
-    const users = await User.find(); // Fetch all users, only return username field for security
-    res.json(users);
+    const newUser = { ...req.body };
+    delete newUser.password;
+    const updatedUser = await User.findByIdAndUpdate(req.user.userId, newUser);
+
+    res.status(StatusCodes.OK).json({ msg: 'update user' });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
