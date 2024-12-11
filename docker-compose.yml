@@ -17,6 +17,8 @@ services:
     profiles: ['dev', 'prod']
     build: ./users/authservice
     volumes:
+      - ./errors:/usr/src/authservice/errors
+      - ./middleware:/usr/src/authservice/middleware
       - ./utils:/usr/src/authservice/utils
     depends_on:
       - mongodb

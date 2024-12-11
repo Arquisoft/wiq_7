@@ -42,7 +42,7 @@ const Profile = () => {
       );
       setOpenSnackbar(true);
     } catch (error) {
-      setError(error?.response?.data?.msg);
+      setError(error || 'An error occurred');
     }
     return null;
   };
