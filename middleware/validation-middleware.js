@@ -1,4 +1,4 @@
-import { body, param, validationResult } from 'express-validator';
+import { body, validationResult } from 'express-validator';
 import { BadRequestError } from '../errors/customErrors.js';
 import User from '../user-model.js';
 
@@ -9,6 +9,8 @@ const withValidationErrors = (validateValues) => {
       const errors = validationResult(req);
       if (!errors.isEmpty()) {
         const errorMessages = errors.array().map((error) => error.msg);
+        console.log('validation mw');
+        console.log(errorMessages);
         throw new BadRequestError(errorMessages);
       }
       next();

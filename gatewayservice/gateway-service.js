@@ -23,9 +23,6 @@ if (process.env.NODE_ENV === 'development') {
   originUrl = 'http://localhost:3000';
 }
 
-console.log('NODE_ENVL');
-console.log(process.env.NODE_ENV);
-
 const authServiceUrl = process.env.AUTH_SERVICE_URL || 'http://localhost:8002';
 const userServiceUrl = process.env.USER_SERVICE_URL || 'http://localhost:8001';
 const questionServiceUrl =

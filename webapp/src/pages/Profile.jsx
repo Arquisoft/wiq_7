@@ -42,9 +42,8 @@ const Profile = () => {
       );
       setOpenSnackbar(true);
     } catch (error) {
-      setError(error || 'An error occurred');
+      setError(error?.response?.data?.msg || 'An error occurred');
     }
-    return null;
   };
 
   const handleCloseSnackbar = () => {

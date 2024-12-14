@@ -1,5 +1,24 @@
 import request from 'supertest';
 import { MongoMemoryServer } from 'mongodb-memory-server';
+import { jest } from '@jest/globals';
+
+// Sobrescribe `authenticateUser` antes de importar el servicio
+jest.unstable_mockModule('./middleware/auth-middleware', () => ({
+  authenticateUser: jest.fn((req, res, next) => {
+    req.user = { userId: '507f1f77bcf86cd799439010', role: 'user' };
+    next();
+  }),
+}));
+
+// Sobrescribe `validateRegisterInput` antes de importar el servicio
+jest.unstable_mockModule('./middleware/validation-middleware', () => ({
+  validateRegisterInput: jest.fn((req, res, next) => {
+    next();
+  }),
+  validateUpdateUserInput: jest.fn((req, res, next) => {
+    next();
+  }),
+}));
 
 let mongoServer;
 let app;
