@@ -33,7 +33,7 @@ const AddUser = () => {
         navigate('/login');
       }, 1000); // 1000 ms = 1 segundos
     } catch (error) {
-      setError(error.response?.data?.error || 'An error occurred');
+      setError(error.response?.data?.msg || 'An error occurred');
     }
   };
 
