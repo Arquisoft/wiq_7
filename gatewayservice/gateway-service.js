@@ -128,9 +128,7 @@ app.patch('/update-user', async (req, res) => {
     );
     res.json(userResponse.data);
   } catch (error) {
-    res
-      .status(error.response.status)
-      .json({ error: error.response.data.error });
+    res.status(error.response.status).json({ msg: error.response.data.msg });
   }
 });
 

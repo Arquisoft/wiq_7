@@ -9,8 +9,6 @@ const withValidationErrors = (validateValues) => {
       const errors = validationResult(req);
       if (!errors.isEmpty()) {
         const errorMessages = errors.array().map((error) => error.msg);
-        console.log('validation mw');
-        console.log(errorMessages);
         throw new BadRequestError(errorMessages);
       }
       next();
@@ -83,8 +81,6 @@ export const validateUpdateUserInput = withValidationErrors([
     .withMessage('email must be no more than 20 characters long')
     .custom(async (email, { req }) => {
       const user = await User.findOne({ email });
-      console.log(user);
-      console.log(req.user);
       if (user && user._id.toString() !== req.user.userId) {
         throw new BadRequestError('email already exists');
       }

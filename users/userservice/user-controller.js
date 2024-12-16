@@ -55,12 +55,8 @@ export const getCurrentUserController = async (req, res) => {
 };
 
 export const updateUserController = async (req, res) => {
-  try {
-    const newUser = { ...req.body };
-    delete newUser.password;
-    await User.findByIdAndUpdate(req.user.userId, newUser);
-    res.status(StatusCodes.OK).json({ msg: 'update user' });
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
+  const newUser = { ...req.body };
+  delete newUser.password;
+  await User.findByIdAndUpdate(req.user.userId, newUser);
+  res.status(StatusCodes.OK).json({ msg: 'update user' });
 };

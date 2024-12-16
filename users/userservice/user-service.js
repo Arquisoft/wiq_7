@@ -2,6 +2,7 @@
 import express from 'express';
 import mongoose from 'mongoose';
 import userRouter from './user-router.js';
+import errorHandlerMiddleware from './middleware/errorhandler-middleware.js';
 
 const app = express();
 const port = 8001;
@@ -14,6 +15,7 @@ mongoose.connect(mongoUri);
 
 // userRouter
 app.use('/', userRouter);
+app.use(errorHandlerMiddleware);
 
 const server = app.listen(port, () => {
   console.log(`User Service listening at http://localhost:${port}`);
