@@ -25,13 +25,17 @@ export const validateRegisterInput = withValidationErrors([
   body('lastName')
     .notEmpty()
     .withMessage('last name is required')
-    .isLength({ max: 20 })
+    .isLength({ max: 40 })
     .withMessage('last name must be no more than 20 characters long'),
   body('username')
     .notEmpty()
     .withMessage('username is required')
     .isLength({ max: 20 })
-    .withMessage('username must be no more than 20 characters long'),
+    .withMessage('username must be no more than 20 characters long')
+    .custom(async (username) => {
+      const user = await User.findOne({ username });
+      if (user) throw new BadRequestError('username already exists');
+    }),
   body('email')
     .notEmpty()
     .withMessage('email is required')

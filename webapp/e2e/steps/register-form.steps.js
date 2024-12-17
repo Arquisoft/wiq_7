@@ -9,7 +9,10 @@ let browser;
 defineFeature(feature, (test) => {
   beforeAll(async () => {
     browser = process.env.GITHUB_ACTIONS
-      ? await puppeteer.launch({ headless: 'new' })
+      ? await puppeteer.launch({
+          headless: 'new',
+          args: ['--no-sandbox'],
+        })
       : await puppeteer.launch({ headless: false, slowMo: 100 });
     page = await browser.newPage();
     //Way of setting up the timeout
@@ -23,23 +26,32 @@ defineFeature(feature, (test) => {
   });
 
   test('The user is not registered in the site', ({ given, when, then }) => {
+    let name;
+    let lastName;
+    let email;
     let username;
     let password;
 
     given('An unregistered user', async () => {
+      name = 'pablo';
+      lastName = 'gonzalez';
+      email = 'pablo@fakemail.com';
       username = 'pablo';
       password = 'pabloasw';
       await expect(page).toClick('a', { text: 'Register' });
     });
 
     when('I fill the data in the form and press submit', async () => {
+      await expect(page).toFill('input[name="name"]', name);
+      await expect(page).toFill('input[name="lastName"]', lastName);
+      await expect(page).toFill('input[name="email"]', email);
       await expect(page).toFill('input[name="username"]', username);
       await expect(page).toFill('input[name="password"]', password);
       await expect(page).toClick('button', { text: 'submit' });
     });
 
     then('A confirmation message should be shown in the screen', async () => {
-      await expect(page).toMatchElement('div', {
+      await expect(page).toMatchElement('*', {
         text: 'User added successfully',
       });
     });
