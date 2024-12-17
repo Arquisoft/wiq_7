@@ -202,12 +202,15 @@ jobs:
           user: ${{ secrets.DEPLOY_USER }}
           key: ${{ secrets.DEPLOY_KEY }}
           command: |
+            docker system prune --all --volumes --force
             wget https://raw.githubusercontent.com/arquisoft/wiq_7/master/docker-compose.yml -O docker-compose.yml
             wget https://raw.githubusercontent.com/arquisoft/wiq_7/master/.env -O .env
             mkdir -p errors
             wget https://raw.githubusercontent.com/arquisoft/wiq_7/master/errors/customErrors.js -O errors/customErrors.js
             mkdir -p middleware
             wget https://raw.githubusercontent.com/arquisoft/wiq_7/master/middleware/auth-middleware.js -O middleware/auth-middleware.js
+            wget https://raw.githubusercontent.com/arquisoft/wiq_7/master/middleware/validation-middleware.js -O middleware/validation-middleware.js
+            wget https://raw.githubusercontent.com/arquisoft/wiq_7/master/middleware/errorhandler-middleware.js -O middleware/errorhandler-middleware.js
             mkdir -p utils
             wget https://raw.githubusercontent.com/arquisoft/wiq_7/master/utils/tokenUtils.js -O utils/tokenUtils.js
             wget https://raw.githubusercontent.com/arquisoft/wiq_7/master/utils/passwordUtils.js -O utils/passwordUtils.js
