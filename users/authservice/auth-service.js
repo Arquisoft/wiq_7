@@ -9,7 +9,7 @@ const port = 8002;
 app.use(express.json());
 
 // Connect to MongoDB
-const mongoUri = process.env.MONGODB_USER;
+const mongoUri = process.env.MONGODB_USER || 'mongodb://mongodb:27017/userdb';
 mongoose
   .connect(mongoUri, {
     useNewUrlParser: true,

@@ -10,7 +10,8 @@ const port = 8003;
 app.use(express.json());
 
 // Connect to MongoDB
-const mongoUri = process.env.MONGODB_QUESTION;
+const mongoUri =
+  process.env.MONGODB_QUESTION || 'mongodb://mongodb:27017/questiondb';
 mongoose
   .connect(mongoUri)
   .then(() => {

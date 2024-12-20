@@ -1,4 +1,4 @@
-// question-service.js
+// stat-service.js
 import express from 'express';
 import mongoose from 'mongoose';
 import statRouter from './stat-router.js';
@@ -9,7 +9,7 @@ const port = 8004;
 app.use(express.json());
 
 // Connect to MongoDB
-const mongoUri = process.env.MONGODB_STAT;
+const mongoUri = process.env.MONGODB_STAT || 'mongodb://mongodb:27017/statdb';
 mongoose
   .connect(mongoUri)
   .then(() => {
