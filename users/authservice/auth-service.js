@@ -9,12 +9,18 @@ const port = 8002;
 app.use(express.json());
 
 // Connect to MongoDB
-const mongoUri = process.env.MONGODB_USER || 'mongodb://localhost:27017/userdb';
-
-console.log('auth service');
-console.log(mongoUri);
-
-mongoose.connect(mongoUri);
+const mongoUri = process.env.MONGODB_USER;
+mongoose
+  .connect(mongoUri, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
+  .then(() => {
+    console.log('Conexión exitosa a userDB');
+  })
+  .catch((err) => {
+    console.error('Error de conexión a userDB:', err);
+  });
 
 // Route for user login
 app.use('/', authRouter);

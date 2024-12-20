@@ -10,9 +10,15 @@ const port = 8003;
 app.use(express.json());
 
 // Connect to MongoDB
-const mongoUri =
-  process.env.MONGODB_QUESTION || 'mongodb://localhost:27017/questiondb';
-mongoose.connect(mongoUri);
+const mongoUri = process.env.MONGODB_QUESTION;
+mongoose
+  .connect(mongoUri)
+  .then(() => {
+    console.log('Conexión exitosa a questionDB');
+  })
+  .catch((err) => {
+    console.error('Error de conexión a questionDB:', err);
+  });
 
 app.use('/', questionRouter);
 

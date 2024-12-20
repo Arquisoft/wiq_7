@@ -10,8 +10,15 @@ const port = 8001;
 app.use(express.json());
 
 // Connect to MongoDB
-const mongoUri = process.env.MONGODB_USER || 'mongodb://localhost:27017/userdb';
-mongoose.connect(mongoUri);
+const mongoUri = process.env.MONGODB_USER;
+mongoose
+  .connect(mongoUri)
+  .then(() => {
+    console.log('Conexión exitosa a userDB');
+  })
+  .catch((err) => {
+    console.error('Error de conexión a userDB:', err);
+  });
 
 // userRouter
 app.use('/', userRouter);

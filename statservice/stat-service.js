@@ -9,8 +9,15 @@ const port = 8004;
 app.use(express.json());
 
 // Connect to MongoDB
-const mongoUri = process.env.MONGODB_STAT || 'mongodb://localhost:27017/statdb';
-mongoose.connect(mongoUri);
+const mongoUri = process.env.MONGODB_STAT;
+mongoose
+  .connect(mongoUri)
+  .then(() => {
+    console.log('Conexión exitosa a statDB');
+  })
+  .catch((err) => {
+    console.error('Error de conexión a statDB:', err);
+  });
 
 app.use('/', statRouter);
 
