@@ -144,9 +144,7 @@ app.post('/addquestion', async (req, res) => {
     );
     res.json(addQuestionResponse.data);
   } catch (error) {
-    res
-      .status(error.response.status)
-      .json({ error: error.response.data.error });
+    res.status(error.response.status).json(error.response.data);
   }
 });
 

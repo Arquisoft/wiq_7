@@ -24,30 +24,24 @@ const AddQuestionContainer = () => {
     wrong2,
     wrong3,
   }) => {
-    try {
-      const token = localStorage.getItem('token');
-      await axios.post(
-        `${apiEndpoint}/addquestion`,
-        {
-          type,
-          name,
-          path,
-          right,
-          wrong1,
-          wrong2,
-          wrong3,
+    const token = localStorage.getItem('token');
+    await axios.post(
+      `${apiEndpoint}/addquestion`,
+      {
+        type,
+        name,
+        path,
+        right,
+        wrong1,
+        wrong2,
+        wrong3,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
         },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-      setOpenSnackbar(true);
-    } catch (error) {
-      console.log(error);
-      setError(error.response?.data?.error);
-    }
+      }
+    );
   };
 
   const generateArtworks = async () => {
@@ -101,8 +95,10 @@ const AddQuestionContainer = () => {
       }
       setOpenSnackbar(true);
     } catch (error) {
-      console.log('error');
-      setError(error.response?.data?.error);
+      setError(
+        error.response?.data?.msg ||
+          'An error occurred when generating the questions'
+      );
     } finally {
       setIsSubmitting(false);
     }

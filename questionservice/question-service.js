@@ -2,6 +2,7 @@
 import express from 'express';
 import mongoose from 'mongoose';
 import questionRouter from './question-router.js';
+import errorHandlerMiddleware from './middleware/errorhandler-middleware.js';
 
 const app = express();
 const port = 8003;
@@ -22,6 +23,7 @@ mongoose
   });
 
 app.use('/', questionRouter);
+app.use(errorHandlerMiddleware);
 
 const server = app.listen(port, () => {
   console.log(`Question Service listening at http://localhost:${port}`);

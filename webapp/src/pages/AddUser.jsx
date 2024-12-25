@@ -28,10 +28,9 @@ const AddUser = () => {
         password,
       });
       setOpenSnackbar(true);
-      // Añadir un retardo antes de navegar
       setTimeout(() => {
         navigate('/login');
-      }, 1000); // 1000 ms = 1 segundos
+      }, 1000);
     } catch (error) {
       setError(error.response?.data?.msg || 'An error occurred');
     }

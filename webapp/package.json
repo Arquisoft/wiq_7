@@ -59,6 +59,7 @@
     "mongodb-memory-server": "^10.1.2",
     "puppeteer": "^21.7.0",
     "serve": "^14.2.1",
-    "start-server-and-test": "^2.0.3"
+    "start-server-and-test": "^2.0.3",
+    "http-status-codes": "^2.3.0"
   }
 }
