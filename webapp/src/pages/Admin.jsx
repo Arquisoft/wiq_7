@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import { useLoaderData, useLocation, useNavigate } from 'react-router-dom';
 import Wrapper from '../assets/wrappers/StatsContainer';
 import { Snackbar } from '@mui/material';
 import { AddQuestionContainer } from '../components';
@@ -17,11 +17,6 @@ export const loader = async () => {
         Authorization: `Bearer ${token}`,
       },
     });
-    const { user } = response.data;
-    if (user.role !== 'admin')
-      throw new UnauthenticatedError(
-        'You are not authorized to view this page'
-      );
     return response.data;
   } catch (error) {
     const errorMsg = error || 'An error occurred';
@@ -31,6 +26,7 @@ export const loader = async () => {
 };
 
 const Admin = () => {
+  const { user } = useLoaderData();
   const navigate = useNavigate();
   const [error, setError] = useState('');
   const [openSnackbar, setOpenSnackbar] = useState(false);
@@ -45,6 +41,14 @@ const Admin = () => {
       setError(admLoaderError);
       setOpenSnackbar(true);
       localStorage.removeItem('admLoaderError');
+    }
+    try {
+      if (user.role !== 'admin')
+        throw new UnauthenticatedError(
+          'You are not authorized to view this page'
+        );
+    } catch (error) {
+      setError(error);
       setTimeout(() => {
         navigate('/dashboard');
       }, 1000);
