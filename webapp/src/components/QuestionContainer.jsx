@@ -8,7 +8,7 @@ const QuestionContainer = ({
   right,
   updateScore,
   isActive,
-  //isTimeOut,
+  isTimeOut,
   setTimer,
   restartTimer,
   loadNextQuestion,
@@ -29,12 +29,12 @@ const QuestionContainer = ({
 
   // Efecto para seleccionar la respuesta correcta automáticamente cuando el tiempo se agota
   useEffect(() => {
-    if (!isActive && selectedAnswer === null) {
+    if (isTimeOut && selectedAnswer === null) {
       setSelectedAnswer(right); // Seleccionamos la respuesta correcta
       setTimer(false); // Detenemos el temporizador
       setShowResult(true);
     }
-  }, [isActive]);
+  }, [isTimeOut]);
 
   useEffect(() => {
     if (showResult) {

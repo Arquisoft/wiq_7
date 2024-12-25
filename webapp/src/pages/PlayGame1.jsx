@@ -21,8 +21,8 @@ const PlayGame1 = ({ questions }) => {
   const [score, updateScore] = useScore();
   const [previousScore, setPreviousScore] = useState(0);
   const [seconds, setSeconds] = useState(answerTime); // Estados para controlar el temporizador
-  const [isActive, setIsActive] = useState(true);
-  //  const [isTimeOut, setIsTimeOut] = useState(false);
+  const [isActive, setIsActive] = useState(false);
+  const [isTimeOut, setIsTimeOut] = useState(false);
   const [gameOver, setGameOver] = useState(false);
   const [error, setError] = useState('');
   const [gameId] = useState(() => uuidv4());
@@ -42,6 +42,7 @@ const PlayGame1 = ({ questions }) => {
     if (seconds === 0) {
       setTimer(false);
       setIsActive(false);
+      setIsTimeOut(true);
     }
     if (!isActive) {
       return;
@@ -60,6 +61,7 @@ const PlayGame1 = ({ questions }) => {
   const restartTimer = () => {
     setSeconds(answerTime);
     setIsActive(true);
+    setIsTimeOut(false);
   };
 
   const addQuestionStat = async () => {
@@ -115,7 +117,7 @@ const PlayGame1 = ({ questions }) => {
             right={right}
             updateScore={updateScore}
             isActive={isActive}
-            //            isTimeOut={isTimeOut}
+            isTimeOut={isTimeOut}
             setTimer={setTimer}
             restartTimer={restartTimer}
             loadNextQuestion={loadNextQuestion} // Cargar la siguiente pregunta
