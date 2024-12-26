@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { useLoaderData } from 'react-router-dom';
 import Wrapper from '../assets/wrappers/Play';
 import QuestionContainer from '../components/QuestionContainer';
 import ScoreContainer from '../components/ScoreContainer';
@@ -14,7 +15,21 @@ const apiEndpoint =
 axios.defaults.withCredentials = true; // Permitir envío de cookies
 const answerTime = 20;
 
-const PlayGame1 = ({ questions }) => {
+export const loader = async () => {
+  try {
+    const token = localStorage.getItem('token');
+    const response = await axios.get(`${apiEndpoint}/game-questions`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error('Error al obtener las preguntas:', error);
+  }
+};
+
+const PlayGame1 = () => {
   // Estados
   const [questionIndex, setQuestionIndex] = useState(0);
   const [shuffledAnswers, setShuffledAnswers] = useState([]); // Estado para almacenar las respuestas mezcladas
@@ -28,6 +43,7 @@ const PlayGame1 = ({ questions }) => {
   const [gameId] = useState(() => uuidv4());
 
   // Desestructuramos la pregunta
+  const questions = useLoaderData();
   const { _id, name, path, right, wrong1, wrong2, wrong3 } =
     questions[questionIndex];
 

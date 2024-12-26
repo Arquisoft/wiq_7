@@ -5,6 +5,7 @@ export { default as AddUser } from './AddUser.jsx';
 export { default as Login } from './Login.jsx';
 export { default as Error } from './Error.jsx';
 export { default as Play } from './Play.jsx';
+export { default as PlayGame1 } from './PlayGame1.jsx';
 export { default as Stats } from './Stats.jsx';
 export { default as Ranking } from './Ranking.jsx';
 export { default as Profile } from './Profile.jsx';

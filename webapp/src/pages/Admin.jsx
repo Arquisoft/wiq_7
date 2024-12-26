@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { useLoaderData, useLocation, useNavigate } from 'react-router-dom';
+import { useLoaderData, useNavigate } from 'react-router-dom';
 import Wrapper from '../assets/wrappers/StatsContainer';
 import { Snackbar } from '@mui/material';
 import { AddQuestionContainer } from '../components';
