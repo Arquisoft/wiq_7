@@ -62,7 +62,10 @@ const Admin = () => {
         <Snackbar
           open={!!error}
           autoHideDuration={6000}
-          onClose={() => setError('')}
+          onClose={() => {
+            setError('');
+            handleCloseSnackbar();
+          }}
           message={`Error: ${error}`}
         />
       )}

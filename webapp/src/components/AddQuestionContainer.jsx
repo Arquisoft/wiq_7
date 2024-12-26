@@ -3,7 +3,7 @@ import axios from 'axios';
 import Wrapper from '../assets/wrappers/AddQuestionContainer.js';
 import { Snackbar } from '@mui/material';
 import SPARQLQueryDispatcher from '../utils/SPARQLQueryDispatcher';
-import artworksQuery from '../utils/artworksQuery';
+import { paintingsQuery, sculpturesQuery } from '../utils/artworksQuery';
 
 const endpointUrl = 'https://query.wikidata.org/sparql';
 const queryDispatcher = new SPARQLQueryDispatcher(endpointUrl);
@@ -44,43 +44,34 @@ const AddQuestionContainer = () => {
     );
   };
 
-  const generateArtworks = async () => {
-    setIsSubmitting(true);
+  const getRandomCreators = (allCreators, correctCreator, count) => {
+    const filteredCreators = allCreators.filter(
+      (creator) => creator !== correctCreator && !creator.startsWith('http')
+    );
+    const randomCreators = [];
+    while (randomCreators.length < count) {
+      const randomCreator =
+        filteredCreators[Math.floor(Math.random() * filteredCreators.length)];
+      if (!randomCreators.includes(randomCreator)) {
+        randomCreators.push(randomCreator);
+      }
+    }
+    return randomCreators;
+  };
+
+  const generateArtworks = async (query) => {
     try {
-      const query = await queryDispatcher.query(artworksQuery);
-      // handle results
-      const bindings = query.results.bindings;
-      // Crear un array para almacenar todas las posibles opciones de creadores
+      const response = await queryDispatcher.query(query);
+      const bindings = response.results.bindings;
       const allCreators = bindings.map((result) => result.creatorLabel.value);
+
       for (const result of bindings) {
-        // Accedemos a cada propiedad
         const name = result.workLabel.value; // Título de la obra
         const path = result.image.value; // URL de la imagen
         const right = result.creatorLabel.value; // Nombre del creador
+        const wrongCreators = getRandomCreators(allCreators, right, 3);
 
-        // Filtrar creadores para obtener solo los que sean diferentes a la respuesta correcta
-        const incorrectCreators = allCreators.filter(
-          (creator) => creator !== right
-        );
-
-        // Seleccionar tres opciones incorrectas de manera aleatoria
-        const wrongCreators = [];
-        while (wrongCreators.length < 3) {
-          const randomCreator =
-            incorrectCreators[
-              Math.floor(Math.random() * incorrectCreators.length)
-            ];
-
-          // Agregar solo si no está ya en la lista de opciones incorrectas
-          if (
-            !wrongCreators.includes(randomCreator) &&
-            !randomCreator.startsWith('http')
-          ) {
-            wrongCreators.push(randomCreator);
-          }
-        }
-
-        // Muestra los resultados en la consola
+        // Añade las preguntas a la base de datos
         if (!name.startsWith('http') && !right.startsWith('http')) {
           await addQuestion({
             type: 'artwork',
@@ -93,6 +84,21 @@ const AddQuestionContainer = () => {
           });
         }
       }
+    } catch (error) {
+      setError(
+        error.response?.data?.msg ||
+          'An error occurred when generating the questions'
+      );
+    }
+  };
+
+  const generateQuestions = async (query) => {
+    setIsSubmitting(true);
+    try {
+      await Promise.all([
+        generateArtworks(paintingsQuery),
+        generateArtworks(sculpturesQuery),
+      ]);
       setOpenSnackbar(true);
     } catch (error) {
       setError(
@@ -115,8 +121,8 @@ const AddQuestionContainer = () => {
         <button
           type="submit"
           className="btn btn-block"
-          onClick={generateArtworks}
-          disabled={isSubmitting} // Deshabilitar el botón mientras está enviando
+          onClick={generateQuestions}
+          disabled={isSubmitting}
         >
           {isSubmitting ? 'updating...' : 'update DB'}
         </button>
