@@ -7,6 +7,5 @@ export { default as Error } from './Error.jsx';
 export { default as Play } from './Play.jsx';
 export { default as Stats } from './Stats.jsx';
 export { default as Ranking } from './Ranking.jsx';
-export { default as EditJob } from './EditJob.jsx';
 export { default as Profile } from './Profile.jsx';
 export { default as Admin } from './Admin.jsx';

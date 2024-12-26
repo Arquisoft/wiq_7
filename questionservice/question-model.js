@@ -13,6 +13,12 @@ const questionSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  hint1: {
+    type: String,
+  },
+  hint2: {
+    type: String,
+  },
   right: {
     type: String,
     required: true,

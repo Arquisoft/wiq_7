@@ -2,7 +2,7 @@ import styled from 'styled-components';
 
 const Wrapper = styled.div`
   display: flex; /* Usamos flexbox */
-  flex-direction: row
+  flex-direction: row;
   align-items: center; /* Alinea los elementos verticalmente en el centro */
   justify-content: flex-start; /* Alinea los elementos en el inicio (izquierda) */
   border-radius: var(--border-radius);
