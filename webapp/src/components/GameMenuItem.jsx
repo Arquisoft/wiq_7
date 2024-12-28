@@ -1,25 +1,20 @@
 import { Link } from 'react-router-dom';
-import Wrapper from '../assets/wrappers/StatsContainer.js';
+import Wrapper from '../assets/wrappers/MenuItem';
 
-const apiEndpoint =
-  process.env.REACT_APP_API_ENDPOINT || 'http://localhost:8000';
-
-const PlayContainer = () => {
+const GameMenuItem = ({ title, description, path }) => {
   return (
     <Wrapper>
       <header>
         <div className="info">
-          <h5>Game 1</h5>
-          <p>Por su obra</p>
+          <h5>{title}</h5>
         </div>
       </header>
       <div className="content">
         <div className="content-center">
-          <p>Adivina el autor de la obra</p>
+          <p>{description}</p>
         </div>
-
         <footer className="actions">
-          <Link to={`./game1`} className="btn">
+          <Link to={path} className="btn play-btn">
             Play
           </Link>
         </footer>
@@ -28,4 +23,4 @@ const PlayContainer = () => {
   );
 };
 
-export default PlayContainer;
+export default GameMenuItem;

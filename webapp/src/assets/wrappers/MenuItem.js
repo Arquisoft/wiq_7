@@ -67,7 +67,9 @@ const Wrapper = styled.article`
     align-items: center;
   }
   .edit-btn,
-  .delete-btn {
+  .delete-btn,
+  .update-btn,
+  .play-btn {
     height: 30px;
     font-size: 0.85rem;
     display: flex;

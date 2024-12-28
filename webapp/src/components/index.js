@@ -4,4 +4,3 @@ export { default as BigSidebar } from './BigSidebar.jsx';
 export { default as SmallSidebar } from './SmallSidebar.jsx';
 export { default as Navbar } from './Navbar.jsx';
 export { default as AddQuestionContainer } from './AddQuestionContainer.jsx';
-export { default as PlayContainer } from './PlayContainer.jsx';

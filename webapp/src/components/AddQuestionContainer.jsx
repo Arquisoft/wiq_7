@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import Wrapper from '../assets/wrappers/AddQuestionContainer.js';
+import Wrapper from '../assets/wrappers/MenuItem';
 import { Snackbar } from '@mui/material';
 import SPARQLQueryDispatcher from '../utils/SPARQLQueryDispatcher';
 import { paintingsQuery, sculpturesQuery } from '../utils/artworksQuery';
@@ -116,18 +116,26 @@ const AddQuestionContainer = () => {
 
   return (
     <Wrapper>
-      <div className="generateDb">
-        <h4>Update "Por su obra..."</h4>
-        <button
-          type="submit"
-          className="btn btn-block"
-          onClick={generateQuestions}
-          disabled={isSubmitting}
-        >
-          {isSubmitting ? 'updating...' : 'update DB'}
-        </button>
+      <header>
+        <div className="info">
+          <h5>Update "Por su obra..."</h5>
+        </div>
+      </header>
+      <div className="content">
+        <div className="content-center">
+          <p>Add questions to the database</p>
+        </div>
+        <footer className="actions">
+          <button
+            type="submit"
+            className="btn update-btn"
+            onClick={generateQuestions}
+            disabled={isSubmitting}
+          >
+            {isSubmitting ? 'updating...' : 'update DB'}
+          </button>
+        </footer>
       </div>
-
       <Snackbar
         open={openSnackbar}
         autoHideDuration={6000}

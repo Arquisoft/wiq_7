@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useLoaderData, useNavigate } from 'react-router-dom';
-import Wrapper from '../assets/wrappers/StatsContainer';
+import Wrapper from '../assets/wrappers/MenuContainer';
 import { Snackbar } from '@mui/material';
 import { AddQuestionContainer } from '../components';
 import { UnauthenticatedError } from '../errors/customErrors.js';
@@ -57,7 +57,12 @@ const Admin = () => {
 
   return (
     <Wrapper>
-      {!error && <AddQuestionContainer />}
+      {!error && (
+        <div className="items">
+          <AddQuestionContainer />
+          <AddQuestionContainer />
+        </div>
+      )}
       {error && (
         <Snackbar
           open={!!error}

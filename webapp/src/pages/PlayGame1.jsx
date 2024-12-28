@@ -18,7 +18,7 @@ const answerTime = 20;
 export const loader = async () => {
   try {
     const token = localStorage.getItem('token');
-    const response = await axios.get(`${apiEndpoint}/game-questions`, {
+    const response = await axios.get(`${apiEndpoint}/game1-questions`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
