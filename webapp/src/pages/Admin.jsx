@@ -64,8 +64,14 @@ const Admin = () => {
     <Wrapper>
       {!error && (
         <div className="items">
-          <AddQuestionContainer questionTypes={artworksQuestions} />
-          <AddQuestionContainer />
+          <AddQuestionContainer
+            game="Por su obra..."
+            questionTypes={artworksQuestions}
+          />
+          <AddQuestionContainer
+            game="Descubriendo ciudades"
+            questionTypes={citiesQuestions}
+          />
         </div>
       )}
       {error && (
