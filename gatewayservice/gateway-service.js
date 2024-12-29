@@ -61,7 +61,7 @@ app.post('/login', async (req, res) => {
 
 app.get('/logout', async (req, res) => {
   try {
-    // Forward the login request to the authentication service
+    // Forward the logout request to the authentication service
     const authResponse = await axios.get(authServiceUrl + '/logout');
     res.json(authResponse.data);
   } catch (error) {
@@ -98,7 +98,7 @@ app.get('/users', async (req, res) => {
 
 app.get('/current-user', async (req, res) => {
   try {
-    // Forward the get users request to the user service
+    // Forward the get current user request to the user service
     const userResponse = await axios.get(userServiceUrl + '/current-user', {
       headers: {
         Authorization: req.headers.authorization,
@@ -114,7 +114,7 @@ app.get('/current-user', async (req, res) => {
 
 app.patch('/update-user', async (req, res) => {
   try {
-    // Forward the add user request to the user service
+    // Forward the update user request to the user service
     const userResponse = await axios.patch(
       userServiceUrl + '/update-user',
       req.body,
@@ -162,11 +162,30 @@ app.get('/questions', async (req, res) => {
   }
 });
 
-app.get('/game-questions', async (req, res) => {
+app.get('/game1-questions', async (req, res) => {
   try {
-    // Forward the get question request to the question service
+    // Forward the game1 question request to the question service
     const getQuestionResponse = await axios.get(
-      questionServiceUrl + '/game-questions',
+      questionServiceUrl + '/game1-questions',
+      {
+        headers: {
+          Authorization: req.headers.authorization,
+        },
+      }
+    );
+    res.json(getQuestionResponse.data);
+  } catch (error) {
+    res
+      .status(error.response.status)
+      .json({ error: error.response.data.error });
+  }
+});
+
+app.get('/game2-questions', async (req, res) => {
+  try {
+    // Forward the game2 question request to the question service
+    const getQuestionResponse = await axios.get(
+      questionServiceUrl + '/game2-questions',
       {
         headers: {
           Authorization: req.headers.authorization,

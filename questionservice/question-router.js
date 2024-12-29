@@ -1,7 +1,8 @@
 import express from 'express';
 import {
   addQuestionsController,
-  getGameQuestionsController,
+  getGame1QuestionsController,
+  getGame2QuestionsController,
   getQuestionsController,
 } from './question-controller.js';
 import {
@@ -19,9 +20,14 @@ questionRouter.post(
   addQuestionsController
 );
 questionRouter.get(
-  '/game-questions',
+  '/game1-questions',
   authenticateUser,
-  getGameQuestionsController
+  getGame1QuestionsController
+);
+questionRouter.get(
+  '/game2-questions',
+  authenticateUser,
+  getGame2QuestionsController
 );
 questionRouter.get('/questions', getQuestionsController);
 

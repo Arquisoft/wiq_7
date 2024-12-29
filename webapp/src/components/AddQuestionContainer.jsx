@@ -10,38 +10,18 @@ const queryDispatcher = new SPARQLQueryDispatcher(endpointUrl);
 const apiEndpoint =
   process.env.REACT_APP_API_ENDPOINT || 'http://localhost:8000';
 
-const AddQuestionContainer = () => {
+const AddQuestionContainer = ({ questionTypes }) => {
   const [error, setError] = useState('');
   const [openSnackbar, setOpenSnackbar] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const addQuestion = async ({
-    type,
-    name,
-    path,
-    right,
-    wrong1,
-    wrong2,
-    wrong3,
-  }) => {
+  const addQuestion = async (question) => {
     const token = localStorage.getItem('token');
-    await axios.post(
-      `${apiEndpoint}/addquestion`,
-      {
-        type,
-        name,
-        path,
-        right,
-        wrong1,
-        wrong2,
-        wrong3,
+    await axios.post(`${apiEndpoint}/addquestion`, question, {
+      headers: {
+        Authorization: `Bearer ${token}`,
       },
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
+    });
   };
 
   const getRandomCreators = (allCreators, correctCreator, count) => {
@@ -60,45 +40,59 @@ const AddQuestionContainer = () => {
   };
 
   const generateArtworks = async (query) => {
-    try {
-      const response = await queryDispatcher.query(query);
-      const bindings = response.results.bindings;
-      const allCreators = bindings.map((result) => result.creatorLabel.value);
+    const response = await queryDispatcher.query(query);
+    const bindings = response.results.bindings;
+    const allCreators = bindings.map((result) => result.creatorLabel.value);
+    const questions = [];
 
-      for (const result of bindings) {
-        const name = result.workLabel.value; // Título de la obra
-        const path = result.image.value; // URL de la imagen
-        const right = result.creatorLabel.value; // Nombre del creador
-        const wrongCreators = getRandomCreators(allCreators, right, 3);
+    for (const result of bindings) {
+      const name = result.workLabel.value; // Título de la obra
+      const path = result.image.value; // URL de la imagen
+      const right = result.creatorLabel.value; // Nombre del creador
+      const wrongCreators = getRandomCreators(allCreators, right, 3);
 
-        // Añade las preguntas a la base de datos
-        if (!name.startsWith('http') && !right.startsWith('http')) {
-          await addQuestion({
-            type: 'artwork',
-            name: name,
-            path: path,
-            right: right,
-            wrong1: wrongCreators[0],
-            wrong2: wrongCreators[1],
-            wrong3: wrongCreators[2],
-          });
-        }
+      // Añade las preguntas al array
+      if (!name.startsWith('http') && !right.startsWith('http')) {
+        questions.push({
+          type: 'artwork',
+          name: name,
+          path: path,
+          right: right,
+          wrong1: wrongCreators[0],
+          wrong2: wrongCreators[1],
+          wrong3: wrongCreators[2],
+        });
       }
-    } catch (error) {
-      setError(
-        error.response?.data?.msg ||
-          'An error occurred when generating the questions'
-      );
     }
+    return questions;
   };
 
-  const generateQuestions = async (query) => {
+  // Mapa de funciones
+  const functionMap = {
+    generateArtworks,
+    //    generateCities,
+  };
+
+  const generateQuestions = async () => {
     setIsSubmitting(true);
     try {
-      await Promise.all([
-        generateArtworks(paintingsQuery),
-        generateArtworks(sculpturesQuery),
-      ]);
+      for (const { type, functionName } of questionTypes) {
+        const generatorFunction = functionMap[functionName];
+        if (generatorFunction) {
+          const queries =
+            type === 'artwork'
+              ? [paintingsQuery, sculpturesQuery] // Ejecutar ambas queries para artwork
+              : // : type === 'city'
+                // ? [citiesQuery] // Solo citiesQuery para city
+                [];
+
+          // Iterar sobre cada query y ejecutar la función generadora
+          for (const query of queries) {
+            const questions = await generatorFunction(query);
+            await Promise.all(questions.map((q) => addQuestion(q)));
+          }
+        }
+      }
       setOpenSnackbar(true);
     } catch (error) {
       setError(

@@ -31,6 +31,11 @@ const Admin = () => {
   const [error, setError] = useState('');
   const [openSnackbar, setOpenSnackbar] = useState(false);
 
+  const artworksQuestions = [
+    { type: 'artwork', functionName: 'generateArtworks' },
+  ];
+  const citiesQuestions = [{ type: 'city', functionName: 'generateCities' }];
+
   const handleCloseSnackbar = () => {
     setOpenSnackbar(false);
   };
@@ -59,7 +64,7 @@ const Admin = () => {
     <Wrapper>
       {!error && (
         <div className="items">
-          <AddQuestionContainer />
+          <AddQuestionContainer questionTypes={artworksQuestions} />
           <AddQuestionContainer />
         </div>
       )}

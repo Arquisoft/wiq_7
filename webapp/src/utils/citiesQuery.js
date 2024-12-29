@@ -1,4 +1,4 @@
-const artworksQuery = `SELECT ?city ?cityLabel ?countryLabel ?image (MAX(?population) AS ?maxPopulation) ?sitelinks WHERE {
+const citiesQuery = `SELECT ?city ?cityLabel ?countryLabel ?image (MAX(?population) AS ?maxPopulation) ?sitelinks WHERE {
   # Filtrar solo entidades de tipo ciudad
   ?city wdt:P31 wd:Q515.  # Instancia de: Ciudad
   
@@ -30,4 +30,4 @@ ORDER BY DESC(?sitelinks)
 LIMIT 300
 `;
 
-export default artworksQuery;
+export default citiesQuery;
