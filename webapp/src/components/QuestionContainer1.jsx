@@ -84,10 +84,7 @@ const QuestionContainer1 = ({
       {!isImageLoaded && <div>Loading...</div>}
       {isImageLoaded && (
         /* Título de la obra */
-        <h3>
-          ¿Quién creo la obra
-          {name}?
-        </h3>
+        <h3>¿Quién creo la obra {name}?</h3>
       )}
 
       {/* Imagen de la obra */}

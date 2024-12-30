@@ -114,7 +114,7 @@ const QuestionContainer2 = ({
       {isImageLoaded && (
         <>
           <div>
-            <h5>Marca la respueta correcta</h5>
+            <h5>Marca la respuesta correcta</h5>
           </div>
           {/* Renderizar botones con las respuestas */}
           <div className="buttons-container">

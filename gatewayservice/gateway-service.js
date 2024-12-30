@@ -9,6 +9,15 @@ import fs from 'fs';
 import YAML from 'yaml';
 import morgan from 'morgan';
 
+const schemesList = ['http:', 'https:'];
+const domainsList = [
+  'authservice',
+  'userservice',
+  'questionservice',
+  'statservice',
+  '4.233.148.160',
+];
+
 if (process.env.NODE_ENV === 'development') {
   app.use(morgan('dev'));
 }
@@ -48,187 +57,236 @@ app.get('/health', (_req, res) => {
 });
 
 app.post('/login', async (req, res) => {
-  try {
-    // Forward the login request to the authentication service
-    const authResponse = await axios.post(authServiceUrl + '/login', req.body);
-    res.json(authResponse.data);
-  } catch (error) {
-    res
-      .status(error.response.status)
-      .json({ error: error.response.data.error });
+  const url = new URL(authServiceUrl + '/login');
+  if (
+    schemesList.includes(url.protocol) &&
+    domainsList.includes(url.hostname)
+  ) {
+    try {
+      // Forward the login request to the authentication service
+      const authResponse = await axios.post(url, req.body);
+      res.json(authResponse.data);
+    } catch (error) {
+      res
+        .status(error.response.status)
+        .json({ error: error.response.data.error });
+    }
   }
 });
 
 app.get('/logout', async (req, res) => {
-  try {
-    // Forward the logout request to the authentication service
-    const authResponse = await axios.get(authServiceUrl + '/logout');
-    res.json(authResponse.data);
-  } catch (error) {
-    res
-      .status(error.response.status)
-      .json({ error: error.response.data.error });
+  const url = new URL(authServiceUrl + '/logout');
+  if (
+    schemesList.includes(url.protocol) &&
+    domainsList.includes(url.hostname)
+  ) {
+    try {
+      // Forward the logout request to the authentication service
+      const authResponse = await axios.get(url);
+      res.json(authResponse.data);
+    } catch (error) {
+      res
+        .status(error.response.status)
+        .json({ error: error.response.data.error });
+    }
   }
 });
 
 app.post('/adduser', async (req, res) => {
-  try {
-    // Forward the add user request to the user service
-    const userResponse = await axios.post(
-      userServiceUrl + '/adduser',
-      req.body
-    );
-    res.json(userResponse.data);
-  } catch (error) {
-    res.status(error.response.status).json(error.response.data);
+  const url = new URL(userServiceUrl + '/adduser');
+  if (
+    schemesList.includes(url.protocol) &&
+    domainsList.includes(url.hostname)
+  ) {
+    try {
+      // Forward the add user request to the user service
+      const userResponse = await axios.post(url, req.body);
+      res.json(userResponse.data);
+    } catch (error) {
+      res.status(error.response.status).json(error.response.data);
+    }
   }
 });
 
 app.get('/users', async (req, res) => {
-  try {
-    // Forward the get users request to the user service
-    const userResponse = await axios.get(userServiceUrl + '/users');
-    res.json(userResponse.data);
-  } catch (error) {
-    res
-      .status(error.response.status)
-      .json({ error: error.response.data.error });
+  const url = new URL(userServiceUrl + '/users');
+  if (
+    schemesList.includes(url.protocol) &&
+    domainsList.includes(url.hostname)
+  ) {
+    try {
+      // Forward the get users request to the user service
+      const userResponse = await axios.get(url);
+      res.json(userResponse.data);
+    } catch (error) {
+      res
+        .status(error.response.status)
+        .json({ error: error.response.data.error });
+    }
   }
 });
 
 app.get('/current-user', async (req, res) => {
-  try {
-    // Forward the get current user request to the user service
-    const userResponse = await axios.get(userServiceUrl + '/current-user', {
-      headers: {
-        Authorization: req.headers.authorization,
-      },
-    });
-    res.json(userResponse.data);
-  } catch (error) {
-    res
-      .status(error.response.status)
-      .json({ error: error.response.data.error });
+  const url = new URL(userServiceUrl + '/current-user');
+  if (
+    schemesList.includes(url.protocol) &&
+    domainsList.includes(url.hostname)
+  ) {
+    try {
+      // Forward the get current user request to the user service
+      const userResponse = await axios.get(url, {
+        headers: {
+          Authorization: req.headers.authorization,
+        },
+      });
+      res.json(userResponse.data);
+    } catch (error) {
+      res
+        .status(error.response.status)
+        .json({ error: error.response.data.error });
+    }
   }
 });
 
 app.patch('/update-user', async (req, res) => {
-  try {
-    // Forward the update user request to the user service
-    const userResponse = await axios.patch(
-      userServiceUrl + '/update-user',
-      req.body,
-      {
+  const url = new URL(userServiceUrl + '/update-user');
+  if (
+    schemesList.includes(url.protocol) &&
+    domainsList.includes(url.hostname)
+  ) {
+    try {
+      // Forward the update user request to the user service
+      const userResponse = await axios.patch(url, req.body, {
         headers: {
           Authorization: req.headers.authorization,
         },
-      }
-    );
-    res.json(userResponse.data);
-  } catch (error) {
-    res.status(error.response.status).json(error.response.data);
+      });
+      res.json(userResponse.data);
+    } catch (error) {
+      res.status(error.response.status).json(error.response.data);
+    }
   }
 });
 
 app.post('/addquestion', async (req, res) => {
-  try {
-    // Forward the add question request to the question service
-    const addQuestionResponse = await axios.post(
-      questionServiceUrl + '/addquestion',
-      req.body,
-      {
+  const url = new URL(questionServiceUrl + '/addquestion');
+  if (
+    schemesList.includes(url.protocol) &&
+    domainsList.includes(url.hostname)
+  ) {
+    try {
+      // Forward the add question request to the question service
+      const addQuestionResponse = await axios.post(url, req.body, {
         headers: {
           Authorization: req.headers.authorization,
         },
-      }
-    );
-    res.json(addQuestionResponse.data);
-  } catch (error) {
-    res.status(error.response.status).json(error.response.data);
+      });
+      res.json(addQuestionResponse.data);
+    } catch (error) {
+      res.status(error.response.status).json(error.response.data);
+    }
   }
 });
 
 app.get('/questions', async (req, res) => {
-  try {
-    // Forward the get question request to the question asking service
-    const getQuestionResponse = await axios.get(
-      questionServiceUrl + '/questions'
-    );
-    res.json(getQuestionResponse.data);
-  } catch (error) {
-    res
-      .status(error.response.status)
-      .json({ error: error.response.data.error });
+  const url = new URL(questionServiceUrl + '/questions');
+  if (
+    schemesList.includes(url.protocol) &&
+    domainsList.includes(url.hostname)
+  ) {
+    try {
+      // Forward the get questions request to the question asking service
+      const getQuestionResponse = await axios.get(url);
+      res.json(getQuestionResponse.data);
+    } catch (error) {
+      res
+        .status(error.response.status)
+        .json({ error: error.response.data.error });
+    }
   }
 });
 
 app.get('/game1-questions', async (req, res) => {
-  try {
-    // Forward the game1 question request to the question service
-    const getQuestionResponse = await axios.get(
-      questionServiceUrl + '/game1-questions',
-      {
+  const url = new URL(questionServiceUrl + '/game1-questions');
+  if (
+    schemesList.includes(url.protocol) &&
+    domainsList.includes(url.hostname)
+  ) {
+    try {
+      // Forward the game1 questions request to the question service
+      const getQuestionResponse = await axios.get(url, {
         headers: {
           Authorization: req.headers.authorization,
         },
-      }
-    );
-    res.json(getQuestionResponse.data);
-  } catch (error) {
-    res
-      .status(error.response.status)
-      .json({ error: error.response.data.error });
+      });
+      res.json(getQuestionResponse.data);
+    } catch (error) {
+      res
+        .status(error.response.status)
+        .json({ error: error.response.data.error });
+    }
   }
 });
 
 app.get('/game2-questions', async (req, res) => {
-  try {
-    // Forward the game2 question request to the question service
-    const getQuestionResponse = await axios.get(
-      questionServiceUrl + '/game2-questions',
-      {
+  const url = new URL(questionServiceUrl + '/game2-questions');
+  if (
+    schemesList.includes(url.protocol) &&
+    domainsList.includes(url.hostname)
+  ) {
+    try {
+      // Forward the game2 questions request to the question service
+      const getQuestionResponse = await axios.get(url, {
         headers: {
           Authorization: req.headers.authorization,
         },
-      }
-    );
-    res.json(getQuestionResponse.data);
-  } catch (error) {
-    res
-      .status(error.response.status)
-      .json({ error: error.response.data.error });
+      });
+      res.json(getQuestionResponse.data);
+    } catch (error) {
+      res
+        .status(error.response.status)
+        .json({ error: error.response.data.error });
+    }
   }
 });
 
 app.post('/addstat', async (req, res) => {
-  try {
-    // Forward the add stat request to the stat service
-    const addStatResponse = await axios.post(
-      statServiceUrl + '/addstat',
-      req.body,
-      {
+  const url = new URL(statServiceUrl + '/addstat');
+  if (
+    schemesList.includes(url.protocol) &&
+    domainsList.includes(url.hostname)
+  ) {
+    try {
+      // Forward the add stat request to the stat service
+      const addStatResponse = await axios.post(url, req.body, {
         headers: {
           Authorization: req.headers.authorization,
         },
-      }
-    );
-    res.json(addStatResponse.data);
-  } catch (error) {
-    res
-      .status(error.response.status)
-      .json({ error: error.response.data.error });
+      });
+      res.json(addStatResponse.data);
+    } catch (error) {
+      res
+        .status(error.response.status)
+        .json({ error: error.response.data.error });
+    }
   }
 });
 
 app.get('/stats', async (req, res) => {
-  try {
-    // Forward the get stats request to the stat service
-    const getStatsResponse = await axios.get(statServiceUrl + '/stats');
-    res.json(getStatsResponse.data);
-  } catch (error) {
-    res
-      .status(error.response.status)
-      .json({ error: error.response.data.error });
+  const url = new URL(statServiceUrl + '/stats');
+  if (
+    schemesList.includes(url.protocol) &&
+    domainsList.includes(url.hostname)
+  ) {
+    try {
+      // Forward the get stats request to the stat service
+      const getStatsResponse = await axios.get(url);
+      res.json(getStatsResponse.data);
+    } catch (error) {
+      res
+        .status(error.response.status)
+        .json({ error: error.response.data.error });
+    }
   }
 });
 

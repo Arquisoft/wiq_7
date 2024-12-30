@@ -6,7 +6,7 @@ const PlayContainer = () => {
     <Wrapper>
       <div className="items">
         <GameMenuItem
-          title="Por su obra les conoceran"
+          title="Por su obra lo conocerán"
           description="Adivina el autor de la obra"
           path="./game1"
         />
