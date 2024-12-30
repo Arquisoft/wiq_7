@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import Wrapper from '../assets/wrappers/QuestionContainer';
 
-const QuestionContainer = ({
-  question,
-  instructions,
+const QuestionContainer2 = ({
   shuffledAnswers,
-  name,
   path,
+  hint1,
+  hint2,
   right,
   updateScore,
   isActive,
@@ -19,6 +18,8 @@ const QuestionContainer = ({
   const [selectedAnswer, setSelectedAnswer] = useState(null);
   const [incorrectAnswers, setIncorrectAnswers] = useState([]);
   const [showResult, setShowResult] = useState(false);
+  const [showHint1, setShowHint1] = useState(false);
+  const [showHint2, setShowHint2] = useState(false);
   const [isImageLoaded, setIsImageLoaded] = useState(false);
 
   // Efecto para reiniciar los estados cuando se carga una nueva pregunta
@@ -27,7 +28,7 @@ const QuestionContainer = ({
     setSelectedAnswer(null);
     setIncorrectAnswers([]);
     setShowResult(false);
-  }, [right, name, path]);
+  }, [right, path]);
 
   // Efecto para seleccionar la respuesta correcta automáticamente cuando el tiempo se agota
   useEffect(() => {
@@ -45,7 +46,8 @@ const QuestionContainer = ({
         setIsImageLoaded(false);
         loadNextQuestion(); // Cargar la siguiente pregunta después del retraso
       }, 2000); // Esperar 2 segundos antes de cargar la siguiente pregunta
-
+      setShowHint1(false);
+      setShowHint2(false);
       return () => clearTimeout(timer); // Limpiar el temporizador cuando se desmonte o cambie el resultado
     }
   }, [showResult]); //, loadNextQuestion]);
@@ -57,13 +59,16 @@ const QuestionContainer = ({
       setSelectedAnswer(answer);
       setTimer(false); // Detenemos el temporizador
       setShowResult(true);
+      for (let i = incorrectAnswers.length; i < 3; i++) {
+        updateScore();
+      }
     } else {
-      // Sumar 100 puntos por cada respuesta incorrecta seleccionada
-      updateScore();
       setIncorrectAnswers((prev) => {
         const newIncorrectAnswers = [...prev, answer];
-        // Si ya se han seleccionado 3 respuestas incorrectas, selecciona la correcta por descarte
+        if (newIncorrectAnswers.length === 1) setShowHint1(true);
+        if (newIncorrectAnswers.length === 2) setShowHint2(true);
         if (newIncorrectAnswers.length === 3) {
+          // Si ya se han seleccionado 3 respuestas incorrectas, selecciona la correcta por descarte
           setSelectedAnswer(right);
           setTimer(false); // Detenemos el temporizador
           setShowResult(true);
@@ -86,10 +91,7 @@ const QuestionContainer = ({
       {!isImageLoaded && <div>Loading...</div>}
       {isImageLoaded && (
         /* Título de la obra */
-        <h3>
-          {question}
-          {name}?
-        </h3>
+        <h3>¿Qué ciudad se ve en la imagen?</h3>
       )}
 
       {/* Imagen de la obra */}
@@ -97,13 +99,22 @@ const QuestionContainer = ({
         className="image"
         style={{ display: isImageLoaded ? 'flex' : 'none' }}
       >
-        <img src={path} alt={name} onLoad={handleImageLoad} />
+        <img src={path} alt={right} onLoad={handleImageLoad} />
       </div>
-
+      {isImageLoaded && showHint1 && (
+        <div>
+          <h5>Tiene {hint1} habitantes.</h5>
+        </div>
+      )}
+      {isImageLoaded && showHint2 && (
+        <div>
+          <h5>Se encuentra en {hint2}.</h5>
+        </div>
+      )}
       {isImageLoaded && (
         <>
           <div>
-            <h5>{instructions}</h5>
+            <h5>Marca la respueta correcta</h5>
           </div>
           {/* Renderizar botones con las respuestas */}
           <div className="buttons-container">
@@ -111,7 +122,7 @@ const QuestionContainer = ({
               <button
                 className={`btn ${
                   selectedAnswer === right
-                    ? answer === right && incorrectAnswers.length === 3 // Marca la respuesta correcta cuando se selecciona
+                    ? answer === right && incorrectAnswers.length < 3 // Marca la respuesta correcta cuando se selecciona
                       ? 'correct'
                       : 'disabled' // Deshabilita las demás cuando la correcta es seleccionada
                     : incorrectAnswers.includes(answer) // Marca las respuestas incorrectas una a una
@@ -135,14 +146,12 @@ const QuestionContainer = ({
       {/* Mostrar el resultado después de seleccionar */}
       {selectedAnswer && (
         <div>
-          {incorrectAnswers.length === 3 ? (
+          {incorrectAnswers.length < 3 ? (
             <p style={{ color: 'green' }}>
-              ¡Correcto! {right} es el creador de "{name}".
+              ¡Correcto!, la respuesta correcta es {right}.
             </p>
           ) : (
-            <p style={{ color: 'red' }}>
-              {right} es el creador de "{name}".
-            </p>
+            <p style={{ color: 'red' }}>La respuesta correcta es {right}.</p>
           )}
         </div>
       )}
@@ -150,4 +159,4 @@ const QuestionContainer = ({
   );
 };
 
-export default QuestionContainer;
+export default QuestionContainer2;

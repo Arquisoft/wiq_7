@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useLoaderData } from 'react-router-dom';
 import Wrapper from '../assets/wrappers/Play';
-import QuestionContainer from '../components/QuestionContainer';
+import QuestionContainer1 from '../components/QuestionContainer1';
+import QuestionContainer2 from '../components/QuestionContainer2';
 import ScoreContainer from '../components/ScoreContainer';
 import TimerContainer from '../components/TimerContainer';
 import GameOverContainer from '../components/GameOverContainer';
@@ -44,7 +45,7 @@ const PlayGame = ({ game }) => {
 
   // Desestructuramos la pregunta
   const questions = useLoaderData();
-  const { _id, name, path, right, wrong1, wrong2, wrong3 } =
+  const { _id, name, path, hint1, hint2, right, wrong1, wrong2, wrong3 } =
     questions[questionIndex];
 
   // Efecto para mezclar las respuestas al montar el componente
@@ -83,7 +84,6 @@ const PlayGame = ({ game }) => {
   const addQuestionStat = async () => {
     try {
       const token = localStorage.getItem('token');
-
       const usedTime = answerTime - seconds;
       const points = score - previousScore;
       const right = points === 300;
@@ -127,9 +127,7 @@ const PlayGame = ({ game }) => {
         <>
           {/* Mostrar pregunta */}
           {game === 'game1' ? (
-            <QuestionContainer
-              question="¿Quién creo la obra "
-              instructions="Descarta las respuestas incorrectas"
+            <QuestionContainer1
               shuffledAnswers={shuffledAnswers}
               name={name}
               path={path}
@@ -142,12 +140,11 @@ const PlayGame = ({ game }) => {
               loadNextQuestion={loadNextQuestion} // Cargar la siguiente pregunta
             />
           ) : (
-            <QuestionContainer
-              question="¿Qué ciudad se ve en la imagen"
-              instructions="Marca la respuesta correcta"
+            <QuestionContainer2
               shuffledAnswers={shuffledAnswers}
-              name={name}
               path={path}
+              hint1={hint1}
+              hint2={hint2}
               right={right}
               updateScore={updateScore}
               isActive={isActive}
