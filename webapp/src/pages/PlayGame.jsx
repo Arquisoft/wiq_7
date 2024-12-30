@@ -12,13 +12,13 @@ import { v4 as uuidv4 } from 'uuid';
 const apiEndpoint =
   process.env.REACT_APP_API_ENDPOINT || 'http://localhost:8000';
 
-axios.defaults.withCredentials = true; // Permitir envío de cookies
+//axios.defaults.withCredentials = true; // Permitir envío de cookies
 const answerTime = 20;
 
-export const loader = async () => {
+export const loader = async (game) => {
   try {
     const token = localStorage.getItem('token');
-    const response = await axios.get(`${apiEndpoint}/game1-questions`, {
+    const response = await axios.get(`${apiEndpoint}/${game}-questions`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -29,7 +29,7 @@ export const loader = async () => {
   }
 };
 
-const PlayGame1 = () => {
+const PlayGame = ({ game }) => {
   // Estados
   const [questionIndex, setQuestionIndex] = useState(0);
   const [shuffledAnswers, setShuffledAnswers] = useState([]); // Estado para almacenar las respuestas mezcladas
@@ -126,18 +126,37 @@ const PlayGame1 = () => {
       {!gameOver ? (
         <>
           {/* Mostrar pregunta */}
-          <QuestionContainer
-            shuffledAnswers={shuffledAnswers}
-            name={name}
-            path={path}
-            right={right}
-            updateScore={updateScore}
-            isActive={isActive}
-            isTimeOut={isTimeOut}
-            setTimer={setTimer}
-            restartTimer={restartTimer}
-            loadNextQuestion={loadNextQuestion} // Cargar la siguiente pregunta
-          />
+          {game === 'game1' ? (
+            <QuestionContainer
+              question="¿Quién creo la obra "
+              instructions="Descarta las respuestas incorrectas"
+              shuffledAnswers={shuffledAnswers}
+              name={name}
+              path={path}
+              right={right}
+              updateScore={updateScore}
+              isActive={isActive}
+              isTimeOut={isTimeOut}
+              setTimer={setTimer}
+              restartTimer={restartTimer}
+              loadNextQuestion={loadNextQuestion} // Cargar la siguiente pregunta
+            />
+          ) : (
+            <QuestionContainer
+              question="¿Qué ciudad se ve en la imagen"
+              instructions="Marca la respuesta correcta"
+              shuffledAnswers={shuffledAnswers}
+              name={name}
+              path={path}
+              right={right}
+              updateScore={updateScore}
+              isActive={isActive}
+              isTimeOut={isTimeOut}
+              setTimer={setTimer}
+              restartTimer={restartTimer}
+              loadNextQuestion={loadNextQuestion} // Cargar la siguiente pregunta
+            />
+          )}
           {/* Mostrar info */}
           <div>
             <ScoreContainer score={score} />
@@ -157,4 +176,4 @@ const PlayGame1 = () => {
   );
 };
 
-export default PlayGame1;
+export default PlayGame;

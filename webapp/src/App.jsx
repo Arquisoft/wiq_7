@@ -7,8 +7,7 @@ import {
   DashboardLayout,
   Error,
   PlayContainer,
-  PlayGame1,
-  PlayGame2,
+  PlayGame,
   Ranking,
   Stats,
   Profile,
@@ -17,8 +16,7 @@ import {
 
 import { loader as dashboardLoader } from './pages/DashboardLayout';
 import { loader as adminLoader } from './pages/Admin';
-import { loader as game1Loader } from './pages/PlayGame1';
-import { loader as game2Loader } from './pages/PlayGame2';
+import { loader as gameLoader } from './pages/PlayGame';
 
 export const checkDefaultTheme = () => {
   const isDarkTheme = localStorage.getItem('darkTheme') === 'true';
@@ -57,13 +55,13 @@ const router = createBrowserRouter([
           },
           {
             path: 'game1',
-            element: <PlayGame1 />,
-            loader: game1Loader,
+            element: <PlayGame game="game1" />,
+            loader: () => gameLoader('game1'),
           },
           {
             path: 'game2',
-            element: <PlayGame2 />,
-            loader: game2Loader,
+            element: <PlayGame game="game2" />,
+            loader: () => gameLoader('game2'),
           },
           {
             path: 'ranking',

@@ -53,7 +53,6 @@ export const generateCities = async (query) => {
   const questions = [];
 
   for (const result of bindings) {
-    const name = result.cityLabel.value; // Nombre de la ciudad
     const path = result.image.value; // URL de la imagen
     const population = result.maxPopulation.value;
     const country = result.countryLabel.value;
@@ -61,10 +60,9 @@ export const generateCities = async (query) => {
     const wrongCities = getRandomAnswers(allCities, right, 3);
 
     // Añade las preguntas al array
-    if (!name.startsWith('http') && !right.startsWith('http')) {
+    if (!right.startsWith('http') && !right.startsWith('http')) {
       questions.push({
         type: 'city',
-        name: name,
         path: path,
         hint1: population,
         hint2: country,
@@ -75,7 +73,5 @@ export const generateCities = async (query) => {
       });
     }
   }
-  console.log('generateCities');
-  console.log(questions);
   return questions;
 };

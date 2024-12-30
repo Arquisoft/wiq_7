@@ -14,7 +14,6 @@ export const addQuestionsController = async (req, res) => {
     // Check if required fields are present in the request body
     validateRequiredFields(req, [
       'type',
-      'name',
       'path',
       'right',
       'wrong1',
@@ -27,6 +26,8 @@ export const addQuestionsController = async (req, res) => {
       name: req.body.name,
       path: req.body.path,
       right: req.body.right,
+      hint1: req.body.hint1,
+      hint2: req.body.hint2,
       wrong1: req.body.wrong1,
       wrong2: req.body.wrong2,
       wrong3: req.body.wrong3,
@@ -41,7 +42,10 @@ export const addQuestionsController = async (req, res) => {
 
 export const getGame1QuestionsController = async (req, res) => {
   try {
-    const questions = await Question.aggregate([{ $sample: { size: 5 } }]);
+    const questions = await Question.aggregate([
+      { $match: { type: 'artwork' } },
+      { $sample: { size: 10 } },
+    ]);
     res.json(questions);
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -50,7 +54,10 @@ export const getGame1QuestionsController = async (req, res) => {
 
 export const getGame2QuestionsController = async (req, res) => {
   try {
-    const questions = await Question.aggregate([{ $sample: { size: 5 } }]);
+    const questions = await Question.aggregate([
+      { $match: { type: 'city' } },
+      { $sample: { size: 10 } },
+    ]);
     res.json(questions);
   } catch (error) {
     res.status(500).json({ error: error.message });

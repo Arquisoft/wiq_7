@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import Wrapper from '../assets/wrappers/QuestionContainer';
 
 const QuestionContainer = ({
+  question,
+  instructions,
   shuffledAnswers,
   name,
   path,
@@ -84,7 +86,10 @@ const QuestionContainer = ({
       {!isImageLoaded && <div>Loading...</div>}
       {isImageLoaded && (
         /* Título de la obra */
-        <h3>{`¿Quién creó la obra "${name}"?`}</h3>
+        <h3>
+          {question}
+          {name}?
+        </h3>
       )}
 
       {/* Imagen de la obra */}
@@ -98,7 +103,7 @@ const QuestionContainer = ({
       {isImageLoaded && (
         <>
           <div>
-            <h5>Descarta las respuestas incorrectas</h5>
+            <h5>{instructions}</h5>
           </div>
           {/* Renderizar botones con las respuestas */}
           <div className="buttons-container">
