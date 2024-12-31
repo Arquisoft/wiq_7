@@ -4,13 +4,13 @@ import { jest } from '@jest/globals'; // Importa jest desde @jest/globals
 
 jest.mock('axios');
 
+process.env.AUTH_SERVICE_URL = 'http://authservice';
 process.env.USER_SERVICE_URL = 'http://userservice';
+process.env.QUESTION_SERVICE_URL = 'http://questionservice';
+process.env.STAT_SERVICE_URL = 'http://statservice';
 
 // Crea el mock manualmente para asegurar que `post` es una función mock
 axios.post = jest.fn((url, data) => {
-  console.log('gateway test');
-  console.log(url);
-  console.log(url.href);
   if (url.href.endsWith('/login')) {
     return Promise.resolve({ data: { token: 'mockedToken' } });
   } else if (url.href.endsWith('/adduser')) {
