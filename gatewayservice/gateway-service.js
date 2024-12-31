@@ -15,7 +15,9 @@ const domainsList = [
   'userservice',
   'questionservice',
   'statservice',
-  '4.233.148.160',
+  'localhost',
+  '127.0.0.1',
+  process.env.DEPLOY_HOST,
 ];
 
 if (process.env.NODE_ENV === 'development') {

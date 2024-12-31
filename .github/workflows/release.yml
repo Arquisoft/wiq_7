@@ -1,5 +1,4 @@
 name: Deploy on release
-
 on:
   release:
     types: [published]
@@ -20,9 +19,7 @@ jobs:
       - run: cp -R errors/ questionservice/
       - run: cp -R middleware/ questionservice/
       - run: cp -R utils/ questionservice/
-      #- run: cp -R errors/ statservice/
       - run: cp -R middleware/ statservice/
-      #- run: cp -R utils/ statservice/
       # Instalar dependencias
       - run: npm --prefix users/authservice ci
       - run: npm --prefix users/userservice ci
@@ -58,9 +55,7 @@ jobs:
       - run: cp -R errors/ questionservice/
       - run: cp -R middleware/ questionservice/
       - run: cp -R utils/ questionservice/
-      #- run: cp -R errors/ statservice/
       - run: cp -R middleware/ statservice/
-      #- run: cp -R utils/ statservice/
       # Instalar dependencias
       - run: npm --prefix users/authservice install
       - run: npm --prefix users/userservice install
