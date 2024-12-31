@@ -18,9 +18,10 @@ export const loginController = async (req, res) => {
     validateRequiredFields(req, ['username', 'password']);
 
     const { username, password } = req.body;
+    const loginUser = String(username);
 
     // Buscar el usuario por nombre en la base de datos
-    const user = await User.findOne({ username });
+    const user = await User.findOne({ username: loginUser });
 
     // Verificar que el usuario exista y la contraseña sea correcta
     if (user && (await comparePassword(password, user.password))) {
