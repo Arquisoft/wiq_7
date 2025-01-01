@@ -1,7 +1,7 @@
 const puppeteer = require('puppeteer');
 const { defineFeature, loadFeature } = require('jest-cucumber');
 const setDefaultOptions = require('expect-puppeteer').setDefaultOptions;
-const feature = loadFeature('./features/play-game.feature');
+const feature = loadFeature('./features/see-profile.feature');
 
 let page;
 let browser;
@@ -37,12 +37,12 @@ defineFeature(feature, (test) => {
       await expect(page).toClick('button', { text: 'submit' });
     });
 
-    then('I press play', async () => {
-      await expect(page).toClick('a.play-btn', { text: 'Play Game 2' });
+    then('I press profile', async () => {
+      await expect(page).toClick('a.nav-link', { text: 'profile' });
     });
-    then('A question should be shown in the screen', async () => {
+    then('The profile of the user should be shown in the screen', async () => {
       await expect(page).toMatchElement('*', {
-        text: '¿Qué ciudad se ve en la imagen?',
+        text: 'profile',
       });
     });
   });
