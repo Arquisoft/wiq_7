@@ -41,4 +41,32 @@ describe('Auth Service', () => {
     expect(response.status).toBe(200);
     expect(response.body).toHaveProperty('username', 'testuser');
   });
+
+  it('missing password - should not perform a login operation /login', async () => {
+    const response = await request(app).post('/login').send({
+      username: user.username,
+      password: '',
+    });
+    expect(response.status).toBe(401);
+    expect(response.body).toHaveProperty('error');
+  });
+
+  it('missing username - should not perform a login operation /login', async () => {
+    const hashedPassword = await bcrypt.hash(user.password, 10);
+    const response = await request(app).post('/login').send({
+      username: '',
+      password: hashedPassword,
+    });
+    expect(response.status).toBe(401);
+    expect(response.body).toHaveProperty('error');
+  });
+
+  it('wrong password - should not perform a login operation /login', async () => {
+    const response = await request(app).post('/login').send({
+      username: user.username,
+      password: 'wrongPassword',
+    });
+    expect(response.status).toBe(401);
+    expect(response.body).toHaveProperty('error');
+  });
 });
