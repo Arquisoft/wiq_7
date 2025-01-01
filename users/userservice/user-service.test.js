@@ -239,4 +239,14 @@ describe('User Service', () => {
     expect(response.status).toBe(400);
     expect(response.body).toHaveProperty('msg', 'invalid email format');
   });
+
+  it('should get the users on GET /users', async () => {
+    const response = await request(app).get('/users');
+    expect(response.status).toBe(200);
+  });
+
+  it('should get the user on GET /current-user', async () => {
+    const response = await request(app).get('/current-user');
+    expect(response.status).toBe(200);
+  });
 });

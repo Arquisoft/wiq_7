@@ -42,7 +42,7 @@ axios.get = jest.fn((url) => {
   ) {
     return Promise.resolve({
       data: {
-        type: 'test',
+        type: 'testType',
         path: 'testPath',
         right: 'test',
       },
