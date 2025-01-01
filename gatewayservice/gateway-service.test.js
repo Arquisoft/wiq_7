@@ -18,6 +18,27 @@ axios.post = jest.fn((url, data) => {
   }
 });
 
+axios.get = jest.fn((url) => {
+  if (url.href.endsWith('/logout')) {
+    return Promise.resolve({ data: { msg: 'user logged out' } });
+  } else if (url.href.endsWith('/users')) {
+    return Promise.resolve({
+      data: [
+        {
+          _id: '6768e65426af19f147062821',
+          name: 'test',
+          lastName: 'test',
+          email: 'test@test.es',
+          username: 'test',
+          role: 'admin',
+          createdAt: '2024-12-22T10:13:40.234Z',
+          __v: 0,
+        },
+      ],
+    });
+  }
+});
+
 let app = (await import('./gateway-service.js')).default;
 
 afterAll(async () => {
@@ -30,9 +51,15 @@ describe('Gateway Service', () => {
     const response = await request(app)
       .post('/login')
       .send({ username: 'testuser', password: 'testpassword' });
-
     expect(response.statusCode).toBe(200);
     expect(response.body.token).toBe('mockedToken');
+  });
+
+  // Test /logout endpoint
+  it('should forward logout request to auth service', async () => {
+    const response = await request(app).get('/logout');
+    expect(response.statusCode).toBe(200);
+    expect(response.body.msg).toBe('user logged out');
   });
 
   // Test /adduser endpoint
@@ -40,8 +67,13 @@ describe('Gateway Service', () => {
     const response = await request(app)
       .post('/adduser')
       .send({ username: 'newuser', password: 'newpassword' });
-
     expect(response.statusCode).toBe(200);
     expect(response.body.userId).toBe('mockedUserId');
+  });
+
+  // Test /users endpoint
+  it('should forward add user request to user service', async () => {
+    const response = await request(app).get('/users');
+    expect(response.statusCode).toBe(200);
   });
 });
