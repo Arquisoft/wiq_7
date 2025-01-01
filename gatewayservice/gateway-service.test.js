@@ -17,6 +17,8 @@ axios.post = jest.fn((url, data) => {
     return Promise.resolve({ data: { userId: 'mockedUserId' } });
   } else if (url.href.endsWith('/addquestion')) {
     return Promise.resolve({ data: { msg: 'question added successfully' } });
+  } else if (url.href.endsWith('/addstat')) {
+    return Promise.resolve({ data: { msg: 'stat added successfully' } });
   }
 });
 
@@ -31,6 +33,26 @@ axios.get = jest.fn((url) => {
       data: {
         username: 'test',
         role: 'admin',
+      },
+    });
+  } else if (
+    url.href.endsWith('/questions') ||
+    url.href.endsWith('/game1-questions') ||
+    url.href.endsWith('/game2-questions')
+  ) {
+    return Promise.resolve({
+      data: {
+        type: 'test',
+        path: 'testPath',
+        right: 'test',
+      },
+    });
+  } else if (url.href.endsWith('/stats')) {
+    return Promise.resolve({
+      data: {
+        right: true,
+        time: 7,
+        points: 300,
       },
     });
   }
@@ -103,7 +125,7 @@ describe('Gateway Service', () => {
   });
 
   // Test /addquestion endpoint
-  it('should forward add user request to question service', async () => {
+  it('should forward add question request to question service', async () => {
     const response = await request(app).post('/addquestion').send({
       type: 'testType',
       path: 'testPath',
@@ -114,5 +136,48 @@ describe('Gateway Service', () => {
     });
     expect(response.statusCode).toBe(200);
     expect(response.body.msg).toBe('question added successfully');
+  });
+
+  // Test /questions endpoint
+  it('should forward questions request to question service', async () => {
+    const response = await request(app).get('/questions');
+    expect(response.statusCode).toBe(200);
+    console.log(response.body);
+    expect(response.body.type).toBe('testType');
+  });
+
+  // Test /game1-questions endpoint
+  it('should forward game1-questions request to question service', async () => {
+    const response = await request(app).get('/game1-questions');
+    expect(response.statusCode).toBe(200);
+    console.log(response.body);
+    expect(response.body.type).toBe('testType');
+  });
+
+  // Test /game2-questions endpoint
+  it('should forward game2-questions request to question service', async () => {
+    const response = await request(app).get('/game2-questions');
+    expect(response.statusCode).toBe(200);
+    console.log(response.body);
+    expect(response.body.type).toBe('testType');
+  });
+
+  // Test /addstat endpoint
+  it('should forward add question request to question service', async () => {
+    const response = await request(app).post('/addstat').send({
+      right: true,
+      time: 7,
+      points: 300,
+    });
+    expect(response.statusCode).toBe(200);
+    expect(response.body.msg).toBe('stat added successfully');
+  });
+
+  // Test /stats endpoint
+  it('should forward questions request to question service', async () => {
+    const response = await request(app).get('/stats');
+    expect(response.statusCode).toBe(200);
+    console.log(response.body);
+    expect(response.body.right).toBe(true);
   });
 });
