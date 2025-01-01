@@ -27,15 +27,6 @@ export const validateRegisterInput = withValidationErrors([
     .withMessage('last name is required')
     .isLength({ max: 40 })
     .withMessage('last name must be no more than 20 characters long'),
-  body('username')
-    .notEmpty()
-    .withMessage('username is required')
-    .isLength({ max: 20 })
-    .withMessage('username must be no more than 20 characters long')
-    .custom(async (username) => {
-      const user = await User.findOne({ username });
-      if (user) throw new BadRequestError('username already exists');
-    }),
   body('email')
     .notEmpty()
     .withMessage('email is required')
@@ -48,6 +39,15 @@ export const validateRegisterInput = withValidationErrors([
     .custom(async (email) => {
       const user = await User.findOne({ email });
       if (user) throw new BadRequestError('email already exists');
+    }),
+  body('username')
+    .notEmpty()
+    .withMessage('username is required')
+    .isLength({ max: 20 })
+    .withMessage('username must be no more than 20 characters long')
+    .custom(async (username) => {
+      const user = await User.findOne({ username });
+      if (user) throw new BadRequestError('username already exists');
     }),
   body('password')
     .notEmpty()
@@ -69,11 +69,6 @@ export const validateUpdateUserInput = withValidationErrors([
     .withMessage('last name is required')
     .isLength({ max: 40 })
     .withMessage('last name must be no more than 20 characters long'),
-  body('username')
-    .notEmpty()
-    .withMessage('username is required')
-    .isLength({ max: 20 })
-    .withMessage('username must be no more than 20 characters long'),
   body('email')
     .notEmpty()
     .withMessage('email is required')
@@ -89,4 +84,9 @@ export const validateUpdateUserInput = withValidationErrors([
         throw new BadRequestError('email already exists');
       }
     }),
+  body('username')
+    .notEmpty()
+    .withMessage('username is required')
+    .isLength({ max: 20 })
+    .withMessage('username must be no more than 20 characters long'),
 ]);

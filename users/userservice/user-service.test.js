@@ -10,16 +10,6 @@ jest.unstable_mockModule('./middleware/auth-middleware', () => ({
   }),
 }));
 
-// Sobrescribe `validateRegisterInput` antes de importar el servicio
-jest.unstable_mockModule('./middleware/validation-middleware', () => ({
-  validateRegisterInput: jest.fn((req, res, next) => {
-    next();
-  }),
-  validateUpdateUserInput: jest.fn((req, res, next) => {
-    next();
-  }),
-}));
-
 let mongoServer;
 let app;
 
@@ -38,12 +28,215 @@ afterAll(async () => {
 describe('User Service', () => {
   it('should add a new user on POST /adduser', async () => {
     const newUser = {
-      username: 'testuser',
+      name: 'test',
+      lastName: 'test',
+      email: 'test1@test.com',
+      username: 'testuser1',
       password: 'testpassword',
     };
-
     const response = await request(app).post('/adduser').send(newUser);
     expect(response.status).toBe(200);
-    expect(response.body).toHaveProperty('username', 'testuser');
+    expect(response.body).toHaveProperty('username', 'testuser1');
+  });
+
+  it('missing name - should not add a new user on POST /adduser', async () => {
+    const newUser = {
+      name: '',
+      lastName: 'test',
+      email: 'test2@test.com',
+      username: 'testuser2',
+      password: 'testpassword',
+    };
+    const response = await request(app).post('/adduser').send(newUser);
+    expect(response.status).toBe(400);
+    expect(response.body).toHaveProperty('msg', 'name is required');
+  });
+
+  it('missing last name - should not add a new user on POST /adduser', async () => {
+    const newUser = {
+      name: 'test',
+      lastName: '',
+      email: 'test2@test.com',
+      username: 'testuser2',
+      password: 'testpassword',
+    };
+    const response = await request(app).post('/adduser').send(newUser);
+    expect(response.status).toBe(400);
+    expect(response.body).toHaveProperty('msg', 'last name is required');
+  });
+
+  it('missing email - should not add a new user on POST /adduser', async () => {
+    const newUser = {
+      name: 'test',
+      lastName: 'test',
+      email: '',
+      username: 'testuser2',
+      password: 'testpassword',
+    };
+    const response = await request(app).post('/adduser').send(newUser);
+    expect(response.status).toBe(400);
+    expect(response.body).toHaveProperty(
+      'msg',
+      'email is required,invalid email format'
+    );
+  });
+
+  it('missing username - should not add a new user on POST /adduser', async () => {
+    const newUser = {
+      name: 'test',
+      lastName: 'test',
+      email: 'test2@test.com',
+      username: '',
+      password: 'testpassword',
+    };
+    const response = await request(app).post('/adduser').send(newUser);
+    expect(response.status).toBe(400);
+    expect(response.body).toHaveProperty('msg', 'username is required');
+  });
+
+  it('missing password - should not add a new user on POST /adduser', async () => {
+    const newUser = {
+      name: 'test',
+      lastName: 'test',
+      email: 'test2@test.com',
+      username: 'testuser2',
+      password: '',
+    };
+    const response = await request(app).post('/adduser').send(newUser);
+    expect(response.status).toBe(400);
+    expect(response.body).toHaveProperty(
+      'msg',
+      'password is required,password must be at least 8 characters long'
+    );
+  });
+
+  it('email already exists - should not add a new user on POST /adduser', async () => {
+    const newUser = {
+      name: 'test2',
+      lastName: 'test',
+      email: 'test1@test.com',
+      username: 'testuser2',
+      password: 'testpassword',
+    };
+    const response = await request(app).post('/adduser').send(newUser);
+    expect(response.status).toBe(400);
+    expect(response.body).toHaveProperty('msg', 'email already exists');
+  });
+
+  it('username already exists - should not add a new user on POST /adduser', async () => {
+    const newUser = {
+      name: 'test2',
+      lastName: 'test',
+      email: 'test2@test.com',
+      username: 'testuser1',
+      password: 'testpassword',
+    };
+    const response = await request(app).post('/adduser').send(newUser);
+    expect(response.status).toBe(400);
+    expect(response.body).toHaveProperty('msg', 'username already exists');
+  });
+
+  it('wrong email format - should not add a new user on POST /adduser', async () => {
+    const newUser = {
+      name: 'test',
+      lastName: 'test',
+      email: 'wrong',
+      username: 'testuser2',
+      password: 'testpassword',
+    };
+    const response = await request(app).post('/adduser').send(newUser);
+    expect(response.status).toBe(400);
+    expect(response.body).toHaveProperty('msg', 'invalid email format');
+  });
+
+  it('short password - should not add a new user on POST /adduser', async () => {
+    const newUser = {
+      name: 'test',
+      lastName: 'test',
+      email: 'test2@test.com',
+      username: 'testuser2',
+      password: 'short',
+    };
+    const response = await request(app).post('/adduser').send(newUser);
+    expect(response.status).toBe(400);
+    expect(response.body).toHaveProperty(
+      'msg',
+      'password must be at least 8 characters long'
+    );
+  });
+
+  it('should update a user on PATCH /update-user', async () => {
+    const updateUser = {
+      name: 'update',
+      lastName: 'update',
+      email: 'update1@test.com',
+      username: 'update1',
+    };
+    const response = await request(app).patch('/update-user').send(updateUser);
+    expect(response.status).toBe(200);
+    expect(response.body).toHaveProperty('msg', 'update user');
+  });
+
+  it('missing name - should not add a new user on POST /adduser', async () => {
+    const updateUser = {
+      name: '',
+      lastName: 'update',
+      email: 'update2@test.com',
+      username: 'update2',
+    };
+    const response = await request(app).patch('/update-user').send(updateUser);
+    expect(response.status).toBe(400);
+    expect(response.body).toHaveProperty('msg', 'name is required');
+  });
+
+  it('missing last name - should not add a new user on POST /adduser', async () => {
+    const updateUser = {
+      name: 'update',
+      lastName: '',
+      email: 'update2@test.com',
+      username: 'update2',
+    };
+    const response = await request(app).patch('/update-user').send(updateUser);
+    expect(response.status).toBe(400);
+    expect(response.body).toHaveProperty('msg', 'last name is required');
+  });
+
+  it('missing email - should not add a new user on POST /adduser', async () => {
+    const updateUser = {
+      name: 'update',
+      lastName: 'update',
+      email: '',
+      username: 'update2',
+    };
+    const response = await request(app).patch('/update-user').send(updateUser);
+    expect(response.status).toBe(400);
+    expect(response.body).toHaveProperty(
+      'msg',
+      'email is required,invalid email format'
+    );
+  });
+
+  it('missing username - should not add a new user on POST /adduser', async () => {
+    const updateUser = {
+      name: 'update',
+      lastName: 'update',
+      email: 'update2@test.com',
+      username: '',
+    };
+    const response = await request(app).patch('/update-user').send(updateUser);
+    expect(response.status).toBe(400);
+    expect(response.body).toHaveProperty('msg', 'username is required');
+  });
+
+  it('wrong email format - should not add a new user on POST /adduser', async () => {
+    const updateUser = {
+      name: 'update',
+      lastName: 'update',
+      email: 'wrong',
+      username: 'update2',
+    };
+    const response = await request(app).patch('/update-user').send(updateUser);
+    expect(response.status).toBe(400);
+    expect(response.body).toHaveProperty('msg', 'invalid email format');
   });
 });
