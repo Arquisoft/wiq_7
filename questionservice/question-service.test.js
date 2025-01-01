@@ -47,9 +47,33 @@ describe('Question Service', () => {
       username: 'testuser',
       password: 'testpassword',
     });
-
     const response = await request(app).post('/addquestion').send(newQuestion);
     expect(response.status).toBe(200);
     expect(response.body).toHaveProperty('type', 'testType');
+  });
+
+  it('should get questions on GET /game1-questions', async () => {
+    // El usuario se loguea
+    await request(app).post('/login').send({
+      username: 'testuser',
+      password: 'testpassword',
+    });
+    const response = await request(app).get('/game1-questions');
+    expect(response.status).toBe(200);
+  });
+
+  it('should get questions on GET /game2-questions', async () => {
+    // El usuario se loguea
+    await request(app).post('/login').send({
+      username: 'testuser',
+      password: 'testpassword',
+    });
+    const response = await request(app).get('/game2-questions');
+    expect(response.status).toBe(200);
+  });
+
+  it('should get questions on GET /questions', async () => {
+    const response = await request(app).get('/questions');
+    expect(response.status).toBe(200);
   });
 });

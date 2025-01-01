@@ -39,4 +39,9 @@ describe('Stat Service', () => {
     expect(response.status).toBe(200);
     expect(response.body).toHaveProperty('userId', '507f1f77bcf86cd799439011');
   });
+
+  it('should get stats on GET /stats', async () => {
+    const response = await request(app).get('/stats');
+    expect(response.status).toBe(200);
+  });
 });
