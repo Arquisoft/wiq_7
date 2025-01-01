@@ -15,26 +15,34 @@ axios.post = jest.fn((url, data) => {
     return Promise.resolve({ data: { token: 'mockedToken' } });
   } else if (url.href.endsWith('/adduser')) {
     return Promise.resolve({ data: { userId: 'mockedUserId' } });
+  } else if (url.href.endsWith('/addquestion')) {
+    return Promise.resolve({ data: { msg: 'question added successfully' } });
   }
 });
 
 axios.get = jest.fn((url) => {
   if (url.href.endsWith('/logout')) {
     return Promise.resolve({ data: { msg: 'user logged out' } });
-  } else if (url.href.endsWith('/users')) {
+  } else if (
+    url.href.endsWith('/users') ||
+    url.href.endsWith('/current-user')
+  ) {
     return Promise.resolve({
-      data: [
-        {
-          _id: '6768e65426af19f147062821',
-          name: 'test',
-          lastName: 'test',
-          email: 'test@test.es',
-          username: 'test',
-          role: 'admin',
-          createdAt: '2024-12-22T10:13:40.234Z',
-          __v: 0,
-        },
-      ],
+      data: {
+        username: 'test',
+        role: 'admin',
+      },
+    });
+  }
+});
+
+axios.patch = jest.fn((url) => {
+  if (url.href.endsWith('/update-user')) {
+    return Promise.resolve({
+      data: {
+        username: 'test',
+        role: 'admin',
+      },
     });
   }
 });
@@ -72,8 +80,39 @@ describe('Gateway Service', () => {
   });
 
   // Test /users endpoint
-  it('should forward add user request to user service', async () => {
+  it('should forward users request to user service', async () => {
     const response = await request(app).get('/users');
     expect(response.statusCode).toBe(200);
+    console.log(response.body);
+    expect(response.body.username).toBe('test');
+  });
+
+  // Test /current-user endpoint
+  it('should forward current-user request to user service', async () => {
+    const response = await request(app).get('/current-user');
+    expect(response.statusCode).toBe(200);
+    console.log(response.body);
+    expect(response.body.username).toBe('test');
+  });
+
+  it('should forward update-user request to user service', async () => {
+    const response = await request(app).patch('/update-user');
+    expect(response.statusCode).toBe(200);
+    console.log(response.body);
+    expect(response.body.username).toBe('test');
+  });
+
+  // Test /addquestion endpoint
+  it('should forward add user request to question service', async () => {
+    const response = await request(app).post('/addquestion').send({
+      type: 'testType',
+      path: 'testPath',
+      right: 'testRight',
+      wrong1: 'testWrong1',
+      wrong2: 'testWrong2',
+      wrong3: 'testWrong3',
+    });
+    expect(response.statusCode).toBe(200);
+    expect(response.body.msg).toBe('question added successfully');
   });
 });
