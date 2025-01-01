@@ -105,7 +105,6 @@ describe('Gateway Service', () => {
   it('should forward users request to user service', async () => {
     const response = await request(app).get('/users');
     expect(response.statusCode).toBe(200);
-    console.log(response.body);
     expect(response.body.username).toBe('test');
   });
 
@@ -113,14 +112,12 @@ describe('Gateway Service', () => {
   it('should forward current-user request to user service', async () => {
     const response = await request(app).get('/current-user');
     expect(response.statusCode).toBe(200);
-    console.log(response.body);
     expect(response.body.username).toBe('test');
   });
 
   it('should forward update-user request to user service', async () => {
     const response = await request(app).patch('/update-user');
     expect(response.statusCode).toBe(200);
-    console.log(response.body);
     expect(response.body.username).toBe('test');
   });
 
@@ -142,7 +139,6 @@ describe('Gateway Service', () => {
   it('should forward questions request to question service', async () => {
     const response = await request(app).get('/questions');
     expect(response.statusCode).toBe(200);
-    console.log(response.body);
     expect(response.body.type).toBe('testType');
   });
 
@@ -150,7 +146,6 @@ describe('Gateway Service', () => {
   it('should forward game1-questions request to question service', async () => {
     const response = await request(app).get('/game1-questions');
     expect(response.statusCode).toBe(200);
-    console.log(response.body);
     expect(response.body.type).toBe('testType');
   });
 
@@ -158,7 +153,6 @@ describe('Gateway Service', () => {
   it('should forward game2-questions request to question service', async () => {
     const response = await request(app).get('/game2-questions');
     expect(response.statusCode).toBe(200);
-    console.log(response.body);
     expect(response.body.type).toBe('testType');
   });
 
@@ -177,7 +171,6 @@ describe('Gateway Service', () => {
   it('should forward questions request to question service', async () => {
     const response = await request(app).get('/stats');
     expect(response.statusCode).toBe(200);
-    console.log(response.body);
     expect(response.body.right).toBe(true);
   });
 });

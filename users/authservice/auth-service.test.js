@@ -69,4 +69,10 @@ describe('Auth Service', () => {
     expect(response.status).toBe(401);
     expect(response.body).toHaveProperty('error');
   });
+
+  it('Should perform a logout operation /logout', async () => {
+    const response = await request(app).get('/logout');
+    expect(response.status).toBe(200);
+    expect(response.body).toHaveProperty('msg', 'user logged out');
+  });
 });
