@@ -1,4 +1,4 @@
-Feature: User ogin
+Feature: User login
 
 Scenario: The user is registered in the site
   Given An registered user

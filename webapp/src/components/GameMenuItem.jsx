@@ -15,7 +15,7 @@ const GameMenuItem = ({ title, description, path }) => {
         </div>
         <footer className="actions">
           <Link to={path} className="btn play-btn">
-            Play
+            Play Game {path[path.length - 1]}
           </Link>
         </footer>
       </div>
