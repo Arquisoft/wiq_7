@@ -65,8 +65,6 @@ describe('PlayGame component', () => {
     });
 
     expect(screen.getByText(/Question 1/i)).toBeInTheDocument();
-    // Imprimir el contenido renderizado para inspección
-    screen.debug();
 
     // Verificar las respuestas mezcladas
     const answers = screen.getAllByRole('button');
@@ -92,7 +90,13 @@ describe('PlayGame component', () => {
   //     await waitFor(() => {
   //       expect(screen.getByText(/Question 2/i)).toBeInTheDocument();
   //     });
+
+  // Imprimir el contenido renderizado para inspección
+  // screen.debug();
   //   });
+
+  // Imprimir el contenido renderizado para inspección
+  // screen.debug();
 
   //   it('ends the game after the last question', async () => {
   //     render(<PlayGame game="game1" />);
