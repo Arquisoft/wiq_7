@@ -1,5 +1,4 @@
 // Ranking.test.js
-import React from 'react';
 import { render, screen } from '@testing-library/react';
 import Ranking from '../pages/Ranking';
 

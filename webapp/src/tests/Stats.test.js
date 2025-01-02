@@ -1,5 +1,4 @@
 // Stats.test.js
-import React from 'react';
 import { render, screen } from '@testing-library/react';
 import Stats from '../pages//Stats';
 
