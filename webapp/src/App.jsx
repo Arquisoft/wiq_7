@@ -5,7 +5,7 @@ import {
   AddUser,
   Login,
   DashboardLayout,
-  Error,
+  ErrorPage,
   PlayContainer,
   PlayGame,
   Ranking,
@@ -30,7 +30,7 @@ const router = createBrowserRouter([
   {
     path: '/',
     element: <HomeLayout />,
-    errorElement: <Error />,
+    errorElement: <ErrorPage />,
     children: [
       {
         index: true,

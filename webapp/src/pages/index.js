@@ -3,7 +3,7 @@ export { default as DashboardLayout } from './DashboardLayout.jsx';
 export { default as HomeLayout } from './HomeLayout.jsx';
 export { default as AddUser } from './AddUser.jsx';
 export { default as Login } from './Login.jsx';
-export { default as Error } from './Error.jsx';
+export { default as ErrorPage } from './ErrorPage.jsx';
 export { default as PlayContainer } from './PlayContainer.jsx';
 export { default as PlayGame } from './PlayGame.jsx';
 export { default as Stats } from './Stats.jsx';

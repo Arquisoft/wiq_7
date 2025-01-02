@@ -2,7 +2,7 @@ import { Link, useRouteError } from 'react-router-dom';
 import Wrapper from '../assets/wrappers/ErrorPage';
 import img from '../assets/images/not-found.svg';
 
-const Error = () => {
+const ErrorPage = () => {
   const error = useRouteError();
 
   if (error.status === 404) {
@@ -25,4 +25,4 @@ const Error = () => {
     </Wrapper>
   );
 };
-export default Error;
+export default ErrorPage;
