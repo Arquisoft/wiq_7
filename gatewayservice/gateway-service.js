@@ -58,6 +58,17 @@ app.get('/health', (_req, res) => {
   res.json({ status: 'OK' });
 });
 
+const isJwtValid = (auth) => {
+  if (auth === undefined) {
+    return true;
+  }
+  const jwtRegex = /^[A-Za-z0-9-_]+\.[A-Za-z0-9-_]+\.[A-Za-z0-9-_]+$/;
+  if (auth.startsWith('Bearer ')) {
+    auth = auth.slice(7).trim(); // Remover "Bearer " y espacios adicionales
+  }
+  return jwtRegex.test(auth);
+};
+
 app.post('/login', async (req, res) => {
   const url = new URL(authServiceUrl + '/login');
   if (
@@ -130,15 +141,17 @@ app.get('/users', async (req, res) => {
 
 app.get('/current-user', async (req, res) => {
   const url = new URL(userServiceUrl + '/current-user');
+  const auth = req.headers.authorization;
   if (
     schemesList.includes(url.protocol) &&
-    domainsList.includes(url.hostname)
+    domainsList.includes(url.hostname) &&
+    isJwtValid(auth)
   ) {
     try {
       // Forward the get current user request to the user service
       const userResponse = await axios.get(url, {
         headers: {
-          Authorization: req.headers.authorization,
+          Authorization: auth,
         },
       });
       res.json(userResponse.data);
@@ -152,15 +165,17 @@ app.get('/current-user', async (req, res) => {
 
 app.patch('/update-user', async (req, res) => {
   const url = new URL(userServiceUrl + '/update-user');
+  const auth = req.headers.authorization;
   if (
     schemesList.includes(url.protocol) &&
-    domainsList.includes(url.hostname)
+    domainsList.includes(url.hostname) &&
+    isJwtValid(auth)
   ) {
     try {
       // Forward the update user request to the user service
       const userResponse = await axios.patch(url, req.body, {
         headers: {
-          Authorization: req.headers.authorization,
+          Authorization: auth,
         },
       });
       res.json(userResponse.data);
@@ -172,15 +187,17 @@ app.patch('/update-user', async (req, res) => {
 
 app.post('/addquestion', async (req, res) => {
   const url = new URL(questionServiceUrl + '/addquestion');
+  const auth = req.headers.authorization;
   if (
     schemesList.includes(url.protocol) &&
-    domainsList.includes(url.hostname)
+    domainsList.includes(url.hostname) &&
+    isJwtValid(auth)
   ) {
     try {
       // Forward the add question request to the question service
       const addQuestionResponse = await axios.post(url, req.body, {
         headers: {
-          Authorization: req.headers.authorization,
+          Authorization: auth,
         },
       });
       res.json(addQuestionResponse.data);
@@ -210,15 +227,17 @@ app.get('/questions', async (req, res) => {
 
 app.get('/game1-questions', async (req, res) => {
   const url = new URL(questionServiceUrl + '/game1-questions');
+  const auth = req.headers.authorization;
   if (
     schemesList.includes(url.protocol) &&
-    domainsList.includes(url.hostname)
+    domainsList.includes(url.hostname) &&
+    isJwtValid(auth)
   ) {
     try {
       // Forward the game1 questions request to the question service
       const getQuestionResponse = await axios.get(url, {
         headers: {
-          Authorization: req.headers.authorization,
+          Authorization: auth,
         },
       });
       res.json(getQuestionResponse.data);
@@ -232,15 +251,17 @@ app.get('/game1-questions', async (req, res) => {
 
 app.get('/game2-questions', async (req, res) => {
   const url = new URL(questionServiceUrl + '/game2-questions');
+  const auth = req.headers.authorization;
   if (
     schemesList.includes(url.protocol) &&
-    domainsList.includes(url.hostname)
+    domainsList.includes(url.hostname) &&
+    isJwtValid(auth)
   ) {
     try {
       // Forward the game2 questions request to the question service
       const getQuestionResponse = await axios.get(url, {
         headers: {
-          Authorization: req.headers.authorization,
+          Authorization: auth,
         },
       });
       res.json(getQuestionResponse.data);
@@ -254,15 +275,17 @@ app.get('/game2-questions', async (req, res) => {
 
 app.post('/addstat', async (req, res) => {
   const url = new URL(statServiceUrl + '/addstat');
+  const auth = req.headers.authorization;
   if (
     schemesList.includes(url.protocol) &&
-    domainsList.includes(url.hostname)
+    domainsList.includes(url.hostname) &&
+    isJwtValid(auth)
   ) {
     try {
       // Forward the add stat request to the stat service
       const addStatResponse = await axios.post(url, req.body, {
         headers: {
-          Authorization: req.headers.authorization,
+          Authorization: auth,
         },
       });
       res.json(addStatResponse.data);
