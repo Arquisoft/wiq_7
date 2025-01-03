@@ -33,10 +33,10 @@ defineFeature(feature, (test) => {
     let password;
 
     given('An unregistered user', async () => {
-      name = 'newuser';
-      lastName = 'test';
-      email = 'newuser@fakemail.com';
-      username = 'newtestuser';
+      name = 'test';
+      lastName = 'user';
+      email = 'user@fakemail.com';
+      username = 'testuser';
       password = 'testuserpassword';
       await expect(page).toClick('a.register-link', { text: 'Register' });
     });
