@@ -95,9 +95,6 @@ describe('PlayGame component', () => {
   // screen.debug();
   //   });
 
-  // Imprimir el contenido renderizado para inspección
-  // screen.debug();
-
   //   it('ends the game after the last question', async () => {
   //     render(<PlayGame game="game1" />);
 
