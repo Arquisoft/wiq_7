@@ -1,7 +1,7 @@
 // PlayGame.test.js
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import { useLoaderData } from 'react-router-dom';
-import PlayGame, { loader } from '../../pages/PlayGame';
+import PlayGame from '../../pages/PlayGame';
 import axios from 'axios';
 import MockAdapter from 'axios-mock-adapter';
 
@@ -14,10 +14,7 @@ jest.mock('react-router-dom', () => ({
   useLoaderData: jest.fn(),
 }));
 
-// Mock de uuid para evitar inconsistencias en los IDs generados
-jest.mock('uuid', () => ({
-  v4: jest.fn(() => 'mock-uuid'),
-}));
+jest.mock('axios');
 
 describe('PlayGame component', () => {
   const mockQuestions = [
@@ -107,35 +104,56 @@ describe('PlayGame component', () => {
   });
 });
 
-//   it('advances to the next question on correct answer', async () => {
-//     render(<PlayGame game="game1" />);
+it('advances to the next question on correct answer', async () => {
+  useLoaderData.mockReturnValue([
+    {
+      _id: 'q1',
+      name: 'Question 1',
+      path: 'game1',
+      hint1: 'Hint 1',
+      hint2: 'Hint 2',
+      right: 'Correct Answer 1',
+      wrong1: 'Wrong Answer 1',
+      wrong2: 'Wrong Answer 2',
+      wrong3: 'Wrong Answer 3',
+    },
+    {
+      _id: 'q2',
+      name: 'Question 2',
+      path: 'game1',
+      hint1: 'Hint 1',
+      hint2: 'Hint 2',
+      right: 'Correct Answer 2',
+      wrong1: 'Wrong Answer 1',
+      wrong2: 'Wrong Answer 2',
+      wrong3: 'Wrong Answer 3',
+    },
+  ]);
+  axios.post.mockResolvedValueOnce({ data: { success: true } });
 
-//     // Seleccionar la respuesta correcta y simular clic
-//     const correctAnswerButton = screen.getByText(/Correct Answer/i);
-//     fireEvent.click(correctAnswerButton);
+  render(<PlayGame game="game1" />);
 
-//     // Verificar que avanza a la siguiente preguntacle
-//     await waitFor(() => {
-//       expect(screen.getByText(/Question 2/i)).toBeInTheDocument();
-//     });
+  // Aquí forzamos que isImageLoaded se ponga a true
+  const imageElement = screen.getByAltText('Question 1');
+  // Puedes hacer que el estado isImageLoaded sea true directamente
+  await waitFor(() => {
+    // Simulamos que la imagen está cargada inmediatamente
+    fireEvent.load(imageElement);
+  });
 
-// Imprimir el contenido renderizado para inspección
-// screen.debug();
-//   });
+  // Seleccionar la respuesta correcta y simular clic
+  const correctAnswerButton = screen.getByText(/Correct Answer 1/i);
+  fireEvent.click(correctAnswerButton);
 
-//   it('ends the game after the last question', async () => {
-//     render(<PlayGame game="game1" />);
+  await new Promise((resolve) => setTimeout(resolve, 3000));
+  // Simulamos que la imagen está cargada inmediatamente
+  fireEvent.load(imageElement);
 
-//     // Responder la primera pregunta
-//     fireEvent.click(screen.getByText(/Correct Answer/i));
-//     await waitFor(() => {
-//       expect(screen.getByText(/Question 2/i)).toBeInTheDocument();
-//     });
-
-//     // Responder la segunda pregunta
-//     fireEvent.click(screen.getByText(/Correct Answer 2/i));
-//     await waitFor(() => {
-//       expect(screen.getByText(/Game Over/i)).toBeInTheDocument();
-//     });
-//   });
-// });
+  // Verificar que avanza a la siguiente preguntac
+  await waitFor(
+    () => {
+      expect(screen.getByAltText(/Question 2/i)).toBeInTheDocument();
+    },
+    { timeout: 15000 }
+  );
+});
