@@ -1,5 +1,6 @@
 // Profile.test.js
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
+import { BrowserRouter } from 'react-router-dom';
 import Profile from '../pages/Profile';
 import { useDashboardContext } from '../pages/DashboardLayout';
 import axios from 'axios';
@@ -29,7 +30,11 @@ describe('Profile Component', () => {
     });
 
     // Renderizar el componente
-    render(<Profile />);
+    render(
+      <BrowserRouter>
+        <Profile />
+      </BrowserRouter>
+    );
 
     // Verificar que los campos del formulario se renderizan con los valores iniciales
     expect(screen.getByLabelText('name')).toHaveValue('angel');
