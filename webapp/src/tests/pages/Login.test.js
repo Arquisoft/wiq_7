@@ -1,8 +1,7 @@
 // Login.test.js
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
-import Login from '../pages/Login'; // Ajusta la ruta a tu archivo
+import Login from '../../pages/Login'; // Ajusta la ruta a tu archivo
 import { BrowserRouter } from 'react-router-dom';
-import axios from 'axios';
 
 // Mock para axios
 jest.mock('axios');

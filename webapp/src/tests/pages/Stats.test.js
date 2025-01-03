@@ -1,6 +1,6 @@
 // Stats.test.js
 import { render, screen } from '@testing-library/react';
-import Stats from '../pages//Stats';
+import Stats from '../../pages/Stats';
 
 test('renders the Stats page heading', () => {
   // Renderiza el componente

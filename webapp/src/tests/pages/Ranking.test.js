@@ -1,6 +1,6 @@
 // Ranking.test.js
 import { render, screen } from '@testing-library/react';
-import Ranking from '../pages/Ranking';
+import Ranking from '../../pages/Ranking';
 
 test('renders the Ranking page heading', () => {
   // Renderiza el componente

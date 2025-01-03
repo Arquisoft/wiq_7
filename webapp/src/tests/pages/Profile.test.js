@@ -1,12 +1,12 @@
 // Profile.test.js
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
-import Profile from '../pages/Profile';
-import { useDashboardContext } from '../pages/DashboardLayout';
+import Profile from '../../pages/Profile';
+import { useDashboardContext } from '../../pages/DashboardLayout';
 import axios from 'axios';
 
 // Mock del contexto de Dashboard
-jest.mock('../pages/DashboardLayout', () => ({
+jest.mock('../../pages/DashboardLayout', () => ({
   useDashboardContext: jest.fn(),
 }));
 
@@ -65,7 +65,11 @@ describe('Profile Component', () => {
     });
 
     // Renderizar el componente
-    render(<Profile />);
+    render(
+      <BrowserRouter>
+        <Profile />
+      </BrowserRouter>
+    );
 
     // Simular la interacción con el botón de envío
     axios.patch.mockRejectedValueOnce({
