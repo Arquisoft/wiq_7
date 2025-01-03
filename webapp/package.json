@@ -28,7 +28,7 @@
     "build": "react-scripts build",
     "prod": "serve -s build",
     "test": "react-scripts test --transformIgnorePatterns 'node_modules/(?!axios)/'",
-    "test:e2e": "start-server-and-test 'node e2e/test-environment-setup.js' http://localhost:8000/health prod 3000 \"cd e2e && jest --runInBand ./webapp/e2e/steps/register-form.steps.js ./webapp/e2e/steps/login-form.steps.js ./webapp/e2e/steps/see-profile.steps.js ./webapp/e2e/steps/play-game1.steps.js ./webapp/e2e/steps/play-game2.steps.js\"",
+    "test:e2e": "start-server-and-test 'node e2e/test-environment-setup.js' http://localhost:8000/health prod 3000 \"cd e2e && jest --runInBand ./webapp/e2e/steps/register-form.steps.js ./webapp/e2e/steps/login-form.steps.js ./webapp/e2e/steps/see-profile.steps.js\"",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {

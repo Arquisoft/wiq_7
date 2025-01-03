@@ -55,10 +55,14 @@ jobs:
       - run: cp -R errors/ questionservice/
       - run: cp -R middleware/ questionservice/
       - run: cp -R utils/ questionservice/
+      - run: cp -R utils/ statservice/
+      - run: cp -R errors/ statservice/
       - run: cp -R middleware/ statservice/
       # Instalar dependencias
       - run: npm --prefix users/authservice install
       - run: npm --prefix users/userservice install
+      - run: npm --prefix questionservice install
+      - run: npm --prefix statservice install
       - run: npm --prefix gatewayservice install
       - run: npm --prefix webapp install
       - run: npm --prefix webapp run build
