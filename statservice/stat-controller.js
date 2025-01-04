@@ -44,3 +44,38 @@ export const getStatsController = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
+
+export const getUserStatsControler = async (req, res) => {
+  const userId = req.user.userId;
+  try {
+    const stats = await Stat.find({ userId });
+
+    if (stats.length === 0) {
+      // Si no hay registros, devolver estadísticas predeterminadas
+      return res.json({
+        totalGames: 0,
+        correctAnswers: 0,
+        wrongAnswers: 0,
+        totalTime: 0,
+      });
+    }
+
+    // Calcular estadísticas manualmente
+    const totalGames = new Set(stats.map((stat) => stat.gameId)).size; // Juegos únicos
+    const correctAnswers = stats.filter((stat) => stat.right).length; // Respuestas correctas
+    const wrongAnswers = stats.filter((stat) => !stat.right).length; // Respuestas incorrectas
+    const totalPoints = stats.reduce((sum, stat) => sum + stat.points, 0); // Puntos totales
+    const totalTime = stats.reduce((sum, stat) => sum + stat.time, 0); // Tiempo total
+
+    // Devolver estadísticas calculadas
+    res.json({
+      totalGames,
+      correctAnswers,
+      wrongAnswers,
+      totalPoints,
+      totalTime,
+    });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};

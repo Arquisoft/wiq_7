@@ -315,6 +315,30 @@ app.get('/stats', async (req, res) => {
   }
 });
 
+app.get('/user-stats', async (req, res) => {
+  const url = new URL(statServiceUrl + '/user-stats');
+  const auth = req.headers.authorization;
+  if (
+    schemesList.includes(url.protocol) &&
+    domainsList.includes(url.hostname) &&
+    isJwtValid(auth)
+  ) {
+    try {
+      // Forward the get user-stats request to the stat service
+      const getStatsResponse = await axios.get(url, {
+        headers: {
+          Authorization: auth,
+        },
+      });
+      res.json(getStatsResponse.data);
+    } catch (error) {
+      res
+        .status(error.response.status)
+        .json({ error: error.response.data.error });
+    }
+  }
+});
+
 // Read the OpenAPI YAML file synchronously
 const openapiPath = './openapi.yaml';
 if (fs.existsSync(openapiPath)) {

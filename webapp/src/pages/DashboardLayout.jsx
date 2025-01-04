@@ -12,6 +12,9 @@ const apiEndpoint =
 export const loader = async () => {
   try {
     const token = localStorage.getItem('token');
+    if (!token) {
+      return redirect('/');
+    }
     const response = await axios.get(`${apiEndpoint}/current-user`, {
       headers: {
         Authorization: `Bearer ${token}`,

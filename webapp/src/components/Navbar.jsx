@@ -15,7 +15,7 @@ const Navbar = () => {
         </button>
         <div>
           <Logo />
-          <h4 className="logo-text">dashboard</h4>
+          <h4 className="logo-text">wiq7 quiz game</h4>
         </div>
         <div className="btn-container">
           <ThemeToogle />

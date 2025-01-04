@@ -1,4 +1,9 @@
 const Ranking = () => {
-  return <h1>Ranking Page</h1>;
+  return (
+    <>
+      <h4>Ranking Page</h4>
+      <p>TODO</p>
+    </>
+  );
 };
 export default Ranking;
