@@ -44,4 +44,9 @@ describe('Stat Service', () => {
     const response = await request(app).get('/stats');
     expect(response.status).toBe(200);
   });
+
+  it('should get stats on GET /user-stats', async () => {
+    const response = await request(app).get('/user-stats');
+    expect(response.status).toBe(200);
+  });
 });

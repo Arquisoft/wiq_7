@@ -47,7 +47,7 @@ axios.get = jest.fn((url) => {
         right: 'test',
       },
     });
-  } else if (url.href.endsWith('/stats')) {
+  } else if (url.href.endsWith('/stats') || url.href.endsWith('/user-stats')) {
     return Promise.resolve({
       data: {
         right: true,
@@ -157,7 +157,7 @@ describe('Gateway Service', () => {
   });
 
   // Test /addstat endpoint
-  it('should forward add question request to question service', async () => {
+  it('should forward add stat request to stat service', async () => {
     const response = await request(app).post('/addstat').send({
       right: true,
       time: 7,
@@ -168,8 +168,15 @@ describe('Gateway Service', () => {
   });
 
   // Test /stats endpoint
-  it('should forward questions request to question service', async () => {
+  it('should forward stats request to stat service', async () => {
     const response = await request(app).get('/stats');
+    expect(response.statusCode).toBe(200);
+    expect(response.body.right).toBe(true);
+  });
+
+  // Test /user-stats endpoint
+  it('should forward user-stats request to statn service', async () => {
+    const response = await request(app).get('/user-stats');
     expect(response.statusCode).toBe(200);
     expect(response.body.right).toBe(true);
   });
