@@ -1,6 +1,7 @@
 import { StatsContainer } from '../components';
 import { useLoaderData } from 'react-router-dom';
 import axios from 'axios';
+import Wrapper from '../assets/wrappers/MenuContainer';
 
 const apiEndpoint =
   process.env.REACT_APP_API_ENDPOINT || 'http://localhost:8000';
@@ -22,10 +23,10 @@ export const loader = async () => {
 const Stats = () => {
   const userStats = useLoaderData();
   return (
-    <>
-      <h4>user stats</h4>
+    <Wrapper>
+      <h5>user stats</h5>
       <StatsContainer userStats={userStats} />
-    </>
+    </Wrapper>
   );
 };
 

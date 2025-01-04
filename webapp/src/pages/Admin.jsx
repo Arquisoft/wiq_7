@@ -61,34 +61,32 @@ const Admin = () => {
   }, [navigate]);
 
   return (
-    <>
-      <h4>admin</h4>
-      <Wrapper>
-        {!error && (
-          <div className="items">
-            <AddQuestionContainer
-              game="Por su obra..."
-              questionTypes={artworksQuestions}
-            />
-            <AddQuestionContainer
-              game="Descubriendo ciudades"
-              questionTypes={citiesQuestions}
-            />
-          </div>
-        )}
-        {error && (
-          <Snackbar
-            open={!!error}
-            autoHideDuration={6000}
-            onClose={() => {
-              setError('');
-              handleCloseSnackbar();
-            }}
-            message={`Error: ${error}`}
+    <Wrapper>
+      <h5>admin</h5>
+      {!error && (
+        <div className="items">
+          <AddQuestionContainer
+            game="Por su obra..."
+            questionTypes={artworksQuestions}
           />
-        )}
-      </Wrapper>
-    </>
+          <AddQuestionContainer
+            game="Descubriendo ciudades"
+            questionTypes={citiesQuestions}
+          />
+        </div>
+      )}
+      {error && (
+        <Snackbar
+          open={!!error}
+          autoHideDuration={6000}
+          onClose={() => {
+            setError('');
+            handleCloseSnackbar();
+          }}
+          message={`Error: ${error}`}
+        />
+      )}
+    </Wrapper>
   );
 };
 

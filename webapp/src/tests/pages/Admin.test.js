@@ -1,9 +1,8 @@
 // Admin.test.js
 import React from 'react';
-import { render, screen, fireEvent, waitFor } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
 import { useLoaderData, useNavigate } from 'react-router-dom';
 import Admin from '../../pages/Admin';
-import { createBrowserRouter } from 'react-router-dom';
 
 jest.mock('react-router-dom', () => ({
   useLoaderData: jest.fn(),

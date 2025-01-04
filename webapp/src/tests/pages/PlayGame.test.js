@@ -5,14 +5,14 @@ import PlayGame from '../../pages/PlayGame';
 import axios from 'axios';
 import MockAdapter from 'axios-mock-adapter';
 
-// Mock de axios
-const mockAxios = new MockAdapter(axios);
-
 // Mock de useLoaderData
 jest.mock('react-router-dom', () => ({
   ...jest.requireActual('react-router-dom'),
   useLoaderData: jest.fn(),
 }));
+
+// Mock de axios
+const mockAxios = new MockAdapter(axios);
 
 jest.mock('axios');
 

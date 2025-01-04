@@ -1,9 +1,11 @@
+import Wrapper from '../assets/wrappers/MenuContainer';
+
 const Ranking = () => {
   return (
-    <>
-      <h4>Ranking Page</h4>
+    <Wrapper>
+      <h5>Ranking Page</h5>
       <p>TODO</p>
-    </>
+    </Wrapper>
   );
 };
 export default Ranking;

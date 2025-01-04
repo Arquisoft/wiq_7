@@ -25,7 +25,7 @@ const StatsContainer = ({ userStats }) => {
       bcg: '#fef3c7',
     },
     {
-      title: 'playing time',
+      title: 'playing time (s)',
       count: userStats?.totalTime || 0,
       icon: <FaCalendarCheck />,
       color: '#647acb',
@@ -39,7 +39,7 @@ const StatsContainer = ({ userStats }) => {
       bcg: '#e0e8f9',
     },
     {
-      title: 'wrong answers',
+      title: 'incorrect answers',
       count: userStats?.wrongAnswers || 0,
       icon: <FaBug />,
       color: '#d66a6a',
