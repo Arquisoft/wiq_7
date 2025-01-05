@@ -1,6 +1,5 @@
 // Stats.test.js
 import { render, screen, waitFor } from '@testing-library/react';
-import { useLoaderData } from 'react-router-dom';
 import Stats from '../../pages/Stats';
 
 jest.mock('react-router-dom', () => ({

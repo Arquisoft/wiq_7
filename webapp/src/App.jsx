@@ -18,6 +18,7 @@ import { loader as dashboardLoader } from './pages/DashboardLayout';
 import { loader as adminLoader } from './pages/Admin';
 import { loader as gameLoader } from './pages/PlayGame';
 import { loader as statsLoader } from './pages/Stats';
+import { loader as rankingLoader } from './pages/Ranking';
 
 export const checkDefaultTheme = () => {
   const isDarkTheme = localStorage.getItem('darkTheme') === 'true';
@@ -67,6 +68,7 @@ const router = createBrowserRouter([
           {
             path: 'ranking',
             element: <Ranking />,
+            loader: rankingLoader,
           },
           {
             path: 'stats',

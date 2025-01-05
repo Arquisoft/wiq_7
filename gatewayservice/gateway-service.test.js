@@ -27,6 +27,7 @@ axios.get = jest.fn((url) => {
     return Promise.resolve({ data: { msg: 'user logged out' } });
   } else if (
     url.href.endsWith('/users') ||
+    url.href.endsWith('/user') ||
     url.href.endsWith('/current-user')
   ) {
     return Promise.resolve({
@@ -108,6 +109,13 @@ describe('Gateway Service', () => {
     expect(response.body.username).toBe('test');
   });
 
+  // Test /user endpoint
+  it('should forward user request to user service', async () => {
+    const response = await request(app).get('/user');
+    expect(response.statusCode).toBe(200);
+    expect(response.body.username).toBe('test');
+  });
+
   // Test /current-user endpoint
   it('should forward current-user request to user service', async () => {
     const response = await request(app).get('/current-user');
@@ -175,8 +183,15 @@ describe('Gateway Service', () => {
   });
 
   // Test /user-stats endpoint
-  it('should forward user-stats request to statn service', async () => {
+  it('should forward user-stats request to stat service', async () => {
     const response = await request(app).get('/user-stats');
+    expect(response.statusCode).toBe(200);
+    expect(response.body.right).toBe(true);
+  });
+
+  // Test /ranking endpoint
+  it('should forward ranking request to stat service', async () => {
+    const response = await request(app).get('/ranking');
     expect(response.statusCode).toBe(200);
     expect(response.body.right).toBe(true);
   });

@@ -45,6 +45,16 @@ export const getUsersController = async (req, res) => {
   }
 };
 
+export const getUserController = async (req, res) => {
+  console.log('controlador', req.query.userId);
+  try {
+    const users = await User.findOne({ _id: req.query.userId }); // Fetch user by id
+    res.json(users);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
 export const getCurrentUserController = async (req, res) => {
   try {
     const user = await User.findOne({ _id: req.user.userId }); // Fetch current user

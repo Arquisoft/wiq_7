@@ -139,6 +139,28 @@ app.get('/users', async (req, res) => {
   }
 });
 
+app.get('/user', async (req, res) => {
+  const url = new URL(userServiceUrl + '/user');
+  const userId = req.query.userId;
+  console.log('gw userId', userId);
+  if (
+    schemesList.includes(url.protocol) &&
+    domainsList.includes(url.hostname)
+  ) {
+    try {
+      // Forward the get users request to the user service
+      const userResponse = await axios.get(url, {
+        params: { userId: userId },
+      });
+      res.json(userResponse.data);
+    } catch (error) {
+      res
+        .status(error.response.status)
+        .json({ error: error.response.data.error });
+    }
+  }
+});
+
 app.get('/current-user', async (req, res) => {
   const url = new URL(userServiceUrl + '/current-user');
   const auth = req.headers.authorization;
@@ -330,6 +352,24 @@ app.get('/user-stats', async (req, res) => {
           Authorization: auth,
         },
       });
+      res.json(getStatsResponse.data);
+    } catch (error) {
+      res
+        .status(error.response.status)
+        .json({ error: error.response.data.error });
+    }
+  }
+});
+
+app.get('/ranking', async (req, res) => {
+  const url = new URL(statServiceUrl + '/ranking');
+  if (
+    schemesList.includes(url.protocol) &&
+    domainsList.includes(url.hostname)
+  ) {
+    try {
+      // Forward the get user-stats request to the stat service
+      const getStatsResponse = await axios.get(url);
       res.json(getStatsResponse.data);
     } catch (error) {
       res
