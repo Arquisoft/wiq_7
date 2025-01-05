@@ -56,6 +56,15 @@ axios.get = jest.fn((url) => {
         points: 300,
       },
     });
+  } else if (url.href.endsWith('/ranking')) {
+    return Promise.resolve({
+      data: {
+        gameId: 'gameId',
+        userId: 'userId',
+        totalPoints: 2600,
+        totalTime: 49,
+      },
+    });
   }
 });
 
@@ -193,6 +202,6 @@ describe('Gateway Service', () => {
   it('should forward ranking request to stat service', async () => {
     const response = await request(app).get('/ranking');
     expect(response.statusCode).toBe(200);
-    expect(response.body.right).toBe(true);
+    expect(response.body.totalPoints).toBe(2600);
   });
 });

@@ -8,31 +8,37 @@ const StatsContainer = ({ ranking }) => {
     <Wrapper>
       {rankingData && rankingData.length > 0 ? (
         <>
-          <h5>hall of fame</h5>
+          <div className="header-container">
+            <FaStar className="star-icon" />
+            <h5>Hall of Fame</h5>
+            <FaStar className="star-icon" />
+          </div>
           <div className="list">
+            <div className="list-item headers">
+              <span>
+                <strong>Position</strong>
+              </span>
+              <span>
+                <strong>User </strong>
+              </span>
+              <span>
+                <strong>Score </strong>
+              </span>
+              <span>
+                <strong>Time </strong>
+              </span>
+            </div>
             {rankingData.map((entry, index) => (
-              <div className="list">
-                <div className="list-item headers">
-                  <span>
-                    <strong>User</strong>
-                  </span>
-                  <span>
-                    <strong>Score</strong>
-                  </span>
-                  <span>
-                    <strong>Time</strong>
-                  </span>
-                </div>
-                {rankingData.map((entry, index) => (
-                  <div
-                    className="list-item"
-                    key={`${entry.gameId}-${entry.userId}`}
-                  >
-                    <span>{entry.username}</span>
-                    <span>{entry.totalPoints}</span>
-                    <span>{entry.totalTime} ms</span>
-                  </div>
-                ))}
+              <div
+                className="list-item"
+                key={`${entry.gameId}-${entry.userId}`}
+              >
+                <span>
+                  <strong>{index + 1}.</strong>
+                </span>
+                <span>{entry.username} </span>
+                <span>{entry.totalPoints} </span>
+                <span>{entry.totalTime} s</span>
               </div>
             ))}
           </div>

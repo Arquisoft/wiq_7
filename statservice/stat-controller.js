@@ -82,9 +82,7 @@ export const getUserStatsControler = async (req, res) => {
 
 export const getRankingController = async (req, res) => {
   try {
-    // Obtener todas las estadísticas (puedes filtrar por usuario si es necesario)
     const stats = await Stat.find();
-
     // Agrupar las estadísticas por gameId y userId
     const gamesMap = stats.reduce((acc, stat) => {
       const key = `${stat.gameId}-${stat.userId}`;
@@ -107,16 +105,10 @@ export const getRankingController = async (req, res) => {
         // Si los puntos son iguales, ordenar por tiempo ascendente
         return a.totalTime - b.totalTime;
       }
-      // Ordenar por puntos descendentes
       return b.totalPoints - a.totalPoints;
     });
-
     // Limitar a los 10 primeros
     const topRanking = ranking.slice(0, 10);
-
-    console.log('Top ranking:', topRanking);
-
-    // Enviar el ranking como respuesta
     res.status(200).json({
       topRanking,
     });

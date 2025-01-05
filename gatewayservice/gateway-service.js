@@ -142,7 +142,6 @@ app.get('/users', async (req, res) => {
 app.get('/user', async (req, res) => {
   const url = new URL(userServiceUrl + '/user');
   const userId = req.query.userId;
-  console.log('gw userId', userId);
   if (
     schemesList.includes(url.protocol) &&
     domainsList.includes(url.hostname)
