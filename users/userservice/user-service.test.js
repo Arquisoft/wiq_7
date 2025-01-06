@@ -245,6 +245,11 @@ describe('User Service', () => {
     expect(response.status).toBe(200);
   });
 
+  it('should get the user on GET /user', async () => {
+    const response = await request(app).get('/user');
+    expect(response.status).toBe(200);
+  });
+
   it('should get the user on GET /current-user', async () => {
     const response = await request(app).get('/current-user');
     expect(response.status).toBe(200);

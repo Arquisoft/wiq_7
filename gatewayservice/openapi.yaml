@@ -20,14 +20,33 @@ paths:
             schema:
               type: object
               properties:
+                name:
+                  type: string
+                  description: User's first name.
+                  example: Angel
+                lastName:
+                  type: string
+                  description: User's last name.
+                  example: Alvarez
+                email:
+                  type: string
+                  description: User's email address.
+                  example: angel@example.com
                 username:
                   type: string
-                  description: User ID.
+                  description: Username (required).
                   example: student
                 password:
                   type: string
-                  description: User password.
-                  example: pass
+                  description: User's password (required).
+                  example: password
+                role:
+                  type: string
+                  description: User's role.
+                  enum:
+                    - admin
+                    - user
+                  example: user
       responses:
         '200':
           description: User added successfully.
@@ -36,24 +55,39 @@ paths:
               schema:
                 type: object
                 properties:
-                  username:
-                    type: string
-                    description: User ID
-                  password:
-                    type: string
-                    description: Hashed password
-                    example: $2b$10$ZKdNYLWFQxzt5Rei/YTc/OsZNi12YiWz30JeUFHNdAt7MyfmkTuvC
                   _id:
                     type: string
-                    description: Identification
+                    description: User's unique identifier.
                     example: 65f756db3fa22d227a4b7c7d
+                  name:
+                    type: string
+                    description: User's first name.
+                    example: Angel
+                  lastName:
+                    type: string
+                    description: User's last name.
+                    example: Alvarez
+                  email:
+                    type: string
+                    description: User's email address.
+                    example: angel@example.com
+                  username:
+                    type: string
+                    description: User's username.
+                    example: student
+                  role:
+                    type: string
+                    description: User's role.
+                    example: user
                   createdAt:
                     type: string
-                    description: Creation date.
+                    format: date-time
+                    description: Date and time when the user was created.
                     example: '2024-03-17T20:47:23.935Z'
-                  ___v:
+                  __v:
                     type: integer
-                    example: '0'
+                    description: Internal version key.
+                    example: 0
         '400':
           description: Failed to add user.
           content:
@@ -99,7 +133,7 @@ paths:
                 password:
                   type: string
                   description: User password.
-                  example: pass
+                  example: password
       responses:
         '200':
           description: Login successful. Returns user token, username, and creation date.
@@ -181,6 +215,81 @@ paths:
                     __v:
                       type: integer
                       description: The version key for the user.
+  /user:
+    get:
+      summary: Get a user by ID
+      description: Retrieve a user's details by their unique identifier (_id).
+      parameters:
+        - name: _id
+          in: query
+          required: true
+          description: The unique ID of the user to retrieve.
+          schema:
+            type: string
+            example: 65f756db3fa22d227a4b7c7d
+      responses:
+        '200':
+          description: User details retrieved successfully.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  _id:
+                    type: string
+                    description: The unique ID of the user.
+                    example: 65f756db3fa22d227a4b7c7d
+                  name:
+                    type: string
+                    description: The first name of the user.
+                    example: Angel
+                  lastName:
+                    type: string
+                    description: The last name of the user.
+                    example: Alvarez
+                  email:
+                    type: string
+                    description: The email address of the user.
+                    example: angel@example.com
+                  username:
+                    type: string
+                    description: The username of the user.
+                    example: angelalvarez
+                  role:
+                    type: string
+                    description: The role of the user (e.g., "admin", "user").
+                    example: user
+                  createdAt:
+                    type: string
+                    format: date-time
+                    description: The creation date of the user.
+                    example: '2024-03-17T20:47:23.935Z'
+                  __v:
+                    type: integer
+                    description: The version key for the user.
+                    example: 0
+        '404':
+          description: User not found.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    description: Error message indicating the user was not found.
+                    example: User not found.
+        '400':
+          description: Invalid ID supplied.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    description: Error message indicating an invalid ID.
+                    example: Invalid ID format.
   /stats:
     get:
       summary: Get all game statistics

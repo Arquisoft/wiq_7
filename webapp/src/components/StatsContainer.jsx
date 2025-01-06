@@ -36,14 +36,14 @@ const StatsContainer = ({ userStats }) => {
       count: userStats?.correctAnswers || 0,
       icon: <FaCheckCircle />,
       color: '#1fb41f',
-      bcg: '#e0e8f9',
+      bcg: '#fef3c7',
     },
     {
       title: 'incorrect answers',
       count: userStats?.wrongAnswers || 0,
       icon: <FaBug />,
       color: '#d66a6a',
-      bcg: '#ffeeee',
+      bcg: '#fef3c7',
     },
   ];
 

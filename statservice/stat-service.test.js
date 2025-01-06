@@ -49,4 +49,9 @@ describe('Stat Service', () => {
     const response = await request(app).get('/user-stats');
     expect(response.status).toBe(200);
   });
+
+  it('should get stats on GET /ranking', async () => {
+    const response = await request(app).get('/ranking');
+    expect(response.status).toBe(200);
+  });
 });

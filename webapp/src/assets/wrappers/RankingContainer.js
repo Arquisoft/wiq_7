@@ -6,19 +6,19 @@ const Wrapper = styled.div`
   text-align: center;
   align-items: center;
   padding: 1rem;
-  max-width: 700px;
   box-shadow: var(--shadow-2);
 
   .header-container {
     display: flex;
+    justify-content: center;
     text-align: center;
     gap: 1rem;
     margin-bottom: 1.5rem;
   }
 
   .star-icon {
-    color: #f1ee24; /* Cambiar el color a amarillo */
-    font-size: 24px; /* Ajustar el tamaño del ícono si es necesario */
+    color: #f1ee24;
+    font-size: 24px;
   }
 
   & > h5 {

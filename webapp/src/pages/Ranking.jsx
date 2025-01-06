@@ -1,6 +1,7 @@
 import { useLoaderData } from 'react-router-dom';
 import axios from 'axios';
 import RankingContainer from '../components/RankingContainer';
+import Wrapper from '../assets/wrappers/MenuContainer';
 
 const apiEndpoint =
   process.env.REACT_APP_API_ENDPOINT || 'http://localhost:8000';
@@ -43,7 +44,11 @@ export const loader = async () => {
 
 const Ranking = () => {
   const ranking = useLoaderData();
-  return <RankingContainer ranking={ranking} />;
+  return (
+    <Wrapper>
+      <RankingContainer ranking={ranking} />
+    </Wrapper>
+  );
 };
 
 export default Ranking;
