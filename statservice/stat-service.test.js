@@ -1,6 +1,8 @@
 import request from 'supertest';
 import { MongoMemoryServer } from 'mongodb-memory-server';
+import mongoose from 'mongoose';
 import { jest } from '@jest/globals';
+import Stat from './stat-model';
 
 // Sobrescribe `authenticateUser` antes de importar el servicio
 jest.unstable_mockModule('./middleware/auth-middleware', () => ({
@@ -21,6 +23,7 @@ beforeAll(async () => {
 });
 
 afterAll(async () => {
+  await Stat.deleteMany({});
   app.close();
   await mongoServer.stop();
 });
@@ -50,8 +53,55 @@ describe('Stat Service', () => {
     expect(response.status).toBe(200);
   });
 
-  it('should get stats on GET /ranking', async () => {
+  it('should return the top ranking sorted by points and time', async () => {
+    const userId1 = new mongoose.Types.ObjectId();
+    const userId2 = new mongoose.Types.ObjectId();
+    const stats = [
+      {
+        gameId: 'game1',
+        userId: userId1,
+        points: 300,
+        time: 5,
+        right: true,
+        questionId: new mongoose.Types.ObjectId(),
+      },
+      {
+        gameId: 'game1',
+        userId: userId1,
+        points: 300,
+        time: 4,
+        right: true,
+        questionId: new mongoose.Types.ObjectId(),
+      },
+      {
+        gameId: 'game2',
+        userId: userId2,
+        points: 200,
+        time: 6,
+        right: false,
+        questionId: new mongoose.Types.ObjectId(),
+      },
+      {
+        gameId: 'game2',
+        userId: userId2,
+        points: 100,
+        time: 5,
+        right: false,
+        questionId: new mongoose.Types.ObjectId(),
+      },
+    ];
+
+    await Stat.insertMany(stats);
+
     const response = await request(app).get('/ranking');
+
     expect(response.status).toBe(200);
+    expect(response.body.topRanking).toHaveLength(3); // 2 entradas (por gameId y userId)
+    expect(response.body.topRanking[0].totalPoints).toBeGreaterThan(
+      response.body.topRanking[1].totalPoints
+    );
+    expect(response.body.topRanking[0].totalTime).toBeLessThan(
+      response.body.topRanking[1].totalTime
+    );
   });
 });

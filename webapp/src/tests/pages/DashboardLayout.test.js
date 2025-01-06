@@ -10,7 +10,7 @@ import DashboardLayout, {
 // Mock de componentes secundarios
 jest.mock('../../components/SmallSidebar', () => () => <div>SmallSidebar</div>);
 jest.mock('../../components/BigSidebar', () => () => <div>BigSidebar</div>);
-jest.mock('../../components/Navbar', () => () => <div>Navbar</div>);
+//jest.mock('../../components/Navbar', () => () => <div>Navbar</div>);
 
 jest.mock('axios');
 
@@ -42,61 +42,42 @@ describe('DashboardLayout Component', () => {
 
     // Espera a que el usuario sea cargado
     await waitFor(() =>
-      expect(screen.getByText(/Navbar/i)).toBeInTheDocument()
+      expect(screen.getByText(/wiq7\s*quiz\s*game/i)).toBeInTheDocument()
     );
 
     expect(screen.getByText('SmallSidebar')).toBeInTheDocument();
     expect(screen.getByText('BigSidebar')).toBeInTheDocument();
-    expect(screen.getByText('Navbar')).toBeInTheDocument();
+    expect(screen.getByText(/wiq7\s*quiz\s*game/i)).toBeInTheDocument();
   });
 
-  // it('handles logout and shows success snackbar', async () => {
-  //   axios.get
-  //     .mockResolvedValueOnce({ data: { user: mockUser } }) // Mock para cargar usuario
-  //     .mockResolvedValueOnce({}); // Mock para logout
+  it('logs out and redirects to login', async () => {
+    axios.get.mockResolvedValueOnce({ data: { user: mockUser } });
+    axios.get.mockResolvedValueOnce({}); // Simula una respuesta exitosa de logout
 
-  //   const router = createMemoryRouter(routes, { initialEntries: ['/'] });
-  //   render(<RouterProvider router={router} />);
+    const router = createMemoryRouter(routes, { initialEntries: ['/'] });
+    render(<RouterProvider router={router} />);
 
-  //   // Espera a que el usuario sea cargado
-  //   await waitFor(() =>
-  //     expect(screen.getByText(/Navbar/i)).toBeInTheDocument()
-  //   );
+    await waitFor(() =>
+      expect(screen.getByText(/wiq7\s*quiz\s*game/i)).toBeInTheDocument()
+    );
 
-  //   // Simula el clic en el botón de logout
-  //   const logoutButton = screen.getByText('Navbar'); // Simula que el botón está dentro de Navbar
-  //   fireEvent.click(logoutButton);
+    // Verifica que el token está en el localStorage antes del logout
+    expect(localStorage.getItem('token')).toBe('mockToken');
 
-  //   // Verifica que se muestre el snackbar de éxito
-  //   await waitFor(
-  //     () => expect(screen.getByText('Logout successful')).toBeInTheDocument(),
-  //     {
-  //       timeout: 3000,
-  //     }
-  //   );
-  // });
+    // Llama a la función de logout
+    fireEvent.click(screen.getByText(/logout/i));
 
-  // it('handles errors and shows error snackbar', async () => {
-  //   axios.get.mockResolvedValueOnce({ data: { user: mockUser } });
-  //   axios.get.mockRejectedValueOnce({
-  //     response: { data: { error: 'Logout failed' } },
-  //   });
+    // Espera que el Snackbar de logout exitoso se muestre
+    await waitFor(() =>
+      expect(screen.getByText(/Logout successful/i)).toBeInTheDocument()
+    );
 
-  //   const router = createMemoryRouter(routes, { initialEntries: ['/'] });
-  //   render(<RouterProvider router={router} />);
+    // Verifica que el token se haya eliminado del localStorage
+    expect(localStorage.getItem('token')).toBeNull();
 
-  //   // Espera a que el usuario sea cargado
-  //   await waitFor(() =>
-  //     expect(screen.getByText(/Navbar/i)).toBeInTheDocument()
-  //   );
-
-  //   // Simula el clic en el botón de logout
-  //   const logoutButton = screen.getByText('Navbar'); // Simula que el botón está dentro de Navbar
-  //   fireEvent.click(logoutButton);
-
-  //   // Verifica que se muestre el snackbar de error
-  //   await waitFor(() =>
-  //     expect(screen.getByText(/Error: Logout failed/i)).toBeInTheDocument()
-  //   );
-  // });
+    // Espera el retraso antes de verificar el redireccionamiento
+    await waitFor(() => {
+      expect(router.state.location.pathname).toBe('/login');
+    });
+  });
 });

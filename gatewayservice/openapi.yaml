@@ -215,6 +215,17 @@ paths:
                     __v:
                       type: integer
                       description: The version key for the user.
+        '500':
+          description: Internal server error.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    description: Error information.
+                    example: Internal Server Error
   /user:
     get:
       summary: Get a user by ID
@@ -290,6 +301,76 @@ paths:
                     type: string
                     description: Error message indicating an invalid ID.
                     example: Invalid ID format.
+        '500':
+          description: Internal server error.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    description: Error information.
+                    example: Internal Server Error
+  /questions:
+    get:
+      summary: Retrieve all questions
+      description: Fetches a list of all the questions stored in the system.
+      responses:
+        '200':
+          description: List of questions successfully retrieved
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    _id:
+                      type: string
+                      description: Unique identifier for the question
+                    type:
+                      type: string
+                      description: Type of the question (e.g., "multiple-choice")
+                    name:
+                      type: string
+                      description: Name or title of the question (optional)
+                    path:
+                      type: string
+                      description: Path or URL associated with the question
+                    hint1:
+                      type: string
+                      description: First hint for the question (optional)
+                    hint2:
+                      type: string
+                      description: Second hint for the question (optional)
+                    right:
+                      type: string
+                      description: Correct answer for the question
+                    wrong1:
+                      type: string
+                      description: First incorrect answer
+                    wrong2:
+                      type: string
+                      description: Second incorrect answer
+                    wrong3:
+                      type: string
+                      description: Third incorrect answer
+                    createdAt:
+                      type: string
+                      format: date-time
+                      description: Date when the question was created
+        '500':
+          description: Internal server error.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    description: Error information.
+                    example: Internal Server Error
   /stats:
     get:
       summary: Get all game statistics
@@ -332,3 +413,59 @@ paths:
                     __v:
                       type: integer
                       description: The version key for the statistic record.
+        '500':
+          description: Internal server error.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    description: Error information.
+                    example: Internal Server Error
+  /ranking:
+    get:
+      summary: Get the top ranking list
+      description: Retrieve the top ranking list with game results, including points and time for each user.
+      responses:
+        '200':
+          description: A list of top-ranking users and their game results.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  topRanking:
+                    type: array
+                    description: A list of top-ranking items.
+                    items:
+                      type: object
+                      properties:
+                        gameId:
+                          type: string
+                          description: The unique ID of the game.
+                          example: a4acc100-52d6-46ab-8ce2-b0acccf93c03
+                        userId:
+                          type: string
+                          description: The unique ID of the user who played the game.
+                          example: 6767e65426af19f147062821
+                        totalPoints:
+                          type: integer
+                          description: The total points scored by the user in the game.
+                          example: 2600
+                        totalTime:
+                          type: integer
+                          description: The total time (in seconds) spent by the user on the game.
+                          example: 49
+        '500':
+          description: Internal server error.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    description: Error information.
+                    example: Internal Server Error
