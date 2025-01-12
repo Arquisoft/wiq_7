@@ -1243,7 +1243,7 @@ For documentation of your own system you use better the <em>plain</em> version.<
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="./images/ranking.svg" alt="ranking" width="527" height="609">
+<img src="./images/ranking.svg" alt="ranking" width="542" height="609">
 </div>
 </div>
 <div style="page-break-after: always;"></div>
@@ -1694,10 +1694,16 @@ As a result, an overall test coverage of 80.2% on new code was achieved, reflect
 <p>The following end-to-end (E2E) tests were performed to validate key features of the application:</p>
 </div>
 <div class="paragraph">
-<p><strong>- Registering a new user</strong>: Tested that an unregistered user could successfully fill out the registration form and receive a confirmation message.
-<strong>- User login</strong>: Ensured that a registered user could log in and see a confirmation message upon successful submission of their credentials.
-<strong>- User profile view</strong>: Verified that a logged-in user could access and view their profile.
-<strong>- User plays game</strong>: Checked that a logged-in user could press play and see a question displayed on the screen.</p>
+<p><strong>- Registering a new user</strong>: Tested that an unregistered user could successfully fill out the registration form and receive a confirmation message.</p>
+</div>
+<div class="paragraph">
+<p><strong>- User login</strong>: Ensured that a registered user could log in and see a confirmation message upon successful submission of their credentials.</p>
+</div>
+<div class="paragraph">
+<p><strong>- User profile view</strong>: Verified that a logged-in user could access and view their profile.</p>
+</div>
+<div class="paragraph">
+<p><strong>- User plays game</strong>: Checked that a logged-in user could press play and see a question displayed on the screen.</p>
 </div>
 <div class="paragraph">
 <p>These tests were executed both locally, with manual browser observation, and headlessly in GitHub Actions. Locally, all tests were successful, but the "User plays game" test failed in GitHub Actions. This issue remains unresolved due to time constraints.</p>
@@ -1776,7 +1782,17 @@ As a result, an overall test coverage of 80.2% on new code was achieved, reflect
 <div class="sect1">
 <h2 id="application-monitoring">14. Application Monitoring</h2>
 <div class="sectionbody">
-
+<div class="paragraph">
+<p>The application is actively monitored using Prometheus and Grafana to ensure optimal performance and reliability.
+Prometheus collects real-time metrics from the application, which are visualized in a Grafana dashboard.
+The dashboard provides key insights into the application&#8217;s behavior, featuring three critical graphs: the Number of Requests per Minute, the Number of Failed Requests, and the Amount of Time to Process a Request. These metrics help us track the application&#8217;s health, identify bottlenecks, and respond promptly to any issues.
+You can access the Grafana dashboard for this monitoring setup [here](<a href="http://4.233.148.160:9091/d/1DYaynomMk/wiq7-dashboard" class="bare">http://4.233.148.160:9091/d/1DYaynomMk/wiq7-dashboard</a>).</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="./images/14_grafana.png" alt="Application Monitoring with Prometheus and Grafana">
+</div>
+</div>
 </div>
 </div>
 </div>
