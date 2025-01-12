@@ -122,7 +122,9 @@ const QuestionContainer2 = ({
               <button
                 className={`btn ${
                   selectedAnswer === right
-                    ? answer === right && incorrectAnswers.length < 3 // Marca la respuesta correcta cuando se selecciona
+                    ? answer === right &&
+                      incorrectAnswers.length < 3 &&
+                      !isTimeOut // Marca la respuesta correcta cuando se selecciona
                       ? 'correct'
                       : 'disabled' // Deshabilita las demás cuando la correcta es seleccionada
                     : incorrectAnswers.includes(answer) // Marca las respuestas incorrectas una a una
@@ -146,7 +148,7 @@ const QuestionContainer2 = ({
       {/* Mostrar el resultado después de seleccionar */}
       {selectedAnswer && (
         <div>
-          {incorrectAnswers.length < 3 ? (
+          {incorrectAnswers.length < 3 && !isTimeOut ? (
             <p style={{ color: 'green' }}>
               ¡Correcto!, la respuesta correcta es {right}.
             </p>
