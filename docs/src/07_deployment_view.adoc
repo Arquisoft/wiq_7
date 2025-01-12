@@ -56,7 +56,7 @@ Gateway <--> "Question Service"
 | Gateway
 | The service that acts as an intermediary between the frontend and other backend services.
 | User Service
-| The service that handles user registration and management.
+| The service that handles user data.
 | Authentication Service
 | The service responsible for user authentication.
 | Statistic Service

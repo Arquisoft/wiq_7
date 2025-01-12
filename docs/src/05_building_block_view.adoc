@@ -112,7 +112,7 @@ Contained Building Blocks::
 | Gateway
 | The entry point of the application.
 | User service
-| Manages user registration.
+| Manages user data.
 | Authentication service
 | Manages user authentication.
 | Statistic service

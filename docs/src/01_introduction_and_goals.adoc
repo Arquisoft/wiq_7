@@ -2,7 +2,7 @@
 
 == Introduction and Goals
 
-Saber y Ganar is the Software Architecture project developed by Ángel Luis Álvarez Iglesias (uo17919), under the supervision of Jorge Álvarez Fidalgo.
+Wiq7 is a software project created by Ángel Luis Álvarez Iglesias (uo17919) as part of his Software Architecture course.
 
 This project consists of an application that features a question-and-answer game, designed to be both engaging and educational. Additionally, the application offers a statistics tracking system, allowing registered users to view their own performance metrics and compare them with those of other players.
 
@@ -28,7 +28,9 @@ The application is built using the MERN stack, which includes MongoDB for the da
 | RE7
 | The system will give access to information about the generated questions through an API.
 | RE8
-| Allow different game modes like the ones that appear in the quiz show page (Each wise man with his subject, Travel with us, The hot question, Discovering cities, ...).
+| The system will feature the "By Their Work, They Shall Be Known" game mode, as outlined on the quiz show page.
+| RE9
+| The system will feature the "Discovering Cities" game mode, as outlined on the quiz show page.
 |===
 
 === Quality Goals

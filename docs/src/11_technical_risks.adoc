@@ -12,4 +12,5 @@ Below is a table presenting the risks and potential technical debts considered b
 | Code loss | The project may suffer from code loss due to a lack of proper version control. | To prevent this, Git will be used as the version control system for managing the code and storing it in a remote repository.
 | Loss of code quality | The project may suffer from a loss of code quality due to the lack of experience with the technologies used. | To prevent this, it is recommended to use code quality tools and to follow best practices.
 | Planning issues | The project may suffer from planning issues due to a lack of experience with project management. | To prevent this, It is recommended to divide the project into activities and tasks, estimate their duration, and allow for potential deviations.
+| Only one developer | The team is composed of a single person. | Unfortunately, there is no way to mitigate this risk, so it must be assumed.
 |===

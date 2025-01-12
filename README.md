@@ -4,16 +4,20 @@
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=Arquisoft_wiq_0&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=Arquisoft_wiq_0)
 [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=Arquisoft_wiq_0&metric=coverage)](https://sonarcloud.io/summary/new_code?id=Arquisoft_wiq_0)
 
-This is a base repo for the [Software Architecture course](http://arquisoft.github.io/) in [2023/2024 edition](https://arquisoft.github.io/course2324.html).
+This is a repo for the [Software Architecture course](http://arquisoft.github.io/) in [2023/2024 edition](https://arquisoft.github.io/course2324.html), modified by Ángel Luis Álvarez Iglesias (uo17919) from the base repo provided by the instructors.
 
 This repo is a basic application composed of several components.
 
 - **Gateway service**. Express service that is exposed to the public and serves as a proxy to the two previous ones.
-- **User service**. Express service that handles the insertion of new users in the system.
+- **User service**. Express service that handles the insertion of new users into the system.
 - **Auth service**. Express service that handles the authentication of users.
+- **Question Service**. Express service that handles the generation and formulation of game questions.
+- **Statistice Service**. Express service that handles the game statistics.
 - **Webapp**. React web application that uses the gateway service to allow basic login and new user features.
 
-Both the user and auth service share a Mongo database that is accessed with mongoose.
+The frontend design of this project was adapted from the frontend of an online MERN course that the student (uo17919) took (you can find the course repository [here](https://github.com/john-smilga/mern-jobify-v2)). The backend, however, follows the microservices architecture proposed for this project.
+
+The user, auth, question and stats service share a Mongo database that is accessed with mongoose.
 
 ## Quick start guide
 

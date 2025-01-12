@@ -1,4 +1,4 @@
-Feature: User plays game 1
+Feature: User plays game
 
 Scenario: The user is logged in
   Given a logged user

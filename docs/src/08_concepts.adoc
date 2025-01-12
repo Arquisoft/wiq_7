@@ -13,37 +13,36 @@ This section describes overall, principal regulations and solution ideas that ar
 rectangle User {
     +userId: String
     +name: String
+    +lastName: String
     +email: String
+    +username: String
     +passwordHash: String
-}
-
-rectangle Game {
-    +gameId: String
-    +userId: String
-    +startTime: Date
-    +endTime: Date
-    +score: Int
 }
 
 rectangle Question {
     +questionId: String
-    +text: String
-    +options: List
-    +correctAnswer: String
+    +name: String
+    +hint1: String
+    +hint2: String
+    +right: String
+    +wrong1: String
+    +wrong2: String
+    +wrong3: String
 }
 
 rectangle Statistic {
     +statId: String
     +userId: String
-    +totalGames: Int
-    +totalScore: Int
-    +averageScore: Float
+    +gameId: String
+    +questionId: String
+    +right: Boolean
+    +time: Int
+    +points: Int
 }
 
-User "1" -- "0..*" Game : participates in
+User "1" -- "0..*" Question : answers
 User "1" -- "0..*" Statistic : has
-Game "1" -- "0..*" Question : includes
-Game "1" -- "0..1" Statistic : generates
+Question "1" -- "0..1" Statistic : generates
 ----
 
 === User Experience Concepts (UX)
@@ -63,7 +62,7 @@ Later, during the login process, passwords are retrieved hashed from the databas
 
 **- Persistency**: The system will use a nosql database (Mongo DB) to store data.
 
-**- Transaction handling**: (todo)
+**- Transaction handling**: Transaction handling in the app begins with the frontend sending a request to the gateway, which routes it to the appropriate microservices. Each service processes its part of the transaction, interacting with the MongoDB database as needed to retrieve or update data. Once all services complete their operations, the results are sent back through the gateway to the frontend.
 
 **- Session handling**: The system will use JWT tokens for session handling.
 
