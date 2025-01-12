@@ -482,10 +482,11 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </li>
 <li><a href="#section-runtime-view">6. Runtime View</a>
 <ul class="sectlevel2">
-<li><a href="#_user_registration">6.1. User Registration</a></li>
+<li><a href="#_user_registration_and_profile_update">6.1. User Registration and Profile Update</a></li>
 <li><a href="#_login">6.2. Login</a></li>
 <li><a href="#_play">6.3. Play</a></li>
 <li><a href="#_statistics">6.4. Statistics</a></li>
+<li><a href="#_ranking">6.5. Ranking</a></li>
 </ul>
 </li>
 <li><a href="#section-deployment-view">7. Deployment View</a></li>
@@ -513,6 +514,16 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </li>
 <li><a href="#section-technical-risks">11. Risks and Technical Debts</a></li>
 <li><a href="#section-glossary">12. Glossary</a></li>
+<li><a href="#test-report">13. Test Report</a>
+<ul class="sectlevel2">
+<li><a href="#_unit_tests">13.1. Unit tests</a></li>
+<li><a href="#_code_coverage_result">13.2. Code coverage result</a></li>
+<li><a href="#_e2e_tests">13.3. E2E tests</a></li>
+<li><a href="#_load_tests">13.4. Load tests</a></li>
+<li><a href="#_usability_tests">13.5. Usability tests</a></li>
+</ul>
+</li>
+<li><a href="#application-monitoring">14. Application Monitoring</a></li>
 </ul>
 </div>
 </div>
@@ -569,7 +580,7 @@ For documentation of your own system you use better the <em>plain</em> version.<
 <h2 id="section-introduction-and-goals">1. Introduction and Goals</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Saber y Ganar is the Software Architecture project developed by Ángel Luis Álvarez Iglesias (uo17919), under the supervision of Jorge Álvarez Fidalgo.</p>
+<p>Wiq7 is a software project created by Ángel Luis Álvarez Iglesias (uo17919) as part of his Software Architecture course.</p>
 </div>
 <div class="paragraph">
 <p>This project consists of an application that features a question-and-answer game, designed to be both engaging and educational. Additionally, the application offers a statistics tracking system, allowing registered users to view their own performance metrics and compare them with those of other players.</p>
@@ -621,7 +632,11 @@ For documentation of your own system you use better the <em>plain</em> version.<
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">RE8</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Allow different game modes like the ones that appear in the quiz show page (Each wise man with his subject, Travel with us, The hot question, Discovering cities, &#8230;&#8203;).</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The system will feature the "By Their Work, They Shall Be Known" game mode, as outlined on the quiz show page.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">RE9</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The system will feature the "Discovering Cities" game mode, as outlined on the quiz show page.</p></td>
 </tr>
 </tbody>
 </table>
@@ -875,7 +890,7 @@ For documentation of your own system you use better the <em>plain</em> version.<
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">User service</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Manages user registration.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Manages user data.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Authentication service</p></td>
@@ -1146,7 +1161,7 @@ For documentation of your own system you use better the <em>plain</em> version.<
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">User service</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Manages user registration.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Manages user data.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Authentication service</p></td>
@@ -1178,9 +1193,9 @@ For documentation of your own system you use better the <em>plain</em> version.<
 <h2 id="section-runtime-view">6. Runtime View</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_user_registration">6.1. User Registration</h3>
+<h3 id="_user_registration_and_profile_update">6.1. User Registration and Profile Update</h3>
 <div class="paragraph">
-<p>User registration in the application is managed through the user microservice (userservice). The user enters a username and password, and if the user is created successfully, a confirmation message is displayed. Otherwise, an error message is shown.</p>
+<p>User registration and profile update in the application is managed through the user microservice (userservice). The user completes the form, and upon successful submission, a confirmation message is displayed. Otherwise, an error message is shown.</p>
 </div>
 <div class="imageblock">
 <div class="content">
@@ -1195,29 +1210,40 @@ For documentation of your own system you use better the <em>plain</em> version.<
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="./images/login.svg" alt="login" width="478" height="427">
+<img src="./images/login.svg" alt="login" width="491" height="427">
 </div>
 </div>
 </div>
 <div class="sect2">
 <h3 id="_play">6.3. Play</h3>
 <div class="paragraph">
-<p>The quiz game is managed through the authentication microservice (questionservice). The user starts a new game, and a new question with its corresponding answers is displayed.</p>
+<p>The quiz game is managed through the question microservice (questionservice). The user starts a new game, and a new question with its corresponding answers is displayed.</p>
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="./images/play.svg" alt="play" width="462" height="488">
+<img src="./images/play.svg" alt="play" width="461" height="488">
 </div>
 </div>
 </div>
 <div class="sect2">
 <h3 id="_statistics">6.4. Statistics</h3>
 <div class="paragraph">
-<p>The application&#8217;s statistics module is handled by the statistics microservice (statsservice). Upon user request, the game statistics are presented in a view.</p>
+<p>The application&#8217;s statistics module is handled by the statistics microservice (statservice). Upon user request, the game statistics are presented in a view.</p>
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="./images/stats.svg" alt="stats" width="446" height="427">
+<img src="./images/stats.svg" alt="stats" width="442" height="427">
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_ranking">6.5. Ranking</h3>
+<div class="paragraph">
+<p>The application also includes a user ranking, obtained through the statistics (statservice) and user microservices (userservice).</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="./images/stats.svg" alt="stats" width="527" height="609">
 </div>
 </div>
 <div style="page-break-after: always;"></div>
@@ -1274,7 +1300,7 @@ For documentation of your own system you use better the <em>plain</em> version.<
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">User Service</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">The service that handles user registration and management.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The service that handles user data.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Authentication Service</p></td>
@@ -1314,7 +1340,7 @@ For documentation of your own system you use better the <em>plain</em> version.<
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="./images/domain_model.svg" alt="domain model" width="360" height="560">
+<img src="./images/domain_model.svg" alt="domain model" width="262" height="683">
 </div>
 </div>
 </div>
@@ -1343,7 +1369,7 @@ Later, during the login process, passwords are retrieved hashed from the databas
 <p><strong>- Persistency</strong>: The system will use a nosql database (Mongo DB) to store data.</p>
 </div>
 <div class="paragraph">
-<p><strong>- Transaction handling</strong>: (todo)</p>
+<p><strong>- Transaction handling</strong>: Transaction handling in the app begins with the frontend sending a request to the gateway, which routes it to the appropriate microservices. Each service processes its part of the transaction, interacting with the MongoDB database as needed to retrieve or update data. Once all services complete their operations, the results are sent back through the gateway to the frontend.</p>
 </div>
 <div class="paragraph">
 <p><strong>- Session handling</strong>: The system will use JWT tokens for session handling.</p>
@@ -1629,13 +1655,104 @@ The system exposes a RESTful API for communication between the frontend and the 
 </tr>
 </tbody>
 </table>
+<div style="page-break-after: always;"></div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="test-report">13. Test Report</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Following tests were done to ensure the functionality, performance, and user experience of the application, including unit tests, end-to-end (E2E) tests, load tests, and usability tests.
+These tests aimed to validate individual components, overall system behavior, scalability, and ease of use</p>
+</div>
+<div class="sect2">
+<h3 id="_unit_tests">13.1. Unit tests</h3>
+<div class="paragraph">
+<p>Comprehensive unit tests were conducted to ensure the reliability and functionality of the entire application, including both the frontend and the microservices (gateway, user, auth, question, and statistics). The testing approach focused on validating each component in isolation, ensuring proper interaction between the frontend and microservices.
+As a result, an overall test coverage of 80.2% on new code was achieved, reflecting strong code quality and stability. Detailed test results, including coverage breakdowns for each service and component, will be presented in the following section.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_code_coverage_result">13.2. Code coverage result</h3>
+<div class="paragraph">
+<p>The unit tests coverage, with a detailed breakdown, is shown in Image 13.1. It provides an overview of the coverage across the application&#8217;s components and services.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="./images/13_1_codecoverage.png" alt="Sonarcloud code coverage">
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_e2e_tests">13.3. E2E tests</h3>
+<div class="paragraph">
+<p>The following end-to-end (E2E) tests were performed to validate key features of the application:</p>
+</div>
+<div class="paragraph">
+<p><strong>- Registering a new user</strong>: Tested that an unregistered user could successfully fill out the registration form and receive a confirmation message.
+<strong>- User login</strong>: Ensured that a registered user could log in and see a confirmation message upon successful submission of their credentials.
+<strong>- User profile view</strong>: Verified that a logged-in user could access and view their profile.
+<strong>- User plays game</strong>: Checked that a logged-in user could press play and see a question displayed on the screen.</p>
+</div>
+<div class="paragraph">
+<p>These tests were executed both locally, with manual browser observation, and headlessly in GitHub Actions. Locally, all tests were successful, but the "User plays game" test failed in GitHub Actions. This issue remains unresolved due to time constraints.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_load_tests">13.4. Load tests</h3>
+<div class="paragraph">
+<p>Load tests were conducted on the application in the production environment using Gatling. The primary goal was to evaluate the login functionality under increasing user load. The following configuration was used for the test:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-javascript" data-lang="javascript">setUp(scn.injectOpen(rampUsers(1000).during(300))).protocols(httpProtocol);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This setup simulated a gradual increase from 0 to 1000 users over a period of 5 minutes. The results obtained from the tests are summarized below:</p>
+</div>
+<div class="paragraph">
+<p><strong>Response Performance</strong>
+image::13_4_gatling.png["Main results"]
+The results were highly satisfactory. All responses during the simulation were successful (HTTP 200), with response times consistently below 200 milliseconds. This demonstrates the system&#8217;s ability to handle load efficiently without any significant delays.</p>
+</div>
+<div class="paragraph">
+<p><strong>Active Users</strong>
+image::13_4_gatling_users.png["Active Users per Second"]
+On average, the number of active users per second during the 5-minute simulation was approximately 15. This indicates the system&#8217;s ability to maintain a steady throughput while accommodating multiple concurrent users.</p>
+</div>
+<div class="paragraph">
+<p><strong>Requests per Second</strong>
+image::13_4_gatling_responses.png["Responses per Second"]
+The average number of responses processed per second during the simulation was 24. This metric reflects the application’s capacity to handle a consistent flow of requests efficiently.</p>
+</div>
+<div class="paragraph">
+<p><strong>Response Time Distribution</strong>
+image::13_4_gatling_resp_distr.png["Response Time Distribution"]
+The maximum response time observed throughout the test was under 200 milliseconds, further confirming the system&#8217;s stability and quick response under load.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_usability_tests">13.5. Usability tests</h3>
+<div class="paragraph">
+<p>Informal usability tests were conducted with a few friends to gather feedback on the application&#8217;s user experience. During the tests, they navigated through the main features, including registration, login, and playing the game. The feedback was generally positive, with users finding the interface intuitive and easy to use.
+The main suggestion for improvement was to reduce the loading time of images fetched from Wikidata. This could be addressed by storing the images locally to enhance performance. Overall, the application met their expectations for usability.</p>
+</div>
+<div style="page-break-after: always;"></div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="application-monitoring">14. Application Monitoring</h2>
+<div class="sectionbody">
+
 </div>
 </div>
 </div>
 <div id="footer">
 <div id="footer-text">
 Version 8.2 EN<br>
-Last updated 2024-10-21 15:53:45 +0200
+Last updated 2025-01-10 16:22:06 +0100
 </div>
 </div>
 </body>
