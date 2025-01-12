@@ -1712,31 +1712,57 @@ As a result, an overall test coverage of 80.2% on new code was achieved, reflect
 <p>This setup simulated a gradual increase from 0 to 1000 users over a period of 5 minutes. The results obtained from the tests are summarized below:</p>
 </div>
 <div class="paragraph">
-<p><strong>Response Performance</strong>
-image::13_4_gatling.png["Main results"]
-The results were highly satisfactory. All responses during the simulation were successful (HTTP 200), with response times consistently below 200 milliseconds. This demonstrates the system&#8217;s ability to handle load efficiently without any significant delays.</p>
+<p><strong>Response Performance</strong></p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="./images/13_4_gatling.png" alt="Main results">
+</div>
 </div>
 <div class="paragraph">
-<p><strong>Active Users</strong>
-image::13_4_gatling_users.png["Active Users per Second"]
-On average, the number of active users per second during the 5-minute simulation was approximately 15. This indicates the system&#8217;s ability to maintain a steady throughput while accommodating multiple concurrent users.</p>
+<p>The results were highly satisfactory. All responses during the simulation were successful (HTTP 200), with response times consistently below 200 milliseconds. This demonstrates the system&#8217;s ability to handle load efficiently without any significant delays.</p>
 </div>
 <div class="paragraph">
-<p><strong>Requests per Second</strong>
-image::13_4_gatling_responses.png["Responses per Second"]
-The average number of responses processed per second during the simulation was 24. This metric reflects the application’s capacity to handle a consistent flow of requests efficiently.</p>
+<p><strong>Active Users</strong></p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="./images/13_4_gatling_users.png" alt="Active Users per Second">
+</div>
 </div>
 <div class="paragraph">
-<p><strong>Response Time Distribution</strong>
-image::13_4_gatling_resp_distr.png["Response Time Distribution"]
-The maximum response time observed throughout the test was under 200 milliseconds, further confirming the system&#8217;s stability and quick response under load.</p>
+<p>On average, the number of active users per second during the 5-minute simulation was approximately 15. This indicates the system&#8217;s ability to maintain a steady throughput while accommodating multiple concurrent users.</p>
+</div>
+<div class="paragraph">
+<p><strong>Requests per Second</strong></p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="./images/13_4_gatling_responses.png" alt="Responses per Second">
+</div>
+</div>
+<div class="paragraph">
+<p>The average number of responses processed per second during the simulation was 24. This metric reflects the application’s capacity to handle a consistent flow of requests efficiently.</p>
+</div>
+<div class="paragraph">
+<p><strong>Response Time Distribution</strong></p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="./images/13_4_gatling_resp_distr.png" alt="Response Time Distribution">
+</div>
+</div>
+<div class="paragraph">
+<p>The maximum response time observed throughout the test was under 200 milliseconds, further confirming the system&#8217;s stability and quick response under load.</p>
 </div>
 </div>
 <div class="sect2">
 <h3 id="_usability_tests">13.5. Usability tests</h3>
 <div class="paragraph">
-<p>Informal usability tests were conducted with a few friends to gather feedback on the application&#8217;s user experience. During the tests, they navigated through the main features, including registration, login, and playing the game. The feedback was generally positive, with users finding the interface intuitive and easy to use.
-The main suggestion for improvement was to reduce the loading time of images fetched from Wikidata. This could be addressed by storing the images locally to enhance performance. Overall, the application met their expectations for usability.</p>
+<p>Informal usability tests were conducted with a few friends to gather feedback on the application&#8217;s user experience. During the tests, they navigated through the main features, including registration, login, and playing the game. The feedback was generally positive, with users finding the interface intuitive and easy to use.</p>
+</div>
+<div class="paragraph">
+<p>The main suggestion for improvement was to reduce the loading time of images fetched from Wikidata. This could be addressed by storing the images locally to enhance performance. Overall, the application met their expectations for usability.</p>
 </div>
 <div style="page-break-after: always;"></div>
 </div>
