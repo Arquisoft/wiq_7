@@ -18,8 +18,11 @@ image::13_1_codecoverage.png["Sonarcloud code coverage"]
 The following end-to-end (E2E) tests were performed to validate key features of the application:
 
 **- Registering a new user**: Tested that an unregistered user could successfully fill out the registration form and receive a confirmation message.
+
 **- User login**: Ensured that a registered user could log in and see a confirmation message upon successful submission of their credentials.
+
 **- User profile view**: Verified that a logged-in user could access and view their profile.
+
 **- User plays game**: Checked that a logged-in user could press play and see a question displayed on the screen.
 
 These tests were executed both locally, with manual browser observation, and headlessly in GitHub Actions. Locally, all tests were successful, but the "User plays game" test failed in GitHub Actions. This issue remains unresolved due to time constraints.

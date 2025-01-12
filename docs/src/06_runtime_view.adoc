@@ -14,7 +14,7 @@ participant gw as "gateway"
 participant userserv as "user serv"
 participant mongo as "MongoDB"
 
-user --> webapp: fill registration form
+user --> webapp: fill form
 webapp -> gw: post request
 gw -> userserv: post request
 userserv -> mongo: create user
@@ -106,7 +106,7 @@ participant statserv as "stats serv"
 participant userserv as "user serv"
 participant mongo as "MongoDB"
 
-user --> webapp: enter stats page
+user --> webapp: enter ranking page
 webapp -> gw: get request
 gw -> statserv: get request
 statserv -> mongo: ranking

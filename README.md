@@ -95,34 +95,7 @@ In this repository, this process is done automatically using **GitHub Actions**.
 
 As you can see, unitary tests of each module and e2e tests are executed before pushing the docker images and deploying them. Using this approach we avoid deploying versions that do not pass the tests.
 
-The deploy action is the following:
-
-```yml
-deploy:
-  name: Deploy over SSH
-  runs-on: ubuntu-latest
-  needs:
-    [
-      docker-push-userservice,
-      docker-push-authservice,
-      docker-push-gatewayservice,
-      docker-push-webapp,
-    ]
-  steps:
-    - name: Deploy over SSH
-      uses: fifsky/ssh-action@master
-      with:
-        host: ${{ secrets.DEPLOY_HOST }}
-        user: ${{ secrets.DEPLOY_USER }}
-        key: ${{ secrets.DEPLOY_KEY }}
-        command: |
-          wget https://raw.githubusercontent.com/arquisoft/wiq_0/master/docker-compose.yml -O docker-compose.yml
-          wget https://raw.githubusercontent.com/arquisoft/wiq_0/master/.env -O .env
-          docker compose --profile prod down
-          docker compose --profile prod up -d --pull always
-```
-
-This action uses three secrets that must be configured in the repository:
+The deploy action can be found in the release.yml file in the .github\workflows folder. This action uses three secrets that must be configured in the repository:
 
 - DEPLOY_HOST: IP of the remote machine.
 - DEPLOY_USER: user with permission to execute the commands in the remote machine.
