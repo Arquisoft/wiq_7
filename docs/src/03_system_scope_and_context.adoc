@@ -30,7 +30,7 @@ wiq <-right-> wikidata: queries
 left to right direction
 
 actor user as "user"
-Component web as "webApp" { 
+Component web as "wiq" { 
   Component front as "Frontend"
   Component "Services"  {
     Component gw as "Gateway"
@@ -67,7 +67,7 @@ statsserv -[hidden]l- questionserv
 | Name | Description
 | User 
 | The user who plays the game.
-| WebApp 
+| Wiq 
 | The application is used by players and interacts with Wikidata to automatically generate questions.
 | Frontend
 | The user interface of the application.

@@ -30,7 +30,7 @@ Contained Building Blocks::
 ----
 actor user as "user"
 
-component web as "WebApp" {  
+component web as "wiq" {  
   component front as "Frontend"
   component back as "Backend"
   database mongo as "MongDB"      
@@ -64,7 +64,7 @@ Contained Building Blocks::
 left to right direction
 
 actor user as "user"
-component web as "webApp" { 
+component web as "wiq" { 
   component front as "Frontend"
   component "Services"  {
     component gw as "Gateway"
@@ -105,7 +105,7 @@ Contained Building Blocks::
 | Name | Responsibility
 | User 
 | The user who plays the game.
-| WebApp 
+| Wiq 
 | The application is used by players and interacts with Wikidata to automatically generate questions.
 | Frontend
 | The user interface of the application.

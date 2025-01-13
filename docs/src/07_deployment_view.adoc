@@ -8,17 +8,29 @@ actor User
 left to right direction
 
 node "Ubuntu Azure VM" {
-    node "Docker" {
-    rectangle "WebApp" {
-      rectangle "Frontend"
-      rectangle "Gateway"
-      rectangle "User Service"
-      rectangle "Authentication Service"
-      rectangle "Statistic Service"
-      rectangle "Question Service"
-    }
-    database "MongoDB"
-  }
+    node "wiq" {
+      node "Docker1" {
+        rectangle "Frontend"
+      }
+      node "Docker2" {
+        rectangle "Gateway"
+      }
+      node "Docker3" {
+        rectangle "User Service"
+      }
+      node "Docker4" {
+        rectangle "Authentication Service"
+      }
+      node "Docker5" {
+        rectangle "Statistic Service"
+      }
+      node "Docker6" {
+        rectangle "Question Service"
+      }
+      node "Docker7" {
+        database "MongoDB"
+      }
+    } 
 }
 
 rectangle "Wikidata"
@@ -49,7 +61,7 @@ Gateway <--> "Question Service"
 | The virtual machine on Azure running the Ubuntu operating system.
 | Docker
 | Technology used to containerize and deploy the microservices and the database.
-| WebApp
+| Wiq
 | The main component of the web application, including the frontend and backend services.
 | Frontend
 | The user interface of the application, which the users directly interact with.
