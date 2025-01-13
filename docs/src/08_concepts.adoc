@@ -42,7 +42,7 @@ rectangle Statistic {
 
 User "1" -- "0..*" Question : answers
 User "1" -- "0..*" Statistic : has
-Question "1" -- "0..1" Statistic : generates
+Question "1" -- "0..*" Statistic : generates
 ----
 
 === User Experience Concepts (UX)
